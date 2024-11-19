@@ -84,6 +84,8 @@ IVI.NET drivers shall target .NET 6 or later.  IVI.NET Framework drivers should 
 
 All references to .NET in this document unless specifically qualified that they refer to .NET Framework refer to .NET 6 or later.
 
+Drivers should indicate the .NET and .NET FW versions they support in the IVI Compliance document.
+
 ### IVI.NET Namespaces
 
 The namespace of IVI.NET instrument drivers shall be `<CompanyName>.<DriverIdentifier>` or `<CompanyName>.<Technology>.<DriverIdentifier>`, where:
