@@ -688,12 +688,14 @@ In order to claim conformance to this spec:
 
 - Drivers shall verify conformance by following the rules in this section.
 
-- Drivers shall conform to any additional rules in any language-specific IVI Driver specification with which they cite compliance. Language-specific IVI specifications include IVI Generation 2014 specifications.
+- Drivers shall conform to an IVI language-specific IVI Driver specification.  Language-specific IVI specifications include IVI Generation 2014 specifications.
 
 > **Observation:**
 > > This specification contains a subset of the requirements in IVI Generation 2014, therefore drivers that comply with those specifications also comply with this specification.
+>
 
-Drivers that satisfy these requirements are IVI Core drivers and may be referred to as such.
+> **Observation:**
+> > Developers that want to support a language that does not have an IVI language-specific IVI Driver specification are encouraged to submit draft language-specific specifications to the IVI Foundation.
 
 ### Driver Verification
 
