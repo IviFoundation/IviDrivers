@@ -1,4 +1,4 @@
-**What are IVI Generations?**
+# What are IVI Generations?
 
 The IVI Generation item specifies a set of minimum IVI specification
 versions with which a specific driver must comply in order to claim
@@ -7,7 +7,7 @@ contains a list of the IVI Generations and the minimum specification
 versions required to claim compliance with each.
 
 The IVI Generation is designated in the form of “IVI-\<year\>”, where
-\<year\> is the year following the year in which the specification
+*year* is the year following the year in which the specification
 changes that constitute the new generation were approved. The following
 are examples of existing IVI Generations: IVI-2003, IVI-2014. This item
 is not present for IVI custom specific drivers or IVI class drivers, and
