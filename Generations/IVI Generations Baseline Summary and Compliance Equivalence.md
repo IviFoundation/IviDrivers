@@ -1,5 +1,7 @@
 # IVI Generations Baseline Summary and Compliance Equivalence Tables
 
+Starting with IVI Generation 2025, this baseline summary and equivalence tables are no longer necessary to describe specifications that drivers must comply with.  This is because of the associated streamlining of the specifications.  Full compliance requirements for specifications are called out in the specifications themselves and the [IVI 2026 Generation](./IVI%202026.md) document.
+
 The IVI Generations Baseline Summary Table provides a summary of the
 specification versions that were in effect at the time the IVI
 Generation was created.
