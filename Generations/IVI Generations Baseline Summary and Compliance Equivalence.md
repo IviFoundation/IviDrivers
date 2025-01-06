@@ -2,37 +2,27 @@
 
 Starting with IVI Generation 2025, this baseline summary and equivalence tables are no longer necessary to describe specifications that drivers must comply with.  This is because of the associated streamlining of the specifications.  Full compliance requirements for specifications are called out in the specifications themselves and the [IVI 2026 Generation](./IVI%202026.md) document.
 
-The IVI Generations Baseline Summary Table provides a summary of the
-specification versions that were in effect at the time the IVI
-Generation was created.
+The IVI Generations Baseline Summary Table provides a summary of the specification versions that were in effect at the time the IVI Generation was created.
 
 - The title row identifies the IVI specification number.
 
-- Each IVI Generation row describes the baseline version of each
-  specification for the given generation. That is, at the time the
-  identified IVI Generation was created, these were the current versions
-  of the specifications.
+- Each IVI Generation row describes the baseline version of each specification for the given generation. That is, at the time the identified IVI Generation was created, these were the current versions of the specifications.
 
-| IVI Generations Baseline Summary Table |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
+**IVI Generations Baseline Summary Table**
+
+| |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |
 |:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|:--:|
 |  | ***3.1*** | ***3.2*** | ***3.3*** | ***3.4*** | ***3.15*** | ***3.18*** | ***4.1*** | ***4.2*** | ***4.3*** | ***4.4*** | ***4.5*** | ***4.6*** | ***4.7*** | ***4.8*** | ***4.10*** | ***4.12*** | ***4.13*** | ***4.14*** | ***4.15*** |
 | IVI-2003 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.1 | 3.0 | 3.0 | 3.0 | 2.0 | 1.0 | 3.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
 | IVI-2014 | 3.5 | 2.1 | 3.2 | 2.2 | 2.0 | 1.2 | 4.1 | 4.1 | 5.0 | 3.0 | 1.2 | 4.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.2 |
 
-The IVI Driver Type Compliance Equivalence Tables describe which
-versions of the specifications are equivalent in terms of compliance for
-a particular IVI driver type. They also identify how the IVI Generations
-relate to the individual IVI driver types.
+The IVI Driver Type Compliance Equivalence Tables describe which versions of the specifications are equivalent in terms of compliance for a particular IVI driver type. They also identify how the IVI Generations relate to the individual IVI driver types.
 
 - The title row identifies the IVI specification number.
 
-- The IVI Generation Baseline rows identify a new IVI generation. These
-  rows list the baseline specification versions for that IVI Generation
-  for the given IVI driver type.
+- The IVI Generation Baseline rows identify a new IVI generation. These rows list the baseline specification versions for that IVI Generation for the given IVI driver type.
 
-- The detailed version equivalence cells show the versions that are
-  equivalent. The date corresponding to the top of the cell indicates
-  when this set of mutually equivalent specifications went into effect.
+- The detailed version equivalence cells show the versions that are equivalent. The date corresponding to the top of the cell indicates when this set of mutually equivalent specifications went into effect.
 
 <table>
 <colgroup>
@@ -235,9 +225,7 @@ Equivalents</th>
 </tbody>
 </table>
 
-*IVI-4.3: Version 5.0 is not a valid version for IVI-COM until such
-time as 5.0 IviFgen extensions are included in the IVI Shared
-Components.
+*IVI-4.3: Version 5.0 is not a valid version for IVI-COM until such time as 5.0 IviFgen extensions are included in the IVI Shared Components.
 
 <table>
 <colgroup>
@@ -468,7 +456,7 @@ Components.
 </colgroup>
 <thead>
 <tr>
-<th colspan="21" style="text-align: center;">IVI.NET Compliance
+<th colspan="21" style="text-align:center;">IVI.NET Compliance
 Equivalents</th>
 </tr>
 </thead>
