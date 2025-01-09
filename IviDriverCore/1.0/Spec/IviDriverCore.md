@@ -10,7 +10,7 @@ This is the *IVI Driver Core Specification*. It describes requirements common to
 
 ## Authorship
 
-This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](http://www.ivifoundation.org).
+This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
 
 ## Warranty
 
@@ -89,9 +89,9 @@ No investigation has been made of common law trademark rights in any work.
 
 ## Overview of the IVI Driver Core Specification
 
-This is the *IVI Driver Core Specification*. It describes requirements common to all IVI Core Drivers, regardless of implementation langage. IVI provides additional specifications that detail the requirements of drivers for specific languages.
+This is the *IVI Driver Core Specification*. It describes requirements common to all IVI Core Drivers, regardless of implementation langage. IVI provides additional specifications that detail the requirements of drivers for specific programming languages.
 
-Several other documents and specifications are related to this specification. Other documents including language-specific specifications and other extensions are used with this core standard. See the IVI web site at [www.ivifoundation.org](http://www.ivifoundation.org) for a complete list of IVI standards.
+Several other documents and specifications are related to this specification. Other documents including language-specific specifications and other extensions are used with this core standard. See the IVI web site at [www.ivifoundation.org](https://www.ivifoundation.org) for a complete list of IVI standards.
 
 These specifications are intended for developers of drivers and tools. Many companies build products and systems around these specifications. This document specifies the requirements for instrument drivers and areas that are open for driver designers to optimize the driver for their particular instrument.
 
@@ -119,7 +119,7 @@ Where it is important to indicate the case of substituted text, casing is indica
 
 - `<FOOBAR>` indicates all upper case. For example, "IVIDMM".
 
-- `<FOO_BAR>` indicates all upper case with underscores between words. For example, "IVI_DMM".
+- `<FOO_BAR>` indicates upper snake case (all upper case with underscores between words). For example, "IVI_DMM".
 
 #### Methods and Properties Nomenclature
 
@@ -155,7 +155,7 @@ Drivers shall document the capabilities of the driver in the compliance document
 
 ### Source Code Availability
 
-IVI drivers shall include source code if the source code is a simple translation of the driver calls to a separate publicly documented and officially supported interface. Drivers are excepted from this requirement if the source code includes proprietary content.
+IVI drivers shall include source code if the source code is a simple translation of the driver calls to a separate publicly documented and officially supported interface. Drivers are exempted from this requirement if the source code includes proprietary content.
 
 IVI drivers that include source code shall provide instructions on rebuilding the driver in at least one publicly available development environment.
 
@@ -197,6 +197,9 @@ If simulation is enabled, an IVI driver does not perform instrument I/O, and the
 ### Multithread Safety
 
 IVI drivers shall be multithread safe. That is, all IVI drivers shall prevent simultaneous access to a session in multiple threads of the same process from interfering with the correct behavior of the driver.
+
+> **Observation:**
+> > Drivers may add lock and unlock methods to facilitate usage from multiple threads.
 
 ### Extent of Instrument Functionality Covered by IVI Drivers
 
@@ -637,9 +640,9 @@ IVI driver Windows DLLs shall contain a Windows version resource with the three 
 
 A FileVersion string shall contain at least a `MajorVersion`, `MinorVersion`, and `BuildVersion`. A driver shall be released with an incremented `MajorVersion` or `MinorVersion` number when any of the following conditions are true:
 
-- The new version of the driver contains changes in its API syntax.
+- The new version of the driver contains changes in its API syntax (either breaking or non-breaking).
 
-- The new version of the driver contains significant changes to its semantics.
+- The new version of the driver contains significant changes to its semantics (that is, behavior).
 
 A driver shall be released with at least an incremented `BuildVersion` number when any of the following conditions are true:
 
@@ -647,7 +650,7 @@ A driver shall be released with at least an incremented `BuildVersion` number wh
 
 - The driver is modified in a way that does not require a `MajorVersion` or `MinorVersion` update.
 
-If a driver vendor provides both a 32-bit and a 64-bit version of a driver, the 32-bit and 64-bit DLLs shall have the same `MajorVersion`, `MinorVersion`, and `BuildVersion`. Notice that when a 64-bit version of the driver is initially made available, the 32-bit version must be updated at the same time.
+If a driver vendor provides both a 32-bit and a 64-bit version of a driver for a given language and operating system, the 32-bit and 64-bit DLLs shall have the same `MajorVersion`, `MinorVersion`, and `BuildVersion`. Notice that when a 64-bit version of the driver is initially made available, the 32-bit version must be updated at the same time.
 
 For the purpose of determining the version of an IVI driver, only the `MajorVersion`, `MinorVersion`, and `BuildVersion` are used; the InternalVersion is not used. The InternalVersion is optional and reserved for use by driver suppliers.
 
@@ -679,6 +682,8 @@ The following are examples of comparisons of `FileVersion` values for the purpos
     2.15.32.1 is greater than 2.15.18.1
 
     1.1.1 is equal to 1.1.1.0
+
+    1.1.2 is less than 1.1.10
 
 ## Driver Conformance
 

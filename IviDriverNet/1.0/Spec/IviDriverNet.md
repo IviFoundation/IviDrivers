@@ -10,7 +10,7 @@ This specification contains the Microsoft .NET 6+ specific requirements for an I
 
 ## Authorship
 
-This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](http://www.ivifoundation.org).
+This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
 
 ## Warranty
 
