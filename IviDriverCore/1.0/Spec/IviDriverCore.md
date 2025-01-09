@@ -123,7 +123,7 @@ Where it is important to indicate the case of substituted text, casing is indica
 
 #### Methods and Properties Nomenclature
 
-This document uses the terms *method* and *property* to refer to elements of the API exported by an IVI driver. Unless specified otherwise, *method* refers generically to C functions and object oriented methods. Similarly, *property* refers to C attributes and object oriented properties.
+This document uses the terms *method* and *property* to refer to elements of the API exported by an IVI driver. Unless specified otherwise, *method* refers generically to C functions and object-oriented methods. Similarly, *property* refers to C attributes and object-oriented properties.
 
 ## General Requirements of IVI Core Drivers
 
