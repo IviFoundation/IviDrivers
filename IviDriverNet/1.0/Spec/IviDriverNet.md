@@ -396,7 +396,7 @@ Driver suppliers shall also sign their drivers.
 
 ### Contents
 
-All IVI.NET driver nuget packages shall include the following files:
+All IVI.NET driver NuGet packages shall include the following files:
 
 - The assembly containing the driver
 
@@ -412,7 +412,7 @@ The IVI.NET driver NuGet package should follow Microsoft recommendations regardi
 
 ### IVI Driver General NuGet Package Tags
 
-The IVI.NET driver NuGet package SHALL have the following nuget tags:
+The IVI.NET driver NuGet package SHALL have the following NuGet tags:
 
 > **Tag indicating IVI conformance**: IVI-Driver-NET-Conformant
 >

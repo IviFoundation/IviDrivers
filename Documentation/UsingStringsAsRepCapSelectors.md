@@ -34,22 +34,23 @@ When using the parameter/selector approach for specifying nested repeated capabi
 
 As an example, consider a power supply with four output channels, each of which has two configurable external triggers. To configure a specific trigger with a parameter style repeated capabilty string, the user specifies the output channel and the trigger. A function call might look like the following:
 
-ConfigureExternalTrigger ("Out1:Trig1", Source, Level);
+    ConfigureExternalTrigger("Out1:Trig1", Source, Level);
 
 where "Out1:Trig1" represents a specific trigger (Trig1) for a specific output (Out1), and where "Trig1" and "Out1" are identifiers for the respective repeated capability instances.
 
 ## Mixing Nested Repeated Capabilities with Sets of Instances
 
-Selectors for nested repeated capabilities may contain lists or ranges at any level of the hierarchy. Mixing hierarchy with lists or ranges requires using the colon (:), comma (,), and hyphen (-) operators in the same selector. The interpretation of such a selector can be ambiguous unless the order of precedence is clear. The use of square brackets ([]) may be required to everide the precedence of the colon (:) and comma (,) operators.
+Selectors for nested repeated capabilities may contain lists or ranges at any level of the hierarchy. Mixing hierarchy with lists or ranges requires using the colon (:), comma (,), and hyphen (-) operators in the same selector. The interpretation of such a selector can be ambiguous unless the order of precedence is clear. The use of square brackets ([]) may be required to overide the precedence of the colon (:) and comma (,) operators.
 
 The order of precedence is square brackets ([]), hyphen (-), colon (:), and comma (,). Each operator is evaluated from left to right.
 
-For example, "a1:b2:\[c5,c7\]" expands to the following list:
+For example, `"a1:b2:\[c5,c7\]"` expands to the following list:
 
-"a1:b2:c5, a1:b2:c7, a2:b2:c5, a2:b2:c7, a3:b2:c5, a3:b2:c7",
+    "a1:b2:c5, a1:b2:c7"
 
-whereas "a1-a3:b2:c5,c7" evaluates to
+whereas "a1-a3:b2:c5,c7" evaluates to:
 
-"a1:b2:c5, a2:b2:c5, a3:b2:c5, c7".
+    "a1:b2:c5, a1:b2:c7, a2:b2:c5, a2:b2:c7, a3:b2:c5, a3:b2:c7"
+
 
 Note: Although both examples are syntactically correct, only the first example is valid. The second in invalid because all repeated capability identifiers within a list of repeated capability identifiers must have the same level of nesting after expansion.
