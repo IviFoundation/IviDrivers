@@ -1,9 +1,8 @@
 # IVI Driver Core Specification
 
-| Version Number | Date of Version     | Version Notes                  |
-|--------------- | ---------------     | -------------                  |
-| 0.1            |  November 4, 2024   | Draft version for member review|
-| 0.2            |  January 9, 2025    | Incorporated Review Comments   |
+| Version Number | Date of Version    | Version Notes                  |
+|--------------- | ---------------    | -------------                  |
+| 1.0            |  January 21, 2025  | Initial Specification Version  |
 
 ## Abstract
 
