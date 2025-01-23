@@ -47,7 +47,7 @@ The key goals of the process and file organization are:
 
   - Need to independently manage shared components and standards for numerous standards.  For instance, .NET, Python, Ruby standards and shared components need to fit into the repo.
 
-## Proposed Organization
+## Organization
 
 This organization is based on tags and directories.  It makes no organizational use of branches for versions of either specs or shared components.  However, we anticipate utilizing branches for the standards processes for updates and new documents.
 
@@ -76,10 +76,8 @@ The following is an example organization:
 ~~~
 IviDriverCore/       # this identifies and particular specification
     1.0/             # spec Major.Minor version
-        Spec/        # use tags for editorial changes (need a tag naming
-                     # convention that identifies the last commit on 
-                     # this editorial version of the spec, independent of 
-                     # others, e.g.: 'IviDriverCoreSpec-2024-01-10')
+        Spec/        # use tags for editorial changes (see below for
+                     # tag naming convention.
             IviDriverCore.md
             Example.md
             <other files>
@@ -101,3 +99,20 @@ IviDriverNet/
     1.1/
     2.0/
 ~~~
+
+## Tags
+
+When tagging a commit to identify a specification releases light-weight git tags are used with the following syntax:
+
+`<specification identifier>-<major.minor>-<ISO date>`
+
+Where:
+
+- *specification identifier* is the directory the specification is in.
+- *major.minor* is the major and minor versions of the spec
+- *ISO date* is the ISO 8601 standard date format, for example: 1941-12-07
+
+Therefore, the following are valid tags:
+
+- IviDriverCore-1.0-2025-01-21
+- IviDriverNet-1.0-2025-01-21
