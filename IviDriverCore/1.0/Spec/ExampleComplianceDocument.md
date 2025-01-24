@@ -1,6 +1,6 @@
 # Example IVI Driver Compliance Document
 
-This is the IVI Compliance document for the Keysight Technologies Q12120A instrument.
+This is the IVI Compliance document for the fictional Keysight Technologies Q12120A instrument.
 
 ## IVI Compliance Category
 
