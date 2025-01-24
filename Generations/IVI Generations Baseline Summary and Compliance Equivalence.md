@@ -1,6 +1,6 @@
 # IVI Generations Baseline Summary and Compliance Equivalence Tables
 
-Starting with IVI Generation 2025, this baseline summary and equivalence tables are no longer necessary to describe specifications that drivers must comply with.  This is because of the associated streamlining of the specifications.  Full compliance requirements for specifications are called out in the specifications themselves and the [IVI 2026 Generation](./IVI%202026.md) document.
+**Starting with IVI Generation 2026, this baseline summary and equivalence tables are no longer necessary to describe specifications that drivers must comply with.  This is because of the associated streamlining of the specifications.  Full compliance requirements for specifications are called out in the specifications themselves and the [IVI 2026 Generation](./IVI%202026.md) document.**
 
 The IVI Generations Baseline Summary Table provides a summary of the specification versions that were in effect at the time the IVI Generation was created.
 
@@ -15,6 +15,8 @@ The IVI Generations Baseline Summary Table provides a summary of the specificati
 |  | ***3.1*** | ***3.2*** | ***3.3*** | ***3.4*** | ***3.15*** | ***3.18*** | ***4.1*** | ***4.2*** | ***4.3*** | ***4.4*** | ***4.5*** | ***4.6*** | ***4.7*** | ***4.8*** | ***4.10*** | ***4.12*** | ***4.13*** | ***4.14*** | ***4.15*** |
 | IVI-2003 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.1 | 3.0 | 3.0 | 3.0 | 2.0 | 1.0 | 3.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 | 1.0 |
 | IVI-2014 | 3.5 | 2.1 | 3.2 | 2.2 | 2.0 | 1.2 | 4.1 | 4.1 | 5.0 | 3.0 | 1.2 | 4.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.0 | 2.2 |
+| IVI-2026 | NA  |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |  NA |
+
 
 The IVI Driver Type Compliance Equivalence Tables describe which versions of the specifications are equivalent in terms of compliance for a particular IVI driver type. They also identify how the IVI Generations relate to the individual IVI driver types.
 
