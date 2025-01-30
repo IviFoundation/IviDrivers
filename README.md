@@ -1,4 +1,4 @@
-# InstrumentDriverSpecs
+# IviDrivers
 
 This repository is maintained by the IVI Foundation and contains code and specifications related to instrument drivers. Specifically:
 
