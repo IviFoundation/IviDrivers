@@ -44,6 +44,7 @@
 # shapes that need to be modified.  That would require a simple extension to this
 # script.
 #
+# Don't know why the links are not colored per the header below :(
 
 
 $Conversions = @(
