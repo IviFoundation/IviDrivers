@@ -62,6 +62,21 @@ header-includes:
   - \setlist[itemize,1]{label=\textbullet}
   - \setlist[itemize,2]{label=--}
   - \setlist[itemize,3]{label=*}
+  - \usepackage[letterpaper,margin=0.7in]{geometry}
+  - \fontsize{14pt}{18pt}\selectfont
+  - \usepackage{hyperref}
+  - \usepackage{xcolor}
+  - \hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue, citecolor=blue}
+  - \renewcommand{\normalsize}{\fontsize{14}{18}\selectfont}
+  - \usepackage{fancyhdr}
+  - \pagestyle{fancy}
+  - \fancyhf{}
+  - \fancyhead[C]{IVI Foundation}
+  - \fancyfoot[R]{Page \thepage}
+  - \renewcommand{\headrulewidth}{0.4pt}
+  - \renewcommand{\footrulewidth}{0.4pt}
+
+  
 ---
 "@
 
