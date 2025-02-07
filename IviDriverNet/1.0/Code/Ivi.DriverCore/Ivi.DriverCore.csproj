@@ -9,8 +9,7 @@
 	  <Authors>Ivi TC</Authors>
       <Company>IVI Foundation</Company>
       <PackageDescription>Nuget Package of IVI.NET 6.0</PackageDescription>
-      <RepositoryUrl>https://github.com/sanjeev2211/PrototypePlayground</RepositoryUrl>
-	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <BaseOutputPath>..\build</BaseOutputPath>
   </PropertyGroup>
