@@ -13,4 +13,12 @@
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <BaseOutputPath>..\build</BaseOutputPath>
   </PropertyGroup>
+  <ItemGroup>
+<Compile Remove="Ivi.DriverCore\**" />
+	<EmbeddedResource Remove="Ivi.DriverCore\**" />
+	<None Remove="Ivi.DriverCore\**" />
+	<None Include="Resources/README.md" Pack="true" PackagePath="docs/" />
+	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\" />
+	<None Include="Resources\license.txt" Pack="true" PackagePath="license\" />
+</ItemGroup>
 </Project>
