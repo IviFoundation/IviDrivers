@@ -1,21 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
 	  <LangVersion>10.0</LangVersion>
 	  <TargetFrameworks>net6.0;net462</TargetFrameworks>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
-	  <DriverName>KtExample</DriverName>
+	  <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <DriverName>KtIviNetDriver</DriverName>
 	  <DriverVersion>1.0.0.0</DriverVersion>
 	  <Company>Keysight Technologies</Company>
-	  <Description>IVI.NET Driver Example Project</Description>
+	  <Description>IVI.NET Driver</Description>
 	  <Copyright>Copyright Keysight Technologies 2025</Copyright>
 	  <BaseOutputPath>..\build</BaseOutputPath>
+	  <AssemblyName>Keysight.$(MSBuildProjectName)</AssemblyName>
+	  <RootNamespace>Keysight.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KtIviNetDriver\KtIviNetDriver.csproj" />
+    <PackageReference Include="IviFoundation.DriverCore" Version="1.0.0*" />
   </ItemGroup>
-
 </Project>

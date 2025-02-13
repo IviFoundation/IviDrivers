@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <LangVersion>10.0</LangVersion>
 	  <DriverVersion>1.0.0.0</DriverVersion>
+	  <PackageId>IviFoundation.DriverCore</PackageId>
 	  <Nullable>enable</Nullable>
 	  <Authors>Ivi TC</Authors>
       <Company>IVI Foundation</Company>
