@@ -1,7 +1,5 @@
 LICENSE AGREEMENT
 
-BEFORE YOU CLICK ON THE ACCEPT BUTTON AT THE END OF THIS DOCUMENT, CAREFULLY READ ALL THE TERMS AND CONDITIONS OF THISAGREEMENT.  BY CLICKING ON THE ACCEPT BUTTON, YOU ARE CONSENTING TO BE BOUND BY AND ARE BECOMING A PARTY TO THIS AGREEMENT.  IF YOU DO NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, CLICK THE "DO NOT ACCEPT" BUTTON AND DO NOT DOWNLOAD AND/OR USE THIS INTELLECTUAL PROPERTY.
-
 Readers of this document are requested to submit to Interchangeable Virtual Instruments, Inc. ("Licensor"), with their comments, notification of any relevant patent rights or other intellectual property rights of which they may be aware which might be infringed by any use of this intellectual property, software, or specification (the "Intellectual Property"), as appropriate, and to provide supporting documentation.
 
 Copyright (C) 2002, Interchangeable Virtual Instruments Foundation, Inc.  All Rights Reserved.  IVI Foundation is the exclusive licensee of the "IVI" trademark and the Interchangeable Virtual Instruments Foundation, Inc. logo.
