@@ -50,19 +50,20 @@ namespace KtIviNetDriver_Cs_Example1
                     Console.WriteLine("Identifier:  {0}", driver.DriverVendor);
                     Console.WriteLine("Revision:    {0}", driver.Generation);
                     Console.WriteLine("Vendor:      {0}", driver.DriverVersion);
-                    Console.WriteLine("Description: {0}", driver.GetSupportInstrumentModels());
+                    Console.WriteLine("All Supported Models:    {0}", string.Join(", ", driver.GetSupportInstrumentModels()));
+
 
                     // TODO: Exercise driver methods and properties
 
 
                     // Check instrument for errors
-                    ErrorQueryResult result;
+                    ErrorQueryResult result = new ErrorQueryResult();
                     Console.WriteLine();
-                    //do
-                    //{
-                    //    result = driver.ErrorQuery();
-                    //    // Console.WriteLine("ErrorQuery: {0}, {1}", result., result.Message);
-                    //} while (result.Code != 0);
+                    do
+                    {
+                        result = driver.ErrorQuery();
+                        Console.WriteLine("ErrorQuery: {0}, {1}", result.Code, result.Message);
+                    } while (result.Code != 0);
                 }
             }
             catch (Exception ex)

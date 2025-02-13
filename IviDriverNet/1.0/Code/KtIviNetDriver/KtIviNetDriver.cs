@@ -16,9 +16,9 @@ namespace Keysight.KtIviNetDriver
         private int _port;
         private bool _simulate = true;
         bool _reset = true;
-        string _InstrumentManufacturer;
-        string _InstrumentModel;
-        string simModel = "KtDefault";
+        string _InstrumentManufacturer = "Keysight";
+        string _InstrumentModel = "KtDmm";
+        string simModel = "KtSim123";
 
         internal bool _QueryInstrumentStatus = true;
         private bool disposed = false;
@@ -201,7 +201,9 @@ namespace Keysight.KtIviNetDriver
                 }
             }
         }
-
+        /// <summary>
+        /// It has implemented a finalizer.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);
@@ -210,6 +212,9 @@ namespace Keysight.KtIviNetDriver
             // of this type implements a finalizer.
             GC.SuppressFinalize(this);
         }
+        /// <summary>
+        /// Releases all resources used by the KtIviNetDriver.
+        /// </summary>
         public void Dispose(bool disposing)
         {
             if (!disposed)
@@ -225,16 +230,12 @@ namespace Keysight.KtIviNetDriver
     /// <summary>
     /// Result of an error query operation.
     /// </summary>
-        public ErrorQueryResult ErrorQuery()
-        {
-            throw new NotImplementedException();
-        }
+        public ErrorQueryResult ErrorQuery() => new ErrorQueryResult(0, "No Error");
+        
         /// <summary>
         /// Retrieves the list of supported instrument models compatible with this driver.
         /// </summary>
-        public string[] GetSupportInstrumentModels()
-        {
-            throw new NotImplementedException();
-        }
+        public string[] GetSupportInstrumentModels()=> new string[] {"KtDmm1","KtDmm2"};
+
     }
 }
