@@ -232,7 +232,6 @@ This section gives a complete description of each constructor, method, or proper
 | Initialization                  | Core Driver Constructors        |
 | Driver Version                  | Property: ComponentVersion      |
 | Driver Vendor                   | Property: ComponentVendor       |
-| Driver Setup                    | Property: DriverSetup           |
 | Error Query                     | Method: ErrorQuery()            |
 | Instrument Manufacturer         | Property:InstrumentManufacturer |
 | Instrument Model                | Property: InstrumentModel       |
@@ -287,7 +286,6 @@ public interface IIviDriverCore
 {
     String ComponentVersion { get; }
     String ComponentVendor { get; }
-    String DriverSetup { get; }
     String InstrumentManufacturer { get; }
     String InstrumentModel { get; }
     Boolean QueryInstrumentStatus { get; set; }
