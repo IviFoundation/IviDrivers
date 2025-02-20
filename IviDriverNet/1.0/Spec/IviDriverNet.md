@@ -285,8 +285,8 @@ public struct ErrorQueryResult
 
 public interface IIviDriverCore
 {
-    String DriverVersion { get; }
-    String DriverVendor { get; }
+    String ComponentVersion { get; }
+    String ComponentVendor { get; }
     String DriverSetup { get; }
     String InstrumentManufacturer { get; }
     String InstrumentModel { get; }
