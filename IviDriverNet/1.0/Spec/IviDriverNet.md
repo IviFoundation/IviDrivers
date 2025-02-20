@@ -3,6 +3,7 @@
 | Version Number | Date of Version    | Version Notes                   |
 |--------------- | ---------------    | -------------                   |
 | 1.0            |  January 21, 2025  | Initial Specification Version   |
+| 1.0            |  February 24, 2025 | Flaws in prose around DriverSetup and ComponentVersion/ComponentVendor |
 
 ## Abstract
 
