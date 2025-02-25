@@ -23,15 +23,6 @@
         String ComponentVendor { get; }
 
         /// <summary>
-        /// Provides setup information for the driver.
-        /// </summary>
-        /// <remarks>
-        /// This could be configuration or initialization parameters passed when initializing the driver.
-        /// Driver setup is empty if the driver is not initialized.
-        /// </remarks>
-        String DriverSetup { get; }
-
-        /// <summary>
         /// Gets the name of the instrument's manufacturer.
         /// </summary>
         /// <remarks>

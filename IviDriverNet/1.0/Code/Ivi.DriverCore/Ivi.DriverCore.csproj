@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net462;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
 	  <LangVersion>10.0</LangVersion>
 	  <DriverVersion>1.0.0.0</DriverVersion>
@@ -9,7 +9,7 @@
 	  <Nullable>enable</Nullable>
 	  <Authors>Ivi TC</Authors>
       <Company>IVI Foundation</Company>
-      <PackageDescription>Nuget Package of IVI.NET 6.0</PackageDescription>
+      <PackageDescription>Nuget Package of IVI.NET</PackageDescription>
       <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <BaseOutputPath>..\build</BaseOutputPath>

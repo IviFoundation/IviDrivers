@@ -36,13 +36,6 @@ namespace Keysight.KtIviNetDriver
         public string ComponentVendor => "Keysight Technologies";
 
         /// <summary>
-        /// The driver setup string.  It is either specified in the Configuration Store or passed in the 
-        /// OptionString parameter of the Initialize function.  Driver setup is empty if the driver is not 
-        /// initialized.
-        /// </summary>
-        public string DriverSetup => throw new NotImplementedException();
-
-        /// <summary>
         /// The name of the manufacturer reported by the physical instrument. If Simulation is enabled, this 
         /// property returns the following:
         /// "The 'InstrumentManufacturer' operation is not available while in simulation mode.".
