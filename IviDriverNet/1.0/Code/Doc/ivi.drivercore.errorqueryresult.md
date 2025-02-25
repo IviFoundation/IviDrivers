@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # ErrorQueryResult
 
 Namespace: Ivi.DriverCore
@@ -87,3 +91,7 @@ int GetHashCode()
 
 [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32)<br>
 An [Int32](https://docs.microsoft.com/en-us/dotnet/api/system.int32) containing the hash value generated for this result.
+
+---
+
+[`< Back`](./)

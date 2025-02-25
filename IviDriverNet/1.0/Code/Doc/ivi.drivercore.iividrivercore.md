@@ -1,3 +1,7 @@
+[`< Back`](./)
+
+---
+
 # IIviDriverCore
 
 Namespace: Ivi.DriverCore
@@ -12,12 +16,12 @@ Attributes [NullableContextAttribute](./system.runtime.compilerservices.nullable
 
 ## Properties
 
-### **DriverVersion**
+### **ComponentVersion**
 
-Gets the version of the driver.
+Gets the Component version of the driver.
 
 ```csharp
-public abstract string DriverVersion { get; }
+public abstract string ComponentVersion { get; }
 ```
 
 #### Property Value
@@ -28,12 +32,12 @@ public abstract string DriverVersion { get; }
 
 The version string should follow the format "MajorVersion.MinorVersion.PatchVersion".
 
-### **DriverVendor**
+### **ComponentVendor**
 
-Gets the name of the driver vendor.
+Gets the name of the Component vendor.
 
 ```csharp
-public abstract string DriverVendor { get; }
+public abstract string ComponentVendor { get; }
 ```
 
 #### Property Value
@@ -172,3 +176,7 @@ An array of strings, each representing a model of the instrument that this drive
 **Remarks:**
 
 The returned models should be consistent with the instrument models supported by the driver.
+
+---
+
+[`< Back`](./)
