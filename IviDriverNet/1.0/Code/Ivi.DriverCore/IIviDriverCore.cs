@@ -7,20 +7,20 @@
     public interface IIviDriverCore
     {
         /// <summary>
-        /// Gets the version of the driver.
+        /// Gets the Component version of the driver.
         /// </summary>
         /// <remarks>
         /// The version string should follow the format "MajorVersion.MinorVersion.PatchVersion".
         /// </remarks>
-        String DriverVersion { get; }
+        String ComponentVersion { get; }
 
         /// <summary>
-        /// Gets the name of the driver vendor.
+        /// Gets the name of the Component vendor.
         /// </summary>
         /// <remarks>
         /// Example: "Keysight Technologies".
         /// </remarks>
-        String DriverVendor { get; }
+        String ComponentVendor { get; }
 
         /// <summary>
         /// Provides setup information for the driver.

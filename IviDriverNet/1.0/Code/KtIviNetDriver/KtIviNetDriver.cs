@@ -27,13 +27,13 @@ namespace Keysight.KtIviNetDriver
         /// returns the following: "The 'InstrumentFirmwareRevision' operation is not available while in simulation
         /// mode.".
         /// </summary>
-        public string DriverVersion => "1.0.0";
+        public string ComponentVersion => "1.0.0";
         /// <summary>
         /// The name of the manufacturer reported by the physical instrument. If Simulation is enabled, this 
         /// property returns the following:
         /// "The 'InstrumentManufacturer' operation is not available while in simulation mode.".
         /// </summary>
-        public string DriverVendor => "Keysight Technologies";
+        public string ComponentVendor => "Keysight Technologies";
 
         /// <summary>
         /// The driver setup string.  It is either specified in the Configuration Store or passed in the 

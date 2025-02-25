@@ -47,9 +47,9 @@ namespace KtIviNetDriver_Cs_Example1
                     Console.WriteLine("Driver Initialized");
 
                    // Print a few IIviDriverIdentity properties
-                    Console.WriteLine("Identifier:  {0}", driver.DriverVendor);
+                    Console.WriteLine("Component Vendor:  {0}", driver.ComponentVendor);
                     Console.WriteLine("Revision:    {0}", driver.Generation);
-                    Console.WriteLine("Vendor:      {0}", driver.DriverVersion);
+                    Console.WriteLine("Component Version:      {0}", driver.ComponentVersion);
                     Console.WriteLine("All Supported Models:    {0}", string.Join(", ", driver.GetSupportInstrumentModels()));
 
 

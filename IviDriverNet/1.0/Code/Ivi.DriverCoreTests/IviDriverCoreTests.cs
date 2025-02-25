@@ -14,18 +14,18 @@ namespace Ivi.DriverCore.Tests
         }
 
         [Fact]
-        public void DriverVersion_ShouldReturnCorrectVersion()
+        public void ComponentVersion_ShouldReturnCorrectVersion()
         {
-            mockDriver.Setup(d => d.DriverVersion).Returns("1.0.0");
-            var version = mockDriver.Object.DriverVersion;
+            mockDriver.Setup(d => d.ComponentVersion).Returns("1.0.0");
+            var version = mockDriver.Object.ComponentVersion;
             Assert.Equal("1.0.0", version);
         }
 
         [Fact]
-        public void DriverVendor_ShouldReturnCorrectVendor()
+        public void ComponentVendor_ShouldReturnCorrectVendor()
         {
-            mockDriver.Setup(d => d.DriverVendor).Returns("Keysight Technologies");
-            var vendor = mockDriver.Object.DriverVendor;
+            mockDriver.Setup(d => d.ComponentVendor).Returns("Keysight Technologies");
+            var vendor = mockDriver.Object.ComponentVendor;
             Assert.Equal("Keysight Technologies", vendor);
         }
 
