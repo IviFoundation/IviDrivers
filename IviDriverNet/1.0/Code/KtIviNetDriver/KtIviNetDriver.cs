@@ -94,12 +94,15 @@ namespace Keysight.KtIviNetDriver
         {
 
         }
-        /// <summary>
-        /// Initializes an instrument session if simulate=true, I/O will not be done.
-        /// </summary>
-        public KtIviNetDriver(string resourceName, bool idQuery, bool reset, string options)
+
+        public KtIviNetDriver(string resourceName, bool idQuery, bool reset, bool simulate)
         {
-            var settingsPairs = options.Split(',');
+            Initialize( resourceName,  idQuery,  reset, simulate);
+        }
+
+        public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)
+        {
+           // var settingsPairs = options.Split(',');
 
             //Set IO Mechanism here
             _ipAddress = resourceName;
@@ -107,33 +110,7 @@ namespace Keysight.KtIviNetDriver
             _reset = reset;
 
             // Iterate through each key-value pair
-            foreach (var pair in settingsPairs)
-            {
-                var keyValue = pair.Split('=');
-
-                if (keyValue.Length == 2)
-                {
-                    string key = keyValue[0].Trim();
-                    string value = keyValue[1].Trim();
-
-                    // Map each key to the corresponding property
-                    switch (key)
-                    {
-
-                        case "Simulate":
-                            _simulate = Convert.ToBoolean(value);
-                            break;
-                        case "Model":
-                            if (value != "")
-                                simModel = value;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
-
-            if (_simulate)
+            if (simulate)
             {
                 Console.WriteLine($"Connected to {_ipAddress}:{_port}");
                 _InstrumentManufacturer = "Keysight Technologies";

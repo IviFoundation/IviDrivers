@@ -18,7 +18,7 @@
 <Compile Remove="Ivi.DriverCore\**" />
 	<EmbeddedResource Remove="Ivi.DriverCore\**" />
 	<None Remove="Ivi.DriverCore\**" />
-	<None Include="Resources/README.md" Pack="true" PackagePath="docs/" />
+	<None Include="Resources/IviFoundation.DriverCore.README.md" Pack="true" PackagePath="docs/" />
 	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\" />
 	<None Include="Resources\license.txt" Pack="true" PackagePath="license\" />
 </ItemGroup>

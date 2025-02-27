@@ -7,6 +7,18 @@
     public interface IIviDriverCore
     {
         /// <summary>
+        /// Initializes the driver and connects to the instrument.
+        /// </summary>
+        /// <param name="resourceName">The resource name identifying the instrument (e.g., VISA address).</param>
+        /// <param name="idQuery">Indicates whether to perform an ID query to verify instrument compatibility.</param>
+        /// <param name="reset">Indicates whether to reset the instrument upon initialization.</param>
+        /// <param name="simulate">Indicates whether the simulated instrument upon initialization.</param>
+        /// <remarks>
+        /// This method is responsible for opening the session and preparing the driver for use.
+        /// </remarks>
+        void Initialize(string resourceName, bool idQuery, bool reset, bool simulate);
+		
+        /// <summary>
         /// Gets the Component version of the driver.
         /// </summary>
         /// <remarks>

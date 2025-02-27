@@ -35,14 +35,14 @@ namespace KtIviNetDriver_Cs_Example1
             //resourceName = "TCPIP0::127.0.0.1::INSTR";
 
             // Edit the initialization options as needed.
-            var options = "QueryInstrStatus=false, Simulate=true, DriverSetup= Trace=false";
+            var simulate = true;
             var idquery = true;
             var reset   = true;
 
             try
             {
                 // Call driver constructor with options.  'using' block calls driver.Close() when exiting.
-                using (var driver = new KtIviNetDriver(resourceName, idquery, reset, options))
+                using (var driver = new KtIviNetDriver(resourceName, idquery, reset, simulate))
 			    {
                     Console.WriteLine("Driver Initialized");
 
