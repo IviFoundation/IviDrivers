@@ -12,8 +12,8 @@ namespace Keysight.KtIviNetDriver
     {
         private TcpClient? tcpClient;
         private NetworkStream? stream;
-        private string _ipAddress;
-        private int _port;
+        private string _ipAddress = string.Empty;
+        private int _port; 
         private bool _simulate = true;
         bool _reset = true;
         string _InstrumentManufacturer = "Keysight";
@@ -85,7 +85,11 @@ namespace Keysight.KtIviNetDriver
         /// I/O to the instrument.  If an error is reported, use ErrorQuery to retrieve error messages one at a 
         /// time from the instrument.
         /// </summary>
-        public bool QueryInstrumentStatus { get { return _QueryInstrumentStatus; } set { value = _QueryInstrumentStatus; } }
+        public bool QueryInstrumentStatus
+        {
+            get => _QueryInstrumentStatus;
+            set => _QueryInstrumentStatus = value; // Fixed incorrect assignment
+        }
 
         /// <summary>
         /// This method reset the instrument.
@@ -94,25 +98,43 @@ namespace Keysight.KtIviNetDriver
         {
 
         }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KtIviNetDriver"/> class.
+        /// </summary>
+        /// <param name="resourceName">The resource name of the instrument.</param>
         public KtIviNetDriver(string resourceName) : this(resourceName, false, false, false)
         {
 
         }
+        /// <summary>
+        /// Initializes a new instance with ID query option.
+        /// </summary>
+        /// <param name="resourceName">The resource name of the instrument.</param>
+        /// <param name="idQuery">If true, performs an ID query.</param>
         public KtIviNetDriver(string resourceName, bool idQuery) : this(resourceName, idQuery, false, false)
         {
 
         }
+        /// <summary>
+        /// Initializes a new instance with ID query and reset options.
+        /// </summary>
+        /// <param name="resourceName">The resource name of the instrument.</param>
+        /// <param name="idQuery">If true, performs an ID query.</param>
+        /// <param name="reset">If true, resets the instrument.</param>
         public KtIviNetDriver(string resourceName, bool idQuery, bool reset) : this(resourceName, idQuery, reset, false)
         {
 
         }
-
+        /// <summary>
+        /// Initializes a new instance with full configuration options.
+        /// </summary>
         public KtIviNetDriver(string resourceName, bool idQuery, bool reset, bool simulate)
         {
             Initialize(resourceName, idQuery, reset, simulate);
         }
-
+                /// <summary>
+        /// Initializes the driver with given parameters.
+        /// </summary>
         public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)
         {
             // var settingsPairs = options.Split(',');

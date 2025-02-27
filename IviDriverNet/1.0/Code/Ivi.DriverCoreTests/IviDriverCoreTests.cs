@@ -9,12 +9,13 @@ namespace Ivi.DriverCore.Tests
     {
         private Mock<IIviDriverCore> mockDriver;
 
+        // Constructor to initialize mock object
         public IviDriverCoreTests()
         {
             mockDriver = new Mock<IIviDriverCore>();
         }
 
-       
+        // Test to verify that the Initialize method is called with correct parameters
         [Fact]
         public void Initialize_ShouldBeCalledWithCorrectParameters()
         {
@@ -25,7 +26,7 @@ namespace Ivi.DriverCore.Tests
             mockDriver.Verify(d => d.Initialize("USB0::0x1234::0x5678::INSTR", false, true, true), Times.Once);
         }
 
-      
+        // Test to verify the component version
         [Fact]
         public void ComponentVersion_ShouldReturnCorrectVersion()
         {
@@ -34,7 +35,7 @@ namespace Ivi.DriverCore.Tests
             Assert.Equal("1.0.0", version);
         }
 
-    
+        // Test to verify the component vendor
         [Fact]
         public void ComponentVendor_ShouldReturnCorrectVendor()
         {
@@ -43,7 +44,7 @@ namespace Ivi.DriverCore.Tests
             Assert.Equal("Keysight Technologies", vendor);
         }
 
-   
+        // Test to verify that ErrorQuery returns the correct error message
         [Fact]
         public void ErrorQuery_ShouldReturnCorrectErrorMessage()
         {
@@ -57,7 +58,7 @@ namespace Ivi.DriverCore.Tests
             Assert.Equal("Undefined header", errorResult.Message);
         }
 
-     
+        // Test to verify the instrument manufacturer
         [Fact]
         public void InstrumentManufacturer_ShouldReturnCorrectManufacturer()
         {
@@ -66,6 +67,7 @@ namespace Ivi.DriverCore.Tests
             Assert.Equal("Keysight Technologies", manufacturer);
         }
 
+        // Test to verify the instrument model
         [Fact]
         public void InstrumentModel_ShouldReturnCorrectModel()
         {
@@ -74,7 +76,7 @@ namespace Ivi.DriverCore.Tests
             Assert.Equal("34410A", model);
         }
 
-      
+        // Test to verify the QueryInstrumentStatus property returns the correct status
         [Fact]
         public void QueryInstrumentStatus_ShouldReturnCorrectStatus()
         {
@@ -85,7 +87,7 @@ namespace Ivi.DriverCore.Tests
             Assert.True(status);
         }
 
-      
+        // Test to verify that the Reset method is called
         [Fact]
         public void Reset_ShouldInvokeResetCommand()
         {
@@ -94,7 +96,7 @@ namespace Ivi.DriverCore.Tests
             mockDriver.Verify(d => d.Reset(), Times.Once);
         }
 
-     
+        // Test to verify that the Simulate property returns the correct status
         [Fact]
         public void Simulate_ShouldReturnCorrectSimulationStatus()
         {
@@ -103,7 +105,7 @@ namespace Ivi.DriverCore.Tests
             Assert.True(simulateStatus);
         }
 
-       
+        // Test to verify that GetSupportInstrumentModels returns the correct list of models
         [Fact]
         public void GetSupportInstrumentModels_ShouldReturnCorrectList()
         {
