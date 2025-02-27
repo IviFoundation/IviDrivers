@@ -95,14 +95,27 @@ namespace Keysight.KtIviNetDriver
 
         }
 
+        public KtIviNetDriver(string resourceName) : this(resourceName, false, false, false)
+        {
+
+        }
+        public KtIviNetDriver(string resourceName, bool idQuery) : this(resourceName, idQuery, false, false)
+        {
+
+        }
+        public KtIviNetDriver(string resourceName, bool idQuery, bool reset) : this(resourceName, idQuery, reset, false)
+        {
+
+        }
+
         public KtIviNetDriver(string resourceName, bool idQuery, bool reset, bool simulate)
         {
-            Initialize( resourceName,  idQuery,  reset, simulate);
+            Initialize(resourceName, idQuery, reset, simulate);
         }
 
         public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)
         {
-           // var settingsPairs = options.Split(',');
+            // var settingsPairs = options.Split(',');
 
             //Set IO Mechanism here
             _ipAddress = resourceName;
@@ -197,15 +210,15 @@ namespace Keysight.KtIviNetDriver
                 disposed = true;
             }
         }
-    /// <summary>
-    /// Result of an error query operation.
-    /// </summary>
+        /// <summary>
+        /// Result of an error query operation.
+        /// </summary>
         public ErrorQueryResult ErrorQuery() => new ErrorQueryResult(0, "No Error");
-        
+
         /// <summary>
         /// Retrieves the list of supported instrument models compatible with this driver.
         /// </summary>
-        public string[] GetSupportInstrumentModels()=> new string[] {"KtDmm1","KtDmm2"};
+        public string[] GetSupportInstrumentModels() => new string[] { "KtDmm1", "KtDmm2" };
 
     }
 }

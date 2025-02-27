@@ -17,7 +17,7 @@
         /// This method is responsible for opening the session and preparing the driver for use.
         /// </remarks>
         void Initialize(string resourceName, bool idQuery, bool reset, bool simulate);
-		
+
         /// <summary>
         /// Gets the Component version of the driver.
         /// </summary>
