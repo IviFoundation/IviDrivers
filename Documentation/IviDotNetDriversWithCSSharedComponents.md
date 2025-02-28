@@ -4,7 +4,7 @@
   - [History and Intent](#history-and-intent)
     - [Relationship to the IVI Core and IVI Core .NET Specifications](#relationship-to-the-ivi-core-and-ivi-core-net-specifications)
     - [Relationship to the IVI Generation 2014 Specifications](#relationship-to-the-ivi-generation-2014-specifications)
-  - [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+ (TODO)](#upgrading-an-ivi-2014-net-framework-driver-to-net-6-todo)
+  - [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+](#upgrading-an-ivi-2014-net-framework-driver-to-net-6)
   - [Using a CS Shared Components .NET 6+ Driver (TODO)](#using-a-cs-shared-components-net-6-driver-todo)
   - [Proposing changes to the CS Shared Components](#proposing-changes-to-the-cs-shared-components)
 
