@@ -27,21 +27,24 @@ The **IviDriverCore** Shared Components are essential for the development and us
 
 ## Usage Example
 
-Here’s how you can use `IviDriverCore` Shared Component in your .NET project:
+Here’s how you can use `IviDriverCore` Shared Component in your .NET driver project:
 
 ```csharp
 
 using Ivi.DriverCore;
  
-public class Example
+public sealed class ExampleDriver : IIviDriverCore
 {
-    public void InitializeDriver()
-    {
-        // Example usage of IVI Driver Core
-        var driver = new IviDriver();
-        driver.Initialize();
-        Console.WriteLine("Driver Initialized Successfully.");
-    }
+       //Implement the properties/methods e.g. ComponentVersion, ComponentVendor and Reset etc.
+
+        public ExampleDriver(string resourceName, bool idQuery, bool reset, bool simulate)
+        {
+            Initialize(resourceName, idQuery, reset, simulate);
+        }
+        public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)	
+        {
+            //Implement the I/O call with Instrument.
+        }
 
 }
 
