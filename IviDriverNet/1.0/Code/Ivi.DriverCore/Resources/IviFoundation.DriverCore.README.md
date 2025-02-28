@@ -33,14 +33,15 @@ Here’s how you can use `IviDriverCore` Shared Component in your .NET driver pr
 
 using Ivi.DriverCore;
  
-public sealed class ExampleDriver : IIviDriverCore
+public sealed class Acme : IIviDriverCore
 {
-       //Implement the properties/methods e.g. ComponentVersion, ComponentVendor and Reset etc.
-
-        public ExampleDriver(string resourceName, bool idQuery, bool reset, bool simulate)
+       // Parameterized Constructor.
+        public Acme(string resourceName, bool idQuery, bool reset, bool simulate)
         {
             Initialize(resourceName, idQuery, reset, simulate);
         }
+		
+		// Initialization logic for the Acme
         public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)	
         {
             //Implement the I/O call with Instrument.
