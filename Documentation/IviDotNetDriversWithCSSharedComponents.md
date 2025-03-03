@@ -1,5 +1,8 @@
 # IVI .NET Drivers With the CS Shared Components
 
+> [!WARNING]
+> DRAFT VERSION UNDER DISCUSSION BY THE IVI CONSORTIUM.  Generally accurate, but check back for current version.
+
 - [IVI .NET Drivers With the CS Shared Components](#ivi-net-drivers-with-the-cs-shared-components)
   - [History and Intent](#history-and-intent)
     - [Relationship to the IVI Core and IVI Core .NET Specifications](#relationship-to-the-ivi-core-and-ivi-core-net-specifications)
