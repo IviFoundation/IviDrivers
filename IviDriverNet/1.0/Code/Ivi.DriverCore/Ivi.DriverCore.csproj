@@ -1,27 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-	  <TargetFrameworks>netstandard2.0</TargetFrameworks>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <LangVersion>10.0</LangVersion>
-	  <DriverVersion>1.0.0.0</DriverVersion>
-	  <PackageId>IviFoundation.DriverCore</PackageId>
-	  <Nullable>enable</Nullable>
-	  <Authors>Ivi TC</Authors>
-      <Company>IVI Foundation</Company>
-      <PackageDescription>Nuget Package of IVI.NET</PackageDescription>
-      <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
-	  <BaseOutputPath>..\build</BaseOutputPath>
-	  <PackageReadmeFile>docs/IviFoundation.DriverCore.README.md</PackageReadmeFile>
-	  <PackageIcon>images/ivi.png</PackageIcon>
-  </PropertyGroup>
-  <ItemGroup>
-<Compile Remove="Ivi.DriverCore\**" />
-	<EmbeddedResource Remove="Ivi.DriverCore\**" />
-	<None Remove="Ivi.DriverCore\**" />
-	<None Include="Resources/IviFoundation.DriverCore.README.md" Pack="true" PackagePath="docs/" />
-	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\" />
-	<None Include="Resources\license.txt" Pack="true" PackagePath="license\" />
+<PropertyGroup>
+	<TargetFrameworks>netstandard2.0</TargetFrameworks>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<LangVersion>10.0</LangVersion>
+	<DriverVersion>1.0.0.0</DriverVersion>
+	<PackageId>IviFoundation.DriverCore</PackageId>
+	<Nullable>enable</Nullable>
+	<Authors>Ivi TC</Authors>
+	<Company>IVI Foundation</Company>
+	<PackageDescription>Nuget Package of IVI.NET</PackageDescription>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	<BaseOutputPath>..\build</BaseOutputPath>
+	<PackageReadmeFile>docs/IviFoundation.DriverCore.README.md</PackageReadmeFile>
+	<PackageIcon>images/ivi.png</PackageIcon>
+</PropertyGroup>
+<ItemGroup>
+	<Compile Remove="Ivi.DriverCore\**"/>
+	<EmbeddedResource Remove="Ivi.DriverCore\**"/>
+	<None Remove="Ivi.DriverCore\**"/>
+	<None Include="Resources/IviFoundation.DriverCore.README.md" Pack="true" PackagePath="docs/"/>
+	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\"/>
+	<None Include="Resources\license.txt" Pack="true" PackagePath="license\"/>
 </ItemGroup>
 </Project>
