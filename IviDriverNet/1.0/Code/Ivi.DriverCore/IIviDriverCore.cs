@@ -24,7 +24,7 @@
         /// <remarks>
         /// The version string should follow the format "MajorVersion.MinorVersion.PatchVersion".
         /// </remarks>
-        String ComponentVersion { get; }
+        string ComponentVersion { get; }
 
         /// <summary>
         /// Gets the name of the Component vendor.
@@ -32,7 +32,7 @@
         /// <remarks>
         /// Example: "Keysight Technologies".
         /// </remarks>
-        String ComponentVendor { get; }
+        string ComponentVendor { get; }
 
         /// <summary>
         /// Gets the name of the instrument's manufacturer.
@@ -40,7 +40,7 @@
         /// <remarks>
         /// Example: "Keysight Technologies".
         /// </remarks>
-        String InstrumentManufacturer { get; }
+        string InstrumentManufacturer { get; }
 
         /// <summary>
         /// Gets the model number or name of the instrument.
@@ -48,7 +48,7 @@
         /// <remarks>
         /// Example: "34410A".
         /// </remarks>
-        String InstrumentModel { get; }
+        string InstrumentModel { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the instrument's status should be queried after each operation.
@@ -56,7 +56,7 @@
         /// <remarks>
         /// When set to true, the driver queries the instrument's status after every method call to check for errors.
         /// </remarks>
-        Boolean QueryInstrumentStatus { get; set; }
+        bool QueryInstrumentStatus { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether the driver is operating in simulation mode.
@@ -64,7 +64,7 @@
         /// <remarks>
         /// In simulation mode, the driver does not perform actual I/O with the instrument and generates simulated output.
         /// </remarks>
-        Boolean Simulate { get; }
+        bool Simulate { get; }
 
         /// <summary>
         /// Queries the instrument for any error information.
@@ -94,6 +94,6 @@
         /// <remarks>
         /// The returned models should be consistent with the instrument models supported by the driver.
         /// </remarks>
-        String[] GetSupportInstrumentModels();
+        string[] GetSupportInstrumentModels();
     }
 }
