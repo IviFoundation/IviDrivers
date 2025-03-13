@@ -51,11 +51,38 @@ Because the IVI Generation 2014 specification is only written for .NET Framework
 - A driver migrating from IVI Generation 2014 .NET Framework to IVI Generation 2026 .NET Core is not required to follow IVI Generation 2014 Installation requirements. Only the IVI Generation 2026 .NET Core driver requirements are necessary.
   - For example, a driver performing this migration no longer needs to follow previously mandated IVI Generation 2014 .NET Framework installation requirements such as installation to Common IVI Directories, which is unable to be accomplished via a NuGet package.
 
-## Using a CS Shared Components .NET 6+ Driver (TODO)
+## Using a CS Shared Components .NET 6+ Driver
 
-- beware configuration – it’s possible your existing applications no longer work if they depend on configurable settings.
-- beware the static factories – it’s possible your existing applications no longer work if they use the static factories (requires configurable settings, and static references to the driver implementations).
-- beware app domains (they don't exist)
+As a client of a driver that uses .NET 6+ CS Shared components there a a few things to be aware of.
+
+### IVI Configuration Store
+
+Because the driver CS Shared Components driver is distributed via NuGet, you must additionally run any installers associated with the driver to ensure the correct entries are added to the configuration store. Refer to the driver's documentation for information about additional installers.
+
+If the driver does not supply additional installers, the driver does not participate in configurable settings. This means that the static driver factories will not work, in addition to any other features provided by the IVI Configuration Store.
+
+### Static Driver Factories
+
+The CS Shared Components provide static driver factories that can be used to instantiate drivers based on configuration in the IVI Configuration Store. The signature of these methods looks like the following:
+
+```cs
+var driver = IviDriver.Create<IIviDmm>("my-dmm");
+// or:
+var dmmDriver = IviDmm.Create("my-dmm");
+```
+
+When using a .NET 6+ CS Shared Components driver, these APIs can fail in the following for two reasons.
+
+The first thing that can cause these APIs to fail is if the driver does not provide an installer that adds the driver to the IVI Configuration Store. If the driver does not have an entry in the configuration store, it cannot be dynamically loaded.
+
+The second thing that can cause these APIs to fail is if the application that calls the static factory does not explicitly reference the driver assembly. If the driver is not referenced, the static factory will not be able to find the driver assembly. This is because .NET 6+ does not participate in the GAC, so dynamic loading must be handled specifically by the application. See the following documentation from Microsoft regarding best practices for loading assemblies dynamically:
+
+- [Create a .NET Core application with plugins](https://learn.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support)
+- [AssemblyLoadContext and Dynamic Dependencies](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext#dynamic-dependencies)
+
+### AppDomains
+
+AppDomains are not supported in .NET 6+. There are some things in the CS Shared components that rely on AppDomains, such as the the `LockType.AppDomain`. If you are using the CS Shared Components, you should be aware that AppDomain isolation is not supported, and features that previously relied on AppDomains may not work as expected. For information about the lightweight replacement for AppDomain, see [this documentation](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext) from Microsoft regarding AssemblyLoadContext.
 
 ## Proposing changes to the CS Shared Components
 
