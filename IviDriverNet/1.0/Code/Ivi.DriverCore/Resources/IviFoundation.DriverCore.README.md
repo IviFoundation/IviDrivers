@@ -1,6 +1,6 @@
 # Package Info
 
-|field   | value |
+|Field   | Value |
 |---     |  ---  |
 |Title   | IVI Driver Core Shared Library |
 |Description |IVI Foundation Driver Shared Library for IVI Generation 2026  |

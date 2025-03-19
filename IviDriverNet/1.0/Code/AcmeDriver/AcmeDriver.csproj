@@ -6,16 +6,15 @@
 		<Nullable>enable</Nullable>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
-		<DriverName>KtIviNetDriver</DriverName>
+		<DriverName>AcmeDriver</DriverName>
 		<DriverVersion>1.0.0.0</DriverVersion>
-		<Company>Keysight Technologies</Company>
+		<Company>Acme Technologies</Company>
 		<Description>IVI.NET Driver</Description>
-		<Copyright>Copyright Keysight Technologies 2025</Copyright>
 		<BaseOutputPath>..\build</BaseOutputPath>
-		<AssemblyName>Keysight.$(MSBuildProjectName)</AssemblyName>
-		<RootNamespace>Keysight.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
+		<AssemblyName>Acme.$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>Acme.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="IviFoundation.DriverCore" Version="1.0.0*"/>
+		<PackageReference Include="IviFoundation.DriverCore" Version="1.0.0-Preview*"/>
 	</ItemGroup>
 </Project>

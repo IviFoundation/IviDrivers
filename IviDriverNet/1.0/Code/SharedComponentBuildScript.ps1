@@ -14,14 +14,11 @@ if (-not $configuration) {
 # Define the Ivi.DriverCore project directory (modify this path as needed)
 $sharedComponentProjectPath = "$PSScriptRoot/Ivi.DriverCore"  # Set to the project path
 
-# Define the Ivi.DriverCoreTests project directory (modify this path as needed)
-$sharedComponentUnitTestProjectPath = "$PSScriptRoot/Ivi.DriverCoreTests"  # Set to the project path
+# Define the AcmeDriver project directory (modify this path as needed)
+$drivertProjectPath = "$PSScriptRoot/AcmeDriver"  # Set to the project path
 
-# Define the KtIviNetDriver project directory (modify this path as needed)
-$drivertProjectPath = "$PSScriptRoot/KtIviNetDriver"  # Set to the project path
-
-# Define the KtExample project directory (modify this path as needed)
-$exampletProjectPath = "$PSScriptRoot/KtExample"  # Set to the project path
+# Define the AcmeExample project directory (modify this path as needed)
+$exampletProjectPath = "$PSScriptRoot/AcmeExample"  # Set to the project path
 
 # Navigate to the project directory
 #cd $sharedComponentProjectPath
@@ -41,7 +38,6 @@ $buildCommandDriverExample = "dotnet build $exampletProjectPath --configuration 
 
 try {
     Invoke-Expression $buildCommandSharedComponent
-	Invoke-Expression $buildCommandSharedComponentUnitTest
 	Invoke-Expression $buildCommandDriver
 	Invoke-Expression $buildCommandDriverExample
     Write-Host "Shared Component version $version build completed successfully."
