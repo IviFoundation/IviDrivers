@@ -3,12 +3,12 @@ using System.Text;
 using System.Net.Sockets;
 
 
-namespace Keysight.KtIviNetDriver
+namespace Acme.AcmeDriver
 {
     /// <summary>
-    /// Class <c>KtIviNetDriver</c> for a sample Dmm driver proto code.
+    /// Class <c>AcmeDriver</c> for a sample Dmm driver proto code.
     /// </summary>
-    public sealed class KtIviNetDriver : IIviDriverCore, IDisposable
+    public sealed class AcmeDriver : IIviDriverCore, IDisposable
     {
         private TcpClient? _tcpClient; 
         private NetworkStream? _stream; 
@@ -16,7 +16,7 @@ namespace Keysight.KtIviNetDriver
         private int _port;
         private bool _simulate = true;
         private bool _reset = true;
-        private string _instrumentManufacturer = "Keysight";
+        private string _instrumentManufacturer = "Acme";
         private string _instrumentModel = "KtDmm";
         private string _simModel = "KtSim123";
         private bool _queryInstrumentStatus = true;
@@ -32,7 +32,7 @@ namespace Keysight.KtIviNetDriver
         /// property returns the following:
         /// "The 'InstrumentManufacturer' operation is not available while in simulation mode.".
         /// </summary>
-        public string ComponentVendor => "Keysight Technologies";
+        public string ComponentVendor => "Acme Technologies";
         /// <summary>
         /// The name of the manufacturer reported by the physical instrument. If Simulation is enabled, this 
         /// property returns the following:
@@ -75,10 +75,10 @@ namespace Keysight.KtIviNetDriver
 
         }
         /// <summary>
-        /// Initializes a new instance of the <see cref="KtIviNetDriver"/> class.
+        /// Initializes a new instance of the <see cref="AcmeDriver"/> class.
         /// </summary>
         /// <param name="resourceName">The resource name of the instrument.</param>
-        public KtIviNetDriver(string resourceName) : this(resourceName, false, false, false)
+        public AcmeDriver(string resourceName) : this(resourceName, false, false, false)
         {
 
         }
@@ -87,7 +87,7 @@ namespace Keysight.KtIviNetDriver
         /// </summary>
         /// <param name="resourceName">The resource name of the instrument.</param>
         /// <param name="idQuery">If true, performs an ID query.</param>
-        public KtIviNetDriver(string resourceName, bool idQuery) : this(resourceName, idQuery, false, false)
+        public AcmeDriver(string resourceName, bool idQuery) : this(resourceName, idQuery, false, false)
         {
 
         }
@@ -97,14 +97,14 @@ namespace Keysight.KtIviNetDriver
         /// <param name="resourceName">The resource name of the instrument.</param>
         /// <param name="idQuery">If true, performs an ID query.</param>
         /// <param name="reset">If true, resets the instrument.</param>
-        public KtIviNetDriver(string resourceName, bool idQuery, bool reset) : this(resourceName, idQuery, reset, false)
+        public AcmeDriver(string resourceName, bool idQuery, bool reset) : this(resourceName, idQuery, reset, false)
         {
 
         }
         /// <summary>
         /// Initializes a new instance with full configuration options.
         /// </summary>
-        public KtIviNetDriver(string resourceName, bool idQuery, bool reset, bool simulate)
+        public AcmeDriver(string resourceName, bool idQuery, bool reset, bool simulate)
         {
             Initialize(resourceName, idQuery, reset, simulate);
         }
@@ -125,7 +125,7 @@ namespace Keysight.KtIviNetDriver
             if (_simulate)
             {
                 Console.WriteLine($"Connected to {_ipAddress}:{_port}");
-                _instrumentManufacturer = "Keysight Technologies";
+                _instrumentManufacturer = "Acme Technologies";
                 _instrumentModel = _simModel;
             }
             else

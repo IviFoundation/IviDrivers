@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
 using Ivi.DriverCore;
-using Keysight.KtIviNetDriver;
+using Acme.AcmeDriver;
  
-Console.WriteLine("  KtExample");
+Console.WriteLine("  AcmeExample");
 Console.WriteLine();
  
 // Edit resourceName and options as needed. resourceName is ignored if option Simulate=true
@@ -20,7 +20,7 @@ var reset = true;
 try
 {
     // Call driver constructor with options.  'using' block calls driver.Close() when exiting.
-    using var driver = new KtIviNetDriver(resourceName, idquery, reset, simulate);
+    using var driver = new AcmeDriver(resourceName, idquery, reset, simulate);
  
     Console.WriteLine("Driver Initialized");
     // Print a few IIvi.DriverCore properties

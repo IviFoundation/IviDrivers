@@ -3,16 +3,16 @@
 		<OutputType>Exe</OutputType>
 		<LangVersion>10.0</LangVersion>
 		<TargetFrameworks>net6.0;net462</TargetFrameworks>
+		<RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<DriverName>KtExample</DriverName>
+		<DriverName>AcmeExample</DriverName>
 		<DriverVersion>1.0.0.0</DriverVersion>
-		<Company>Keysight Technologies</Company>
+		<Company>Acme Technologies</Company>
 		<Description>IVI.NET Driver Example Project</Description>
-		<Copyright>Copyright Keysight Technologies 2025</Copyright>
 		<BaseOutputPath>..\build</BaseOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Keysight.KtIviNetDriver" Version="1.0.0"/>
+		<PackageReference Include="Acme.AcmeDriver" Version="1.0.0-Preview*"/>
 	</ItemGroup>
 </Project>

@@ -6,9 +6,16 @@
 	<DriverVersion>1.0.0.0</DriverVersion>
 	<PackageId>IviFoundation.DriverCore</PackageId>
 	<Nullable>enable</Nullable>
-	<Authors>Ivi TC</Authors>
+	<Authors>IVI Foundation</Authors>
 	<Company>IVI Foundation</Company>
-	<PackageDescription>Nuget Package of IVI.NET</PackageDescription>
+	<owners>IVI Foundation</owners>
+	<Description>IVI Foundation Driver Shared Library for IVI Generation 2026</Description>
+	<PackageTags>IVI;IVI-Driver-NET-Conformant; IVI-Driver-SharedComponents;IVI-Foundation</PackageTags>
+    <PackageLicenseFile>license/license.txt</PackageLicenseFile>
+	<PackageProjectUrl>https://www.ivifoundation.org/</PackageProjectUrl>
+	<title>IVI Driver Core Shared Library</title>
+	<PackageReleaseNotes>https://www.ivifoundation.org/ </PackageReleaseNotes>
+	<Copyright>Copyright (c) IVI Foundation, Inc, 2011-2025. All Rights Reserved.</Copyright>
 	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<BaseOutputPath>..\build</BaseOutputPath>
@@ -23,4 +30,7 @@
 	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\"/>
 	<None Include="Resources\license.txt" Pack="true" PackagePath="license\"/>
 </ItemGroup>
+	<Target Name="DownloadEULA" BeforeTargets="PrepareForBuild">
+	<Exec Command='cmd /c powershell -NoProfile -ExecutionPolicy Bypass -Command "&amp; {New-Item -ItemType Directory -Path Resources -Force; Invoke-WebRequest -Uri &quot;https://raw.githubusercontent.com/IviFoundation/IviDrivers/main/IviEula/EULA.txt&quot; -OutFile &quot;Resources/license.txt&quot;}"' />
+</Target>
 </Project>
