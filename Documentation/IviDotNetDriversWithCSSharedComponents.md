@@ -8,6 +8,7 @@
     - [Relationship to the IVI Core and IVI Core .NET Specifications](#relationship-to-the-ivi-core-and-ivi-core-net-specifications)
     - [Relationship to the IVI Generation 2014 Specifications](#relationship-to-the-ivi-generation-2014-specifications)
   - [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+](#upgrading-an-ivi-2014-net-framework-driver-to-net-6)
+  - [IVI Configurable Settings Driver Requirements](#ivi-configurable-settings-driver-requirements)
   - [Using a CS Shared Components .NET 6+ Driver (TODO)](#using-a-cs-shared-components-net-6-driver-todo)
   - [Proposing changes to the CS Shared Components](#proposing-changes-to-the-cs-shared-components)
 
@@ -39,17 +40,20 @@ Because the IVI Generation 2014 specification is only written for .NET Framework
 
 - In order to be an IVI Generation 2026 .NET Core compliant driver, a NuGet package must be provided in addition to or instead of the previously required standalone installer. The following provides documentation for [providing an IVI .NET Core compliant NuGet package](https://github.com/IviFoundation/IviDriver/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md#packaging-requirements-for-net-6).
 - Previously IVI Generation 2014 compliant drivers are IVI Generation 2026 compliant if the .NET support is provided via a Nuget package and targets .NET 6+. The IVI Generation 2026 CS Shared Components were created as a .NET 6+ compatible replacement for the IVI Generation 2014 Shared Components.
-- NuGet packages are unable to install IVI Configuration Store support for Configurable Settings. As a result, when migrating an existing driver to IVI Generation 2026 .NET Core standards, it is recommended that a standalone installer is distributed in addition to the NuGet package. The following are some ways to accomplish this:
+- NuGet packages are unable to install IVI Configuration Store support for IVI Configurable Settings. As a result, when migrating an existing driver to IVI Generation 2026 .NET Core standards, it is recommended that a standalone installer is distributed in addition to the NuGet package. The following are some ways to accomplish this:
   - Create a thin installer that only provides support for updating the IVI Configuration Store.
   - Provide the existing .NET Framework driver installer.
+- If a standalone installer is not distributed, the driver is **not** an IVI Configurable Settings driver. See [IVI Configurable Settings Driver Requirements](#ivi-configurable-settings-driver-requirements) below for specific details. However, as long as a NuGet .NET 6+ driver support package is distributed, the driver can be an IVI Generations 2026 .NET Core compliant driver. In this scenario, the driver must work in the absence of the IVI Configuration Store.
+- As part of migrating IVI Generation 2014 .NET Framework drivers to IVI Generation 2026 .NET Core, appropriate compliance documentation must be provided and installed with the NuGet .NET 6+ driver support package that complies with the IVI Generation 2026 .NET standards. For specific details, visit [IviDriverCore Compliance Documentation](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#compliance-documentation)
+- A driver migrating from IVI Generation 2014 .NET Framework to IVI Generation 2026 .NET Core is not required to follow IVI Generation 2014 driver requirements. Only the IVI Generation 2026 .NET Core driver requirements are necessary. For example:
+  - A driver performing this migration no longer needs to follow previously mandated IVI Generation 2014 .NET Framework installation requirements such as installation to Common IVI Directories, which is unable to be accomplished via a NuGet package.
+  - Conforming to IVI Generation 2014 driver requirements found in [IVI.NET Utility Classes and Interfaces Specification](https://www.ivifoundation.org/downloads/Architecture%20Specifications/IVI-3%2018_%20NET_Utility_Classes_and_Interfaces_2016-02-26.pdf) are no longer required for a driver to be IVI Generation 2026 compliant.
+
+## IVI Configurable Settings Driver Requirements
 - In order to be an IVI Configurable Settings driver, the driver must:
   - Deliver a .NET 6+ driver support NuGet package that depends on the IVI Generation 2026 CS Shared Components NuGet package.
-  - Supply support for the IVI Configuration Store via a standalone installer as described above.
-- If a standalone installer is not distributed, the driver is **not** an IVI Configurable Settings driver. However, as long as the criteria above is met, the driver can be an IVI Generations 2026 .NET Core compliant driver. In this scenario, the driver must work in the absence of the IVI Configuration Store.
-- As part of migrating IVI Generation 2014 .NET Framework drivers to IVI Generation 2026 .NET Core, appropriate compliance documentation must be provided and installed with the NuGet .NET 6+ driver support package that complies with the IVI Generation 2026 .NET standards. For specific details, visit [IviDriverCore Compliance Documentation](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#compliance-documentation)
-  - In the compliance documentation, it is recommended to explicitly specify whether the driver is an IVI Configurable Settings driver in addition to IVI Generation 2026 .NET Core compliant.
-- A driver migrating from IVI Generation 2014 .NET Framework to IVI Generation 2026 .NET Core is not required to follow IVI Generation 2014 Installation requirements. Only the IVI Generation 2026 .NET Core driver requirements are necessary.
-  - For example, a driver performing this migration no longer needs to follow previously mandated IVI Generation 2014 .NET Framework installation requirements such as installation to Common IVI Directories, which is unable to be accomplished via a NuGet package.
+  - Supply support for the IVI Configuration Store via a standalone installer as described above in [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+](#upgrading-an-ivi-2014-net-framework-driver-to-net-6)
+  - Specify in the driver's provided IVI compliance documentation that the driver is an IVI Configurable Settings driver.
 
 ## Using a CS Shared Components .NET 6+ Driver
 
