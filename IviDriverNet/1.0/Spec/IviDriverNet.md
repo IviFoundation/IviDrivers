@@ -3,6 +3,7 @@
 | Version Number | Date of Version    | Version Notes                   |
 |--------------- | ---------------    | -------------                   |
 | 1.0            |  January 21, 2025  | Initial Specification Version   |
+| 1.0            |  February 24, 2025 | Flaws in prose around DriverSetup and ComponentVersion/ComponentVendor |
 
 ## Abstract
 
@@ -232,7 +233,6 @@ This section gives a complete description of each constructor, method, or proper
 | Initialization                  | Core Driver Constructors        |
 | Driver Version                  | Property: ComponentVersion      |
 | Driver Vendor                   | Property: ComponentVendor       |
-| Driver Setup                    | Property: DriverSetup           |
 | Error Query                     | Method: ErrorQuery()            |
 | Instrument Manufacturer         | Property:InstrumentManufacturer |
 | Instrument Model                | Property: InstrumentModel       |
@@ -285,9 +285,8 @@ public struct ErrorQueryResult
 
 public interface IIviDriverCore
 {
-    String DriverVersion { get; }
-    String DriverVendor { get; }
-    String DriverSetup { get; }
+    String ComponentVersion { get; }
+    String ComponentVendor { get; }
     String InstrumentManufacturer { get; }
     String InstrumentModel { get; }
     Boolean QueryInstrumentStatus { get; set; }
