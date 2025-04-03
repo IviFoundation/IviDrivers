@@ -11,7 +11,10 @@ This document describes the IVI Configurable Settings Shared Components (hencefo
     - [Relationship to the IVI Generation 2014 Specifications](#relationship-to-the-ivi-generation-2014-specifications)
   - [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+](#upgrading-an-ivi-2014-net-framework-driver-to-net-6)
   - [IVI Configurable Settings Driver Requirements](#ivi-configurable-settings-driver-requirements)
-  - [Using a CS Shared Components .NET 6+ Driver (TODO)](#using-a-cs-shared-components-net-6-driver-todo)
+  - [Using a _IVI Configurable Settings_ .NET 6+ Driver](#using-a-ivi-configurable-settings-net-6-driver)
+    - [IVI Configuration Store](#ivi-configuration-store)
+    - [Static Driver Factories](#static-driver-factories)
+    - [AppDomains](#appdomains)
   - [Proposing changes to the CS Shared Components](#proposing-changes-to-the-cs-shared-components)
 
 ## History and Intent
@@ -50,23 +53,25 @@ The following should be taken into account when upgrading an IVI 2014 .NET Frame
 
 ## IVI Configurable Settings Driver Requirements
 
-In order to be an IVI Configurable Settings driver, the driver must:
+In order to be an _IVI Configurable Settings_ driver, the driver must:
 
 - Deliver a .NET 6+ driver NuGet package that depends on the IVI Generation 2026 CS Shared Components NuGet package.
 
 - Supply support for the IVI Configuration Store via a standalone installer as described above in [Upgrading an IVI 2014 .NET Framework Driver to .NET 6+](#upgrading-an-ivi-2014-net-framework-driver-to-net-6)
 
-- Specify in the driver's provided IVI compliance documentation that the driver is an IVI Configurable Settings driver.
+- Specify in the driver's provided IVI compliance documentation that the driver is an _IVI Configurable Settings_ driver.
 
-## Using a CS Shared Components .NET 6+ Driver
+## Using a _IVI Configurable Settings_ .NET 6+ Driver
 
-As a client of a driver that uses .NET 6+ CS Shared components there a a few things to be aware of.
+This section contains some things that a client of an _IVI Configurable Settings_ driver needs to be aware of.
+
+For detailed information regarding using a _IVI Configurable Settings_ driver consult the driver provider.
 
 ### IVI Configuration Store
 
-Because the driver CS Shared Components driver is distributed via NuGet, you must additionally run any installers associated with the driver to ensure the correct entries are added to the configuration store. Refer to the driver's documentation for information about additional installers.
+Because the _IVI Configurable Settings_ is distributed via NuGet, you must additionally run any installers associated with the driver to ensure the correct entries are added to the configuration store. Refer to the driver's documentation for information about additional installers.
 
-If the driver does not supply additional installers, the driver does not participate in configurable settings. This means that the static driver factories will not work, in addition to any other features provided by the IVI Configuration Store.
+If the driver does not supply additional installers the driver is not an _IVI Configurable Settings_ driver and it does not participate in configurable settings. This means that the static driver factories will not work, in addition to any other features provided by the IVI Configuration Store.
 
 ### Static Driver Factories
 
@@ -78,19 +83,19 @@ var driver = IviDriver.Create<IIviDmm>("my-dmm");
 var dmmDriver = IviDmm.Create("my-dmm");
 ```
 
-When using a .NET 6+ CS Shared Components driver, these APIs can fail in the following for two reasons.
+When using a _IVI Configurable Settings_ driver, these APIs can fail because:
 
-The first thing that can cause these APIs to fail is if the driver does not provide an installer that adds the driver to the IVI Configuration Store. If the driver does not have an entry in the configuration store, it cannot be dynamically loaded.
+- The driver has not been registered in the IVI Configuration Store. If the driver does not have an entry in the configuration store, it cannot be dynamically loaded. To do this, the installer that is provided with the driver must be run.
 
-The second thing that can cause these APIs to fail is if the application that calls the static factory does not explicitly reference the driver assembly. If the driver is not referenced, the static factory will not be able to find the driver assembly. This is because .NET 6+ does not participate in the GAC, so dynamic loading must be handled specifically by the application. See the following documentation from Microsoft regarding best practices for loading assemblies dynamically:
+- The application that calls the static factory does not explicitly reference the driver assembly. If the assembly is not referenced, the static factory will not be able to find the driver assembly. This is because .NET 6+ does not automatically load assembles from the GAC, so dynamic loading must be handled specifically by the application. See the following documentation from Microsoft regarding best practices for loading assemblies dynamically:
 
-- [Create a .NET Core application with plugins](https://learn.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support)
-- [AssemblyLoadContext and Dynamic Dependencies](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext#dynamic-dependencies)
+  - [Create a .NET Core application with plugins](https://learn.microsoft.com/en-us/dotnet/core/tutorials/creating-app-with-plugin-support)
+  - [AssemblyLoadContext and Dynamic Dependencies](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext#dynamic-dependencies)
 
 ### AppDomains
 
-AppDomains are not supported in .NET 6+. There are some things in the CS Shared components that rely on AppDomains, such as the the `LockType.AppDomain`. If you are using the CS Shared Components, you should be aware that AppDomain isolation is not supported, and features that previously relied on AppDomains may not work as expected. For information about the lightweight replacement for AppDomain, see [this documentation](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext) from Microsoft regarding AssemblyLoadContext.
+AppDomains are not supported in .NET 6+. There are some things in the CS Shared components that rely on AppDomains, such as the the `LockType.AppDomain`. If you a _IVI Configurable Settings_ driver, you should be aware that AppDomain isolation is not supported, and features that previously relied on AppDomains may not work as expected. For information about Microsoft's recommended lightweight replacement for AppDomains, see [this documentation](https://learn.microsoft.com/en-us/dotnet/core/dependency-loading/understanding-assemblyloadcontext) from Microsoft regarding AssemblyLoadContext.
 
 ## Proposing changes to the CS Shared Components
 
-Email admin@ivifoundation.org (or should this be posted in GitHub and is that what we recommend people to use?)
+Email admin@ivifoundation.org 
