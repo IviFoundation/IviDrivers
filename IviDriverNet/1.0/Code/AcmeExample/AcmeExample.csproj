@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<LangVersion>10.0</LangVersion>
+		<TargetFrameworks>net6.0;net462</TargetFrameworks>
+		<RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<DriverName>AcmeExample</DriverName>
+		<DriverVersion>1.0.0.0</DriverVersion>
+		<Company>Acme Technologies</Company>
+		<Description>IVI.NET Driver Example Project</Description>
+		<BaseOutputPath>..\build</BaseOutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Acme.AcmeDriver" Version="1.0.0-Preview*"/>
+	</ItemGroup>
+</Project>
