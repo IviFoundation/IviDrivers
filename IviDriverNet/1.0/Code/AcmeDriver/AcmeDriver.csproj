@@ -10,6 +10,7 @@
 		<DriverVersion>1.0.0.0</DriverVersion>
 		<Company>Acme Technologies</Company>
 		<Description>IVI.NET Driver</Description>
+		<PackageTags>IVI;IVI-Driver-NET-Conformant; IVI-Driver;IVI-Foundation</PackageTags>
 		<BaseOutputPath>..\build</BaseOutputPath>
 		<AssemblyName>Acme.$(MSBuildProjectName)</AssemblyName>
 		<RootNamespace>Acme.$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
