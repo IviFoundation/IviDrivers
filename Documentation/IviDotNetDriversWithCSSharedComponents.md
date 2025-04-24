@@ -30,7 +30,7 @@ To enable migration of previous generations of drivers and the feature set the I
 
 ### Relationship to the IVI Core and IVI Core .NET Specifications
 
-An existing IVI Generation 2014 .NET Framework driver is compliant with the IVI Generation 2026 Driver Core Specification, as described [here](https://github.com/IviFoundation/IviDriver/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). To be compliant with the .NET Specific driver specification, you must adhere to the [IVI Driver Core .NET specification](https://github.com/IviFoundation/IviDriver/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md). For example, you must [provide a NuGet package](https://github.com/IviFoundation/IviDriver/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md#packaging-requirements-for-net-6) that contains your driver implementation.
+An existing IVI Generation 2014 .NET Framework driver is compliant with the IVI Generation 2026 Driver Core Specification, as described [here](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). To be compliant with the .NET Specific driver specification, you must adhere to the [IVI Driver Core .NET specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md). For example, you must [provide a NuGet package](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md#packaging-requirements-for-net-6) that contains your driver implementation.
 
 ### Relationship to the IVI Generation 2014 Specifications
 
@@ -40,7 +40,7 @@ Because the IVI Generation 2014 specification is only written for .NET Framework
 
 The following should be taken into account when upgrading an IVI 2014 .NET Framework Driver to .NET 6+:
 
-- In order to be an IVI Generation 2026 .NET Core compliant driver, a NuGet package must be provided in addition to or instead of the previously required standalone installer. The following provides documentation for [providing an IVI .NET Core compliant NuGet package](https://github.com/IviFoundation/IviDriver/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md#packaging-requirements-for-net-6).
+- In order to be an IVI Generation 2026 .NET Core compliant driver, a NuGet package must be provided in addition to or instead of the previously required standalone installer. The following provides documentation for [providing an IVI .NET Core compliant NuGet package](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverNet/1.0/Spec/IviDriverNet.md#packaging-requirements-for-net-6).
 - Previously IVI Generation 2014 compliant drivers are IVI Generation 2026 compliant if the .NET support is provided via a Nuget package and targets .NET 6+. The IVI Generation 2026 CS Shared Components were created as a .NET 6+ compatible replacement for the IVI Generation 2014 Shared Components.
 - NuGet packages are unable to install IVI Configuration Store support for IVI Configurable Settings. As a result, when migrating an existing driver to IVI Generation 2026 .NET Core standards, it is recommended that a standalone installer is distributed in addition to the NuGet package. The following are some ways to accomplish this:
   - Create a thin installer that only provides support for updating the IVI Configuration Store.
