@@ -1,36 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
-<PropertyGroup>
-	<TargetFrameworks>netstandard2.0</TargetFrameworks>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<LangVersion>10.0</LangVersion>
-	<DriverVersion>1.0.0.0</DriverVersion>
-	<PackageId>IviFoundation.DriverCore</PackageId>
-	<Nullable>enable</Nullable>
-	<Authors>IVI Foundation</Authors>
-	<Company>IVI Foundation</Company>
-	<owners>IVI Foundation</owners>
-	<Description>IVI Foundation Driver Shared Library for IVI Generation 2026</Description>
-	<PackageTags>IVI;IVI-Driver-NET-Conformant; IVI-Driver-SharedComponents;IVI-Foundation</PackageTags>
-    <PackageLicenseFile>license/license.txt</PackageLicenseFile>
-	<PackageProjectUrl>https://www.ivifoundation.org/</PackageProjectUrl>
-	<title>IVI Driver Core Shared Library</title>
-	<PackageReleaseNotes>https://www.ivifoundation.org/ </PackageReleaseNotes>
-	<Copyright>Copyright (c) IVI Foundation, Inc, 2025. All Rights Reserved.</Copyright>
-	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-	<GenerateDocumentationFile>true</GenerateDocumentationFile>
-	<BaseOutputPath>..\build</BaseOutputPath>
-	<PackageReadmeFile>docs/IviFoundation.DriverCore.README.md</PackageReadmeFile>
-	<PackageIcon>images/ivi.png</PackageIcon>
-</PropertyGroup>
-<ItemGroup>
-	<Compile Remove="Ivi.DriverCore\**"/>
-	<EmbeddedResource Remove="Ivi.DriverCore\**"/>
-	<None Remove="Ivi.DriverCore\**"/>
-	<None Include="Resources/IviFoundation.DriverCore.README.md" Pack="true" PackagePath="docs/"/>
-	<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\"/>
-	<None Include="Resources\license.txt" Pack="true" PackagePath="license\"/>
-</ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>netstandard2.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>10.0</LangVersion>
+		<DriverVersion>1.0.0.0</DriverVersion>
+		<PackageId>IviFoundation.DriverCore</PackageId>
+		<Nullable>enable</Nullable>
+		<Authors>IVI Foundation</Authors>
+		<Company>IVI Foundation</Company>
+		<owners>IVI Foundation</owners>
+		<Description>IVI Foundation Driver Shared Library for IVI Generation 2026</Description>
+		<PackageTags>IVI;IVI-Driver-NET-Conformant; IVI-Driver-SharedComponents;IVI-Foundation</PackageTags>
+		<PackageLicenseFile>license/license.txt</PackageLicenseFile>
+		<PackageProjectUrl>https://www.ivifoundation.org/</PackageProjectUrl>
+		<title>IVI Driver Core Shared Library</title>
+		<Copyright>Copyright (c) IVI Foundation, Inc, 2025. All Rights Reserved.</Copyright>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<BaseOutputPath>..\build</BaseOutputPath>
+		<PackageReadmeFile>docs/IviFoundation.DriverCore.README.md</PackageReadmeFile>
+		<PackageIcon>images/ivi.png</PackageIcon>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Remove="Ivi.DriverCore\**"/>
+		<EmbeddedResource Remove="Ivi.DriverCore\**"/>
+		<None Remove="Ivi.DriverCore\**"/>
+		<None Include="Resources/IviFoundation.DriverCore.README.md" Pack="true" PackagePath="docs/"/>
+		<None Include="Resources\Images\ivi.png" Pack="true" PackagePath="images\"/>
+		<None Include="Resources\license.txt" Pack="true" PackagePath="license\"/>
+	</ItemGroup>
 	<Target Name="DownloadEULA" BeforeTargets="PrepareForBuild">
-	<Exec Command='cmd /c powershell -NoProfile -ExecutionPolicy Bypass -Command "&amp; {New-Item -ItemType Directory -Path Resources -Force; Invoke-WebRequest -Uri &quot;https://raw.githubusercontent.com/IviFoundation/IviDrivers/main/IviEula/EULA.txt&quot; -OutFile &quot;Resources/license.txt&quot;}"' />
-</Target>
+		<Exec Command='cmd /c powershell -NoProfile -ExecutionPolicy Bypass -Command "&amp; {New-Item -ItemType Directory -Path Resources -Force; Invoke-WebRequest -Uri &quot;https://raw.githubusercontent.com/IviFoundation/IviDrivers/main/IviEula/EULA.txt&quot; -OutFile &quot;Resources/license.txt&quot;}"' />
+	</Target>
 </Project>
