@@ -5,6 +5,8 @@ This document describes the IVI Configurable Settings Shared Components (hencefo
 - Abstractly instantiate drivers based on configuration in the IVI Configuration Store
 - Configure initial values of settings in the driver that are specified in the IVI Configuration Store
 
+## Table of Contents
+
 - [IVI .NET Drivers With the CS Shared Components](#ivi-net-drivers-with-the-cs-shared-components)
   - [History and Intent](#history-and-intent)
     - [Relationship to the IVI Core and IVI Core .NET Specifications](#relationship-to-the-ivi-core-and-ivi-core-net-specifications)
