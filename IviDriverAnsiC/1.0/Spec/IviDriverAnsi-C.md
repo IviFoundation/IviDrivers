@@ -3,15 +3,22 @@
 | Version Number | Date of Version    | Version Notes                   |
 |--------------- | ---------------    | -------------                   |
 | 0.1            |  May 2025  | Preliminary Draft for LXI Development   |
+| 0.2            | July 2025  | First version in IVI repo, with updates per meeting |
 
 > [!NOTE:]
 >
 > - Memory management - need to know sizes of things (e.g., arrays etc).  Do you do the "IVI Dance" to call with a null pointer then get the size?  Can we define a way to do this consistently.  Perhaps return the size instead of the error code?
 >
-> - Good practice for libraries to have global initialize/finalize function so you can join worker threads you have in the background.  NI sees a need for this a lot.  Perhaps it could be optional but called out (important when loading the drivers in the background - need a way to clean it up before the process unloads).
+> - Good practice for libraries to have global initialize/finalize function so you can join worker threads you have in the background.  NI sees a need for this a lot.  Perhaps it could be optional but called out (important when loading the drivers in the background - need a way to clean it up before the process unloads).  Seems like, at least for Windows, these should be called in DLL_PROCESS_ATTACH/DETACH??  would we make that a requirement?
 >
 > - If we think about 2014 and 2026 coexisting.  Would a 2014 driver still comply since it is more specific requirement?  How do the specs relate? Expectation that a 2014 driver would still comply.  Expect them to coexist.
 >
+> - What provisions do we need to include in the spec for ABI compatibility?  Especially regarding using and permitting use of *int* and *enum*
+>
+> 2025-07-01
+>   - Need to discuss typing.  Do we want to permit stronger typing by:
+>      - Defining some common types such as "ResultType" for errors/warnings
+>      - We could specify a type for session, or we could  (as written here) either suggest or require driver-defined types.
 
 
 ## Abstract
@@ -20,10 +27,7 @@ This specification contains the ANSI C specific requirements for an IVI-ANSI-C d
 
 ## Authorship
 
-> [!NOTE]  
-> Standard IVI Boilerplate included, but changed IVI to LXI for now.
-
-This specification is developed by member companies of the LXI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
+This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
 
 ## Warranty
 
@@ -54,9 +58,9 @@ No investigation has been made of common-law trademark rights in any work.
     - [IVI-ANSI-C Header Files](#ivi-ansi-c-header-files)
       - [Multiple Inclusion](#multiple-inclusion)
     - [IVI-ANSI-C Function Style](#ivi-ansi-c-function-style)
-      - [IVI-ANSI-C Hierarchy](#ivi-ansi-c-hierarchy)
+      - [IVI-ANSI-C Function Naming](#ivi-ansi-c-function-naming)
       - [The Session Parameter](#the-session-parameter)
-      - [IVI-ANSI-C Error Handling](#ivi-ansi-c-error-handling)
+      - [IVI-ANSI-C Status and Error Handling](#ivi-ansi-c-status-and-error-handling)
       - [Properties](#properties)
       - [Enumerated Types and Their Members](#enumerated-types-and-their-members)
     - [Repeated Capabilities](#repeated-capabilities)
@@ -64,10 +68,11 @@ No investigation has been made of common-law trademark rights in any work.
   - [Thread Safety](#thread-safety)
   - [Base IVI-ANSI-C API](#base-ivi-ansi-c-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
-      - [ANSI-C Open Function Prototypes](#ansi-c-open-function-prototypes)
+    - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
+    - [ANSI-C Initialize Function Prototypes](#ansi-c-initialize-function-prototypes)
     - [IVI-ANSI-C Interface](#ivi-ansi-c-interface)
-    - [Direct IO function](#direct-io-function)
-      - [ANSI-C Prototypes](#ansi-c-prototypes)
+    - [Direct IO functions](#direct-io-functions)
+      - [Direct IO ANSI-C Prototypes](#direct-io-ansi-c-prototypes)
   - [Packaging Requirements for ANSI-C](#packaging-requirements-for-ansi-c)
     - [Signing](#signing)
   - [IVI-ANSI-C Driver Conformance](#ivi-ansi-c-driver-conformance)
@@ -107,8 +112,9 @@ This section describes how IVI-ANSI-C instrument drivers use ANSI-C. This sectio
 IVI-ANSI-C drivers shall support a popular compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to also support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
 
 > [!NOTE]  2025-06-17 Verify if we need to call out OS or if they are already in requirements.
+> 2025-07-01 -- the OS is required but not the compiler.
 
-Drivers are required to document the operating system and bitness of the provided binaries.  In addition to the compliance documentation required by [IVI Driver Core](#link) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested.
+In addition to the compliance documentation required by [IVI Driver Core](#link) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested.
 
 ### Target ANSI-C Versions
 
@@ -121,10 +127,10 @@ When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 co
 To avoid naming collisions, symbols that the driver puts into the global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the `<DriverIdentifier>`.
 
 > **Observation:**
-> > This scheme assumes that each vendor will manage the `<DriverIdentifier>` to avoid collisions.
-
-> **Observation:**
 > > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in [IVI Foundation vendor registration](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf).
+
+> > **Observation:**
+> > Since each vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between vendors.  Each vendor then manages the other characters in the `<DriverIdentifier>` to eliminate collisions.
 
 ### IVI-ANSI-C Filenames
 
@@ -155,6 +161,12 @@ Drivers should prefer the fundamental data types intrinsic to ANSI-C and, the ty
 
 Drivers are encouraged to define other driver-specific types when ANSI types are not available.  Vendors may find it beneficial to define types that are common to multiple drivers.  However, drivers should avoid creating new types that are synonymous with those provided by ANSI.
 
+> [!NOTE] Added 2025-07-02.  Need to discuss the case of types.
+
+The names of types defined by the driver shall be of the form `<DriverIdentifier><TypeName>` and they shall be in Pascal case.
+
+Drivers should consider defining a driver-defined type for the driver session, thereby providing type-checking for that parameter.
+
 Drivers shall provide all include files necessary to use the driver in the driver package.
 
 Drivers that provide source code shall provide all include files necessary to compile the driver with the driver source code.
@@ -169,13 +181,15 @@ Drivers that provide source code shall provide all include files necessary to co
 > - types -- what do we need beyond C99, what of visa_types.h ???
 > 
 > 2025-06-17 --- added section on multiple inclusion. 
+>
+> 2025-07-01 --- OOPS!!!  Enumerations ARE supported in C99 (better be more careful with AI!).  Prose updated for that (much simpler).  Note that enumeration member names go into the global namespace 
 
 Drivers shall provide include files for driver clients that contain:
 
 - include directives for any ANSI-C include files required by the driver
 - prototypes for all functions provided by the driver
 - definitions for all types not provided by ANSI-C that are needed by the driver client
-- definitions of enumeration members for any enumerated types
+- definitions of enumerated types and their members
 - definitions of any macros used by the driver
 
 Definitions for enumerated members and other macros shall be prefixed with '<DRIVER_IDENTIFIER>' and be upper case.
@@ -190,15 +204,17 @@ For instance, a driver xysiggen42_sg_types.h, would define a symbol `XYSIGGEN42_
 
 > [!NOTE]  
 > Need to make sure snake case is called out and in the right section.  Expect it near this context.
+> 2025-07-01: Added it below.
 
 The following sub-sections call out required IVI-ANSI-C style.  There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
 
-#### IVI-ANSI-C Hierarchy
+#### IVI-ANSI-C Function Naming
 
 > [!NOTE]  Should should probably be titled something more like "function naming" and also include broader discussion especially re. use of things like nouns/verbs in the function name.
-> 
 
-In general drivers are encouraged to organize ANSI-C APIs into a hierarchy.  This is beneficial because:
+IVI-ANSI-C function names shall be snake case.
+
+In general drivers are encouraged to organize ANSI-C function names into a hierarchy.  This is beneficial because:
 
 - it provides helpful organization for customers to navigate complex APIs
 - It permits vendors targeting drivers to both ANSI-C and object oriented languages
@@ -213,26 +229,28 @@ Vendors should consider emulating the hierarchical API by appending the names of
 Would translated into:
 
 ```C
-  error = XYDmm32_measurement_voltage_span(Dmm32, start, stop);
+  int status = XYDmm32_measurement_voltage_span(Dmm32Session, start, stop);
 ```
 
 > **Observation:**
-> > As the user types the C Identifier in a smart editor, the way that choices are presented to the user editor emulates a hierarchy.
+> > As the user types the C Identifier in a smart editor, the way that choices are presented to the user by the editor emulates a hierarchy.
 
 #### The Session Parameter
 
 > [!NOTE]  Consider making the session typesafe by having the driver specify a type for it.
 > 2025-06-24 --- we generally like this suggestion, should incorporate in next draft.
+> 2025-07-01 -- DONE, but not as a requirement (?)
 
-As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a opaque pointer (that is a *void\**) named *session*.  In practice, this opaque pointer references an underlying object-like structure that contains instance data for this instance of the driver.
+As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a pointer type named *session*.  Drivers may strongly type this by defining a driver-specific type or use a generic type (_void *_).  In practice, this opaque pointer references an underlying object-like structure that contains instance data for this instance of the driver.
 
 All driver functions that reference a specific instance of the driver shall take this *session* as the first parameter.
 
-#### IVI-ANSI-C Error Handling
+#### IVI-ANSI-C Status and Error Handling
 
 > [!NOTE]
 > Should we define a required (or optional?) function to convert the return value to a human readable string?  `char[] <driver_identifier>_error_message()`.  Note this is an example of a function that seems to not require the session parameter.
 > Discussion 2025-06-17:  Add it, and make it required.
+> Update 2025-07-01: Added it.  Needs discussion :)
 >
 > Disussion 2025-06-24: 
 > - VXIp&p uses a 32 bit integer.  So code targeted to both VXIp&p and this spec would have to do some translation.  May want to use a 32-bit integer.
@@ -242,10 +260,10 @@ All driver functions that reference a specific instance of the driver shall take
 
 All IVI-ANSI-C functions that may result in an error shall indicate errors to the client using the function return value.  The return value shall be an *int*.  Zero shall be used to indicate success.
 
-Negative return values should indicate an error, positive return values should indicate non-fatal warnings.
+Negative return values shall indicate an error, positive return values shall indicate non-fatal warnings.
 
 > **Observation:**
-> > The driver function `<driver_identifier>_query_instrument_error()` is used to handle errors within the instrument that may not be thrown as ANSI-C exceptions.
+> > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be thrown as ANSI-C exceptions.
 
 > **Observation:**
 > > By specifying the return type as an *int*, the compiler is directed to use whatever size integer can be most efficiently represented, while guaranteeing at least 16 bits.  Therefore errors and warnings must fit in a 16-bit signed integer.
@@ -262,7 +280,7 @@ The get/set functions shall:
 
 - return a success code
 - the first parameter shall be the driver session
-- the next parameter(s) shall be repeated capability selectors if needed
+- the next parameter(s) shall be repeated capability selector(s) if needed
 - the final parameter shall be a pointer to the value for get and the value to be set for set
 
 > > **Observation**
@@ -274,19 +292,15 @@ The get/set functions shall:
 > Need to decide what we need to say here.
 >
 > 2025-06-16, drafted a proposal
->
-> Could consider C11 (newer? or possibly C89?) standards to get enumerations?
->
-> Should broadly think about binary compatibility.  For instance, the underlying integer type for an enum may be handled differently by different compilers (or even be variable with the compiler).  Need to think broadly about ABI issues.
-> 
 
-IVI-ANSI-C drivers frequently have parameters that are enumerations.  Per C99, there is no built-in support for enumerations.  Therefore, IVI-ANSI-C drivers shall create enumerations as follows:
 
-- The type of the parameter shall be an appropriately sized signed or unsigned integer.
-- One of the driver include files shall include '<\#define>' statements (macros) for the enumeration members
-- The enumeration member macro names shall be composed as: `<DRIVER_IDENTIFIER>_<ENUMERATION_NAME>_<ENUMERATION_MEMBER_NAME>'`.  Note that every character in this string shall be uppercase.  Note that the `<ENUMERATION_NAME>` is conceptual and not known to the C compiler.
+IVI-ANSI-C drivers shall use the C99 *enum* type for enumerations.
+
+- One of the driver include files shall include the *enum* definition.  As with all IVI-ANSI-C types, the name shall composed as `<DriverIdentifier><EnumTypeName>` in Pascal case.
+- The enumeration member names are also placed in the global namespace therefore, they shall be composed as: `<DRIVER_IDENTIFIER>_<ENUM_TYPE_NAME>_<ENUMERATION_MEMBER_NAME>'`.  Note that every character in this string shall be uppercase.
 
 > [!NOTE] I don't care for this recommendation, but I believe we agreed to it?
+> 2025-07-01 -- Sorry, I don't recall the following statement --- makes no sense to me -- probably quickly typed in during a meeting (?)
 
 If the sign of the enumerated type has no significance for the driver, drivers should prefer unsigned types.
 
@@ -354,7 +368,16 @@ This section gives a complete description of each function required for an IVI-A
 | Simulate Enabled                | <driver_identifier>_simulate_get                 |
 | Supported Instrument Models     | <driver_identifier>_supported_instrument_models_get() |
 
-#### ANSI-C Open Function Prototypes
+### Additional Required Functions for IVI-ANSI-C Drivers
+
+> [!NOTE:]  Added this per our discussion at June meeting.  Doesn't seem to need the session, do we want to include it in the prototype?
+> Also, do we want to permit this to return an error?  Seems like just a message that indicates "Invalid error number" would be suitable.
+
+| Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
+|---------------------------------|---------------------------------                 |
+| Error Message                  |char[] <driver_identifier>_error_message(<error_type> error)  |
+
+### ANSI-C Initialize Function Prototypes
 
 The IVI-ANSI-C drivers shall implement two initializers with the following prototypes.
 
@@ -363,6 +386,10 @@ int <driver_identifier>_initialize(const char *resource_name, const _Bool id_que
 ```
 
 If the client uses this function, *simulation* is initially disabled.
+
+> [!NOTE]  Per discussion 2025-06-24
+> - do we want to use bool instead of _Bool?  This would require including stdbool.h, but this provides true/false definitions also, so seems reasonable.
+> - can we find a common way to pass options in, or do we just go with the ambiguous statement below?   Note that IVI-C really wants a string. VXIp&p has no option string.
 
 IVI-ANSI-C drivers shall implement an additional initializer that provides a way for the client to specify driver options (such as *simulation*). The mechanism by which these parameters are passed is driver-specific.
 
@@ -388,7 +415,7 @@ ANSI-C-specific Notes (see *IVI Driver Core Specification* for general requireme
 
 - Drivers are permitted to implement a Set function on `Simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
-### Direct IO function
+### Direct IO functions
 
 Per the *IVI Driver Core specification*, IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide an API for sending messages to and from the instrument over the ASCII command channel. This section specifies those functions.
 
@@ -405,14 +432,13 @@ In the following, '<driver_identifier>' indicates the usual snake case driver id
 | Write Bytes                           | `driver_identifier>_<hierarchy>_write_bytes()`   |
 | Write String                          | `<driver_identifier>_<hierarchy>_write_string()` |
 
-#### ANSI-C Prototypes
+#### Direct IO ANSI-C Prototypes
 
 In the following, '<driver_identifier>' indicates the usual snake case driver identifier. '<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
 
 ```C
 error <driver_identifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
 error <driver_identifier>_<hierarchy>_timeout_milliseconds_get(const void* session, const &long);
-error <driver_identifier>_<hierarchy>_session_get(const void* session, const char **);
 error <driver_identifier>_<hierarchy>_iosession_get(const void* session, const void **iosession);    // Optional
 error <driver_identifier>_<hierarchy>_read_bytes(const void* session, const byte **, const long maxLength, const long &actualLength);
 error <driver_identifier>_<hierarchy>_read_string(const void* session, const char *);
@@ -422,7 +448,7 @@ error <driver_identifier>_<hierarchy>_write_string(const void* session, const ch
 
 Notes:
 
-- The *optional* `session` property should return a session for the underlying IO library.
+- The *optional* `iosession` read-only property should return a session for the underlying IO library.
 
 ## Packaging Requirements for ANSI-C
 
