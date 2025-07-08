@@ -4,7 +4,7 @@
 |--------------- | ---------------    | -------------                   |
 | 0.1            |  May 2025  | Preliminary Draft for LXI Development   |
 
-> [!NOTE:]
+> [!NOTE]
 >
 > - Memory management - need to know sizes of things (e.g., arrays etc).  Do you do the "IVI Dance" to call with a null pointer then get the size?  Can we define a way to do this consistently.  Perhaps return the size instead of the error code?
 >
