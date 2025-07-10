@@ -37,3 +37,15 @@ Agenda
 - Collect issue list (things we need to discuss)
 
 ### Discussion
+
+- Decision on the meta-names. Expected name should mirror the meta-names casing.
+- One driver per package or just one? What should be shall or should?
+- We should let the vendor decide the internal structure, following PEP-8
+- Typing hints? Requirement?
+- Zen of Python - do not have duplicated features. If there is a way to get a good code-completion without the `marker_item` methods, we should not require them. Example of the code to see the auto-completion.
+- Collections naming (recommendation): should they be plural?
+  - marker_item = io.measurement.marker[]
+  or
+  - marker_item = io.measurement.markers[]
+- should we ask for a specific classifier for the IVI drivers?
+- for the packaging add the note: This is an example.
