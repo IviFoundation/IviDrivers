@@ -1,0 +1,49 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IviDriverNet", "IviDriverNet", "{70EB0802-920A-7040-1EED-CE70E4958974}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.0", "1.0", "{A3823BC0-6854-308D-85CC-4ACEF5C4100B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code", "Code", "{0D3208D3-1F15-1C6E-AA4B-83E5BA257087}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeDriver", "IviDriverNet\1.0\Code\AcmeDriver\AcmeDriver.csproj", "{49C542BB-5449-01D6-C3E2-A48FC852212D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcmeExample", "IviDriverNet\1.0\Code\AcmeExample\AcmeExample.csproj", "{0D39C1FC-58BB-8DCE-6316-9F0127490511}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ivi.DriverCore", "IviDriverNet\1.0\Code\Ivi.DriverCore\Ivi.DriverCore.csproj", "{9BB43300-89CB-A6FA-639C-D4826B627CE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49C542BB-5449-01D6-C3E2-A48FC852212D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49C542BB-5449-01D6-C3E2-A48FC852212D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49C542BB-5449-01D6-C3E2-A48FC852212D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49C542BB-5449-01D6-C3E2-A48FC852212D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D39C1FC-58BB-8DCE-6316-9F0127490511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D39C1FC-58BB-8DCE-6316-9F0127490511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D39C1FC-58BB-8DCE-6316-9F0127490511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D39C1FC-58BB-8DCE-6316-9F0127490511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BB43300-89CB-A6FA-639C-D4826B627CE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BB43300-89CB-A6FA-639C-D4826B627CE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BB43300-89CB-A6FA-639C-D4826B627CE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BB43300-89CB-A6FA-639C-D4826B627CE8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A3823BC0-6854-308D-85CC-4ACEF5C4100B} = {70EB0802-920A-7040-1EED-CE70E4958974}
+		{0D3208D3-1F15-1C6E-AA4B-83E5BA257087} = {A3823BC0-6854-308D-85CC-4ACEF5C4100B}
+		{49C542BB-5449-01D6-C3E2-A48FC852212D} = {0D3208D3-1F15-1C6E-AA4B-83E5BA257087}
+		{0D39C1FC-58BB-8DCE-6316-9F0127490511} = {0D3208D3-1F15-1C6E-AA4B-83E5BA257087}
+		{9BB43300-89CB-A6FA-639C-D4826B627CE8} = {0D3208D3-1F15-1C6E-AA4B-83E5BA257087}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2C14B30E-D539-4DF3-8683-6DEFD0F7DAF3}
+	EndGlobalSection
+EndGlobal
