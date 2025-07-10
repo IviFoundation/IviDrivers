@@ -5,22 +5,6 @@
 | 0.1            |  May 2025  | Preliminary Draft for LXI Development   |
 | 0.2            | July 2025  | First version in IVI repo, with updates per meeting |
 
-> [!NOTE]
->
-> - Memory management - need to know sizes of things (e.g., arrays etc).  Do you do the "IVI Dance" to call with a null pointer then get the size?  Can we define a way to do this consistently.  Perhaps return the size instead of the error code?
->
-> - Good practice for libraries to have global initialize/finalize function so you can join worker threads you have in the background.  NI sees a need for this a lot.  Perhaps it could be optional but called out (important when loading the drivers in the background - need a way to clean it up before the process unloads).  Seems like, at least for Windows, these should be called in DLL_PROCESS_ATTACH/DETACH??  would we make that a requirement?
->
-> - If we think about 2014 and 2026 coexisting.  Would a 2014 driver still comply since it is more specific requirement?  How do the specs relate? Expectation that a 2014 driver would still comply.  Expect them to coexist.
->
-> - What provisions do we need to include in the spec for ABI compatibility?  Especially regarding using and permitting use of *int* and *enum*
->
-> 2025-07-01
->   - Need to discuss typing.  Do we want to permit stronger typing by:
->      - Defining some common types such as "ResultType" for errors/warnings
->      - We could specify a type for session, or we could  (as written here) either suggest or require driver-defined types.
-
-
 ## Abstract
 
 This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
