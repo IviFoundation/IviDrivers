@@ -1,11 +1,9 @@
-
 # IVI Driver Python Specification
 
-| Version Number | Date of Version | Version Notes                                  |
-|----------------|-----------------|------------------------------------------------|
-| 0.3            | June 30 2025    | First version on the IVI Foundation repository |
-| 0.2            | June 2025       | LXI Working group changes                      |
-| 0.1            | May 2025        | Preliminary Draft for LXI Development          |
+| Version Number | Date of Version | Version Notes                         |
+|----------------|-----------------|---------------------------------------|
+| 0.2            | June 2025       | LXI Working group changes             |
+| 0.1            | May 2025        | Preliminary Draft for LXI Development |
 
 ## Abstract
 
@@ -44,10 +42,12 @@ No investigation has been made of common-law trademark rights in any work.
     - [Style Guide](#style-guide)
     - [Bitness](#bitness)
     - [Target Python Versions](#target-python-versions)
+    - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
-      - [Distribution Package Naming](#distribution-package-naming)
-      - [Top Package Naming](#top-package-naming)
-    - [IVI-Python Driver Structure](#ivi-python-driver-structure)
+      - [IVI-Python Packages Naming](#ivi-python-packages-naming)
+    - [IVI-Python Driver Classes](#ivi-python-driver-classes)
+    - [IVI-Python Hierarchy](#ivi-python-hierarchy)
+      - [Reference Property and Class Naming](#reference-property-and-class-naming)
     - [Repeated Capabilities](#repeated-capabilities)
       - [Collection Style Repeated Capabilities and the Hierarchy](#collection-style-repeated-capabilities-and-the-hierarchy)
       - [Repeated Capability Reference Property Naming](#repeated-capability-reference-property-naming)
@@ -55,12 +55,13 @@ No investigation has been made of common-law trademark rights in any work.
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Base IVI-Python API](#base-ivi-python-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
-    - [Constructor](#constructor)
-      - [Python Constructor Prototype](#python-constructor-prototype)
+    - [Constructors](#constructors)
+      - [Python Constructor Prototypes](#python-constructor-prototypes)
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
     - [Direct IO Properties and Methods](#direct-io-properties-and-methods)
   - [Package Requirements](#package-requirements)
-    - [Package Configuration File Content](#package-configuration-file-content)
+    - [Package Meta-data](#package-meta-data)
+    - [Contents](#contents)
   - [IVI-Python Driver Conformance](#ivi-python-driver-conformance)
     - [Driver Registration](#driver-registration)
 
@@ -92,132 +93,70 @@ The compliance document for an IVI driver states whether the driver is available
 
 IVI-Python drivers shall target Python 3.8 or later.
 
+### IVI-Python Naming
+
+IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
+
 ### IVI-Python Packages
 
-IVI-Python drivers shall be organized as a package, including a top-package `*__init__.py*` file.
+IVI-Python drivers shall be organized as a package, including a `*__init__.py*` file.
 
-#### Terms used
-- `<Dist-pckg-name>` - Python Distribution Package Name. Example: `vendorxy-specan`
-- `<Top-pckg-name>` - driver's top-level package name. Example:  `vendorxy_specan`
- 
-#### Distribution Package Naming
-The name of the distribution package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
+#### IVI-Python Packages Naming
+The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
 The name should be lowercased with all runs of the characters ., -, or _ replaced with a single - character. This can be implemented in Python with the re module:
 
-`<Dist-pckg-name>` composition:
-- Variant 1: `<VendorPrefix>-<Instrument>` Example: `vendorxy-specan`
-- Variant 2: `<VendorPrefix>-<Instrument>-<CustomSuffix>`. Example: `vendorxy-mrtester-lte`
+```Python
+import re
 
-Variant 2 can be used for cases where the instrument contains more sub-systems, and the driver is designed only for one of them.
-`<Instrument>` can represent a specific model, or a family of instruments.
+def normalize(name):
+    return re.sub(r"[-_.]+", "-", name).lower()
+```
 
-#### Top Package Naming
+Name composition:
+- Variant1: `<VendorPrefix>-<Instrument>` Example: `rs-vna`
+- Variant2: `<VendorPrefix>-<Instrument>-<CustomSuffix>`. Example: `rs-cmx-lte` 
 
-`<Top-pckg-name>` should be derived from the distribution package name, and shall follow python package naming guideline - all lower case, words separated by underscore.
-For example, if a distribution package name is `vendorxy-specan` the top-level package should be called `vendorxy_specan`.
+Variant 2 might be used for cases where the instrument contains more sub-systems, and the driver is designed only for one of them.
+
+### IVI-Python Driver Classes
+
+> [!NOTE]
+> Not clear what we need to specify for the class name since the package name is specified already? However, some consistency for the sake of the customer seems desirable (?). Perhaps the root class for the driver should be named the same as the package? Seems a little redundant??
+> Package and the root class names might not be the same. Python packaging name rules require all-lowercase and dashes, which is both improper for class name.
+> 
+
+IVI-Python drivers are object-oriented. There shall be a class that represents the entire driver. That class is instantiated for each distinct instrument that will be controlled. The name of the class shall be `<DriverIdentifier>`.
+
+### IVI-Python Hierarchy
+
+Modules within the driver may be named at the driver vendors discretion.
+An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
+
+One of the classes provided by the driver shall be the IVI-specified driver utility class defined in [IVI-Python Utility Interface](#ivi-python-utility-interface)
+
+> [!NOTE]
+> Note the discussion above on the name of the root class...
+
+The root of the hierarchy shall be the main class `<DriverIdentifier>`.
+
+The main class shall include properties that return references to child classes. A child class may in turn include properties that return references to its child classes, and so on. These *reference properties* may then be used to navigate to any instrument functionality from the main class. The hierarchy may be arbitrarily deep.
+
+The names of the reference properties should be the snake-case form of the class name it references.
+
+Consider the following example code:
+
+```python
+kt1234.cls2.cls3.measure()
+```
+
+`kt1234` is a reference to an instance of the main class. `kt1234` contains an interface reference property named `cls2`. `cls2` contains a reference property named `cls3`, which returns a reference to a class `Cls3`. `Cls3` contains the method `measure()`.
+
+> **Observation:**
+> > As the user types each of these names, IntelliSense makes navigating the hierarchy easy. It displays a dropdown list of methods and properties in the corresponding class or interface. After typing `kt1234` followed by a period, a list of all the properties and methods in `kt1234` appears, allowing the user to select one. After selecting `cls2` and typing the period, a list of the methods and properties in `cls2` appears. After selecting `cls3` and typing the period, a list of the methods and properties in `Cls3` appears, and the user can see and select `measure()`.
 
 #### Reference Property and Class Naming
 
 For reference exposed to the user, IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
-
-### IVI-Python Driver Structure
-
-#### Terms used
-- `<Driver-identifier>` - driver's name and the top-level class name: Example: `VendorxySpecan`
-- `<Sub-pckg-name>` - further driver's packages: Example: `measurement_group`
-- `<Reference-property>` - further driver's interface access property: Example: `measurement`
-- `<Interface-class>` - further driver's interface class name. Example: `MeasurementCls`
-
-- [!NOTE]: need to discuss/specify the Sub-package-name, module names, class names to avoid ambivalence.
-
-The main class `<Driver-identifier>` defined in `root.py` shall include one or multiple properties `<Reference-property>`. A reference property is used to access the driver's structure. Each reference property returns an instance of `<Interface-class>`. `<Interface-class>` may in turn include further `<Reference-property>`(s), and so on. The hierarchy may be arbitrarily deep. Sub-modules within the driver may be named at the driver vendors discretion.
-
-Recommended instrument driver structure:
-
-[!NOTE] - structure for discussion on 'shall' and 'should', or whether even to suggest a driver structure and sub-package naming.
-
-```
-<dist-pckg-name>/                ← The project root
-│
-├── LICENSE
-├── pyproject.toml
-├── README.md
-│ 
-└─ <top-pckg-name>/             ← The root package of the driver
-    ├── __init__.py             ← At minimum, should contain import: from .root import <Driver-identifier>
-    ├── root.py                 ← The module containing the driver's top-level class <Driver-identifier>
-    ├── ivi_utility_module.py   ← Features required by the Ivi Core Specification.
-    ├── direct_io_module.py     ← Features required by the Ivi Core Specification for SPCI - based instruments.
-    │
-    ├── <sub-pckg-name-1>/     
-    │   ├── __init__.py
-    │   └── <sub-pckg-module-name-1>  <- Contains class definition for `<Interface-class-1>`
-    │
-    └── <sub-pckg-name-2>/
-        ├── __init__.py
-        └── <sub-pckg-module-name-2>
-            │
-            ├── <sub-pckg-name-2-1>/
-            │   ├── __init__.py
-            │   └──<sub-pckg-module-name-1-1>
-            │
-            └── <sub-pckg-name-2-2>/
-                ├── __init__.py
-                └──<sub-pckg-module-name-1-1>
-```
-Concrete example of the driver's tree structure:
-
-```
-vendorxy-specan/                ← The project root
-│
-├── LICENSE
-├── pyproject.toml
-├── README.md
-│ 
-└─ vendorxy_specan/              ← The root package of the driver
-    ├── __init__.py              ← At minimum, should contain import: from .root import VendorXySpecan
-    ├── root.py                  ← The module containing the driver's top-level class VendorXySpecan
-    │                            VendorXySpecan contains: 
-    │                              <Reference-property> configuration instantiating ConfigurationCls from configuration_module.py
-    │                              <Reference-property> measurement instantiating MeasurementCls from measurement_module.py
-    │
-    ├── ivi_utility_module.py    ← Features required by the Ivi Core Specification.
-    ├── direct_io_module.py      ← Features required by the Ivi Core Specification for SPCI - based instruments
-    │
-    ├── configuration_group/     
-    │   ├── __init__.py
-    │   └── configuration_module.py  <- Contains class definition for <Interface-class-1> ConfigurationCls
-    │
-    └── measurement_group/
-        ├── __init__.py
-        ├── measurement_module.py      <- Contains class definition for <Interface-class-2> MeasurementCls
-        │                                 MeasurementCls contains: 
-        │                                   <Reference-property> spectrum instantiating SpectrumCls from spectrum_module.py
-        │                                   <Reference-property> marker instantiating MarkerCls from marker_module.py
-        │
-        ├── spectrum_group/
-        │   ├── __init__.py
-        │   └── spectrum_module.py    <- Contains class definition for <Interface-class-2-1> SpectrumCls
-        │
-        └── marker_group/
-            ├── __init__.py
-            └── marker_module.py    <- Contains class definition for <Interface-class-2-1> MarkerCls
-```
-
-Following the concrete driver structure example above, consider the following user python code: 
-
-```python
-io = VendorXySpecan("TCPIP::192.168.1.101")
-trace = io.measurement.spectrum.get_trace()
-```
-
-`io` is a reference to an instance of the main class `VendorXySpecan`. The main class contains a reference property `measurement` (type `MeasurementCls`). `MeasurementCls` contains a reference property `spectrum` (type `MeasurementCls`). `SpectrumCls` contains the method `get_trace()`.
-
-> **Observation:**
-> > As the user types each of these names, Code-completion makes navigating the hierarchy easy. It displays a dropdown list of methods and properties in the corresponding class or interface. After typing `io` followed by a period, a list of all the properties and methods in `io` appears, allowing the user to select one. After selecting `measurement` and typing the period, a list of the methods and properties in `MeasurementCls` appears. After selecting `spectrum` and typing the period, a list of the methods and properties in `SpectrumCls` appears, and the user can see and select `get_trace()`.
-> 
-
-[!NOTE] Should we require type hints?
 
 ### Repeated Capabilities
 
@@ -234,17 +173,15 @@ For IVI-Python drivers, collection style repeated capabilities are recommended.
 
 Collection style repeated capabilities consist of at least two classes. The first is the collection itself, and the second is the object returned by the subscript operator (`[]`) of the collection. In the hierarchy, a reference property returns the collection object. Then the collection's subscript operator `[]` is used to return an item from the collection. Each item in the collection represents one instance of the repeated capability.
 
-Collection style repeated capabilities may be indexed by a string, enum, integer, or other Python object.
+Collection style repeated capabilities may be indexed by a string, integer, or other Python object.
 
 Consider the following example code:
 
 ```Python
-my_peak = io.measurement.marker["B"].peak
+my_peak = kt1234.trace["B"].peak
 ```
 
-`io` is a reference to the main class. `io` contains an interface reference property named `measurement`,
-which is not returns a reference to the trace collection.
-The subscript operator (`["B"]`) selects the item named "B" from the collection and returns a reference to an object that uniquely represents the "B" marker. That interface or class contains the property `peak`.
+`kt1234` is a reference to the main class. `kt1234` contains an interface reference property named `trace`, which returns a reference to the trace collection. The subscript operator (`["B"]`) selects the item named "B" from the collection and returns a reference to an object that uniquely represents the "B" trace. That interface or class contains the property `peak`.
 
 Collections may be implemented in a variety of ways.
 
@@ -266,25 +203,18 @@ In the following `<RcName>` is the name of the repeated capability.
 
 - The interface or class returned by the collection's Item operator should include a property called *name*. *name* returns the physical repeated capability identifier defined by the specific driver for the repeated capability that corresponds to the index that the user specifies.
 
-For example, consider a marker repeated capability. The `<RcName>` = `Marker`, and the collection class is `MarkerCollection`:
+For example, consider a trigger repeated capability. The `<RcName>` = `Trigger`, and the collection class is `TriggerCollection`:
 
 ```python
 from typing import Dict
 
-class MarkerIndex(Enum):
-    """Enum indexer of the Marker Collection items."""
-    Marker_1 = 1
-    Marker_2 = 2
-    Marker_3 = 3
-
-class Marker:
-    """Marker functions of the instrument."""
+class Trigger:
+    """Trigger functions of the instrument."""
 
     def __init__(self, name: str, value: int):
         self._name: str = name
         self._value: int = value
-        self._x_coor: float = 1E6
-        self._y_coor: float = -10.0
+        self._level: float = 1.0
 
     @property
     def name(self) -> str:
@@ -297,61 +227,54 @@ class Marker:
         return self._value
 
     @property
-    def x_coor(self) -> float:
-        return self._x_coor
-    
-    @property
-    def y_coor(self) -> float:
-        return self._y_coor
+    def level(self) -> float:
+        return self._level
 
-class MarkerCollection(dict):
-    """Collection of the Marker items."""
+class TriggerCollection(dict):
+    """Collection of the Trigger items."""
 
     def __init__(self):
         super().__init__()
-        self["Marker1"] = Marker("Marker1", 1)
-        self["Marker2"] = Marker("Marker2", 2)
-        self["Marker3"] = Marker("Marker3", 3)
+        self["TriggerA"] = Trigger("TriggerA", 1)
+        self["TriggerB"] = Trigger("TriggerB", 2)
+        self["TriggerC"] = Trigger("TriggerC", 3)
 ```
 
 ### Driver Structure Interfaces
 
 Python IVI Drivers use tree-like structure of interfaces, some with repeated capabilities, and some without.
-Consider a Spectrum Analyzer driver with a non-repeated capabilities reference property `measurement` which contains repeated capabilities reference property `marker`:
+Consider an Oscilloscope driver with a non-repeated capabilities interface `axes` which contains repeated capabilities interface `vertical`:
 
 ```python
-io = VendorXySpecan("TCPIP::192.168.1.101")
+io = Oscilloscope("TCPIP::192.168.1.101")
 ```
 Interface accessor without the repeated capability shall be implemented as read-only property:
 
 ```python
-ax = io.measurement
+ax = io.axes
 ```
 
-Reference property with the repeated capability shall be implemented as a read-only property returning the whole collection of the items.
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items.
 Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
 
 ```python
-marker_items_collection = io.measurement
-marker_item_1a = io.measurement.marker[MarkerIndex.Marker_1]  # Enum indexer
-marker_item_1b = io.measurement.marker['Marker_1']  # String indexer
-marker_item_1c = io.measurement.marker[1]  # Optional integer indexer
+vertical_items_collection = io.axes.vertical
+vertical_item_1a = io.axes.vertical[VerticalIndex.Vertical_1]
+vertical_item_1b = io.axes.vertical['Vertical_1']
+vertical_item_1c = io.axes.vertical[1]  # Optional integer indexer
 ```
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
-marker_item_2a = io.measurement.marker_item(VerticalIndex.Vertical_2)  # Enum selector
-marker_item_2b = io.measurement.marker_item('Vertical_2')  # String selector
-marker_item_2c = io.measurement.marker_item(2)  # Optional integer selector
+vertical_item_2a = io.axes.vertical_item(VerticalIndex.Vertical_2)
+vertical_item_2b = io.axes.vertical_item('Vertical_2')
+vertical_item_2c = io.axes.vertical_item(2)  # Optional integer indexer
 ```
-[!NOTE] Zen of Python - do not have duplicated features. If there is a way to get a good code-completion without the `marker_item` methods, we should not require them.
 
 ### IVI-Python Error Handling
 
 All IVI-Python instrument drivers shall consistently use the standard Python exception mechanism to report errors. Neither return values nor *out* parameters shall be used to return error information.
-
-Discussion 2025/06/24: Should we define an exception class and its specific fields? Often, there is a need to pair the raised exception to a driver and an instance of the driver.
 
 > **Observation:**
 > > The method `query_instrument_error()` is used to handle errors within the instrument that may not be thrown as Python exceptions.
@@ -361,7 +284,7 @@ Discussion 2025/06/24: Should we define an exception class and its specific fiel
 This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in *IVI Driver Core Specification*.
 
 > **Observation:**
-> > Driver developers shall provide the doc-string style documentation and are encouraged to provide an online documentation. The package shall include a README.md file that directs customers where they can find additional material.
+> > Driver developers are encouraged to include documentation and source code in the driver package. At a minimum the package should include a README file that directs customers where they can find additional material.
 
 ## Base IVI-Python API
 
@@ -382,28 +305,28 @@ This section gives a complete description of each constructor, method, or proper
 | Simulate Enabled                      | Property: simulate                      |
 | Supported Instrument Models           | Property: supported_instrument_models   |
 
-### Constructor
+### Constructors
 
-In IVI-Python, the constructor provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
+In IVI-Python, constructors provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
 
-#### Python Constructor Prototype
+#### Python Constructor Prototypes
 
-The IVI-Python drivers shall implement a constructor with the following prototype:
+The IVI-Python drivers shall implement two constructors with the following prototype:
 
-  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: dict or None = None)` 
+  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: str)` 
 
-Example for DriverIdentifier `VendorXySpecan`:
+Example for DriverIdentifier `MyPowerMeter`:
 
 ```Python
-"""Module root.py"""
-class VendorXySpecan:
+class MyPowerMeter:
  
     def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or None = None):
-        # Initialization of the Specan.
+        # Initialization of the Powermeter.
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
         self.reset: bool = reset
         self.options: dict = options
+
 ```
 
 Python TypedDict is a recommended data type compared to a standard dictionary. In run-time, it is a standard dict type,
@@ -425,13 +348,34 @@ opt['simulate'] = 0 # static analysis shows an error on value type
 opt['something'] = False # static analysis shows an error on key name
 ```
 
-IVI-Python drivers may provide an additional optional parameters for the client to specify driver options (such as simulation or options as string). The mechanism by which these parameters are passed is driver-specific.
+IVI-Python drivers shall provide an additional optional parameters for the client to specify driver options (such as simulation or options as string). The mechanism by which these parameters are passed is driver-specific.
+
+```Python
+from typing import TypedDict
+
+class Options(TypedDict, total=False):
+	simulate: bool
+	clear_status_on_init: str
+	block_data_chunk: int
+```
+
+The parameters are defined in the *IVI Driver Core Specification*. The following table shows their names and types for Python:
+
+| Inputs        | Description   | Data Type |
+|---------------|---------------|-----------|
+| resource_name | Resource Name | str       |
+| id_query      | ID Query      | bool      |
+| reset         | Reset         | bool      |
+
+Notes:
+
+- *IVI Driver Python* constructors are implemented on the class name `<DriverIdentifier>`.
 
 ### IVI-Python Utility Interface
 
 IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the drivers instance of the class. 
 
-The reference property shall be named *ivi_utility*, shall be available in the root driver class.
+The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class.
 The driver developer is responsible for defining an instantiable class that inherits from `IviUtility`.
 
 ```Python
@@ -482,14 +426,19 @@ class IviUtility(ABC):
 
   @abstractmethod
   def error_query(self) -> ErrorQueryResult or None:
-    """Returns all the errors currently reported in the instrument's error queue, the last error occurred comes first.
+    """Returns the last error in the instrument's error queue.
     Returns None if no error is present."""
     pass
 
   @abstractmethod
+  def error_query_all(self) -> List[ErrorQueryResult]:
+    """Returns all the errors currently reported in the instrument's error queue.
+    If no error is present, the method returns an empty list."""
+    pass
+
+  @abstractmethod
   def check_status(self) -> None:
-    """Combines error_query_all and Exception rising when some errors are detected.
-    [!NOTE] -still need to discuss this requirement, maybe just state 'should'?"""
+    """Combines error_query_all and Exception rising when some errors are detected."""
     pass
 
   @abstractmethod
@@ -504,33 +453,18 @@ class IviUtility(ABC):
 
 
 class ErrorQueryResult:
+  def __init__(self, code: int, message: str):
+    self._code = code
+    self._message = message
 
-  def __init__(self):
-    self._errors: List[Tuple[int, str]] = []
+  @property
+  def code(self) -> int:
+    return self._code
 
-  def add_error(self, code: int, message: str) -> None:
-    """Adds one error to the error list."""
-    el = (code, message)
-    self._errors.append(el)
-
-  def has_errors(self) -> bool:
-    """Returns true, if there is at least one error in the error list."""
-    return len(self._errors) > 0
-
-  def get_last_error(self) -> Tuple[int, str] or None:
-    """Returns the error that occurred as the last.
-    In this implementation, this is the error first put in the list, meaning item with index 0."""
-    if not self.has_errors():
-      return None
-    return self._errors[0]
-
-  def get_errors(self) -> List[Tuple[int, str]]:
-    """Returns all the errors as a list, last occurred error has index 0."""
-    return self._errors
+  @property
+  def message(self) -> str:
+    return self._message
 ```
-Discussion 2025/06/24: We chose just one method for error query: error_query() which reads all the errors from the instrument's error queue.
-check_status(): discuss the purpose and the name.
-Python warnings in the drivers?
 
 Python-specific Notes (see *IVI Driver Core Specification* for general requirements):
 
@@ -587,57 +521,35 @@ Notes:
 
 ## Package Requirements
 
-The following sections detail the package requirements. The driver shall use the modern package format with *pyproject.toml* file.
+The following sections detail the package requirements.
+
+### Package Meta-data
+
+*setup.py* shall include:
+
+- `name`
+- `version`
+- `description`
+- `long_description` (might refer to the readme.md)
+- `author` (driver vendor)
+- `copyright`
+- `license`
+- `classifiers`:
+  - `Programming Language :: Python 3` 
+  - `Programming Language :: Python 3.8`
+
+```Python
+SUPPORTED_INSTRUMENTS = "comma separated list"
+```
+
+### Contents
 
 All IVI-Python driver packages shall include the following files:
 
 - The driver
+
 - Readme File (`README.md`)
-- Project TOML file (`pyproject.toml`)
 
-### Package Configuration File Content
-
-*pyproject.toml* shall include the following TOML tables. The actual values in the examples are for demonstration purposes only:
-
-#### Build-System
-
-Build system defines what backend to use for building and packaging the driver.
-Minimum content:
-
-```toml
-[build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
-```
-
-#### Project
-
-Project meta-information. Minimum content: 
-
-```toml
-[project]
-name = "vendorxy-specan"
-version = "1.0"
-requires-python = ">= 3.8"
-authors = [ {name = "VendorXy"} ]
-description = "This is a short description for the vendorxy-specan"
-readme = {file = "README.md", content-type = "text/markdown"}
-license = "MIT"
-classifiers = [ "Programming Language :: Python" ]
-
-[project.urls]
-Documentation = "https://readthedocs.org"
-```
-
-Optional content:
-```toml
-[project]
-dependencies = ["pyvisa"]
-keywords = ["vendorxy", "specan", "signal", "analysis"]
-
-```
-
-[!NOTE] - SUPPORTED_INSTRUMENTS = "comma separated list" in the toml file? is that possible? Maybe as classifier?
 
 ## IVI-Python Driver Conformance
 
