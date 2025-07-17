@@ -57,7 +57,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Base IVI-Python API](#base-ivi-python-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
     - [Constructors](#constructors)
-      - [Python Constructor Prototypes](#python-constructor-prototypes)
+      - [Python Constructor Prototype](#python-constructor-prototype)
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
     - [Direct IO Properties and Methods](#direct-io-properties-and-methods)
   - [Package Requirements](#package-requirements)
@@ -295,18 +295,18 @@ This section gives a complete description of each constructor, method, or proper
 
 In IVI-Python, constructors provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
 
-#### Python Constructor Prototypes
+#### Python Constructor Prototype
 
-The IVI-Python drivers shall implement two constructors with the following prototype:
+The IVI-Python drivers shall implement constructor with the following prototype:
 
-  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: str)` 
+  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
 
 Example for DriverIdentifier `MyPowerMeter`:
 
 ```Python
 class MyPowerMeter:
  
-    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or None = None):
+    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or str or None = None):
         # Initialization of the Powermeter.
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
