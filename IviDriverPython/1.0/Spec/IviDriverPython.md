@@ -509,21 +509,23 @@ The following sections detail the package requirements.
 
 ### Package Meta-data
 
-*setup.py* shall include:
+Project meta-information. Below, is an example of the toml file content: 
 
-- `name`
-- `version`
-- `description`
-- `long_description` (might refer to the readme.md)
-- `author` (driver vendor)
-- `copyright`
-- `license`
-- `classifiers`:
-  - `Programming Language :: Python 3` 
-  - `Programming Language :: Python 3.8`
+```toml
+[project]
+name = "vendorxy-specan"
+version = "1.0"
+requires-python = ">= 3.8"
+authors = [ {name = "VendorXy"} ]
+description = "This is a short description for the vendorxy-specan"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
+classifiers = [ "Programming Language :: Python", "Intended Audience :: Telecommunications Industry" ]
+dependencies = ["pyvisa"]
+keywords = ["vendorxy", "specan", "signal", "analysis"]
 
-```Python
-SUPPORTED_INSTRUMENTS = "comma separated list"
+[project.urls]
+Documentation = "https://readthedocs.org"
 ```
 
 ### Contents
