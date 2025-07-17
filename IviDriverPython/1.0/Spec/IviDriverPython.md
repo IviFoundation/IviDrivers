@@ -86,9 +86,7 @@ IVI-Python drivers shall comply with PEP-8 (*Style Guide for Python Code*).
 
 ### Bitness
 
-The IVI Python standard does not require certain operating systems and releases.
-The drivers shall be provided as 64-bit version, the 32-bit drivers are optional.
-The compliance document for an IVI driver states whether the driver is available in a 64-bit version, a 32-bit version, or both.
+The IVI Python standard does not require certain operating systems and releases. The drivers shall be provided as 64-bit version, the 32-bit drivers are optional. The compliance document for an IVI driver states whether the driver is available in a 64-bit version, a 32-bit version, or both.
 
 ### Target Python Versions
 
@@ -122,8 +120,7 @@ IVI-Python drivers are object-oriented. There shall be a class that represents t
 
 ### IVI-Python Hierarchy
 
-Modules within the driver may be named at the driver vendors discretion.
-An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
+Modules within the driver may be named at the driver vendors discretion. An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
 
 One of the classes provided by the driver shall be the IVI-specified driver utility class defined in [IVI-Python Utility Interface](#ivi-python-utility-interface)
 
@@ -244,8 +241,7 @@ Interface accessor without the repeated capability shall be implemented as read-
 ax = io.axes
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items.
-Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
 
 ```python
 vertical_items_collection = io.axes.vertical
@@ -319,8 +315,7 @@ class MyPowerMeter:
 
 ```
 
-Python TypedDict is a recommended data type compared to a standard dictionary. In run-time, it is a standard dict type,
-but the advantage is code-completion and type hinting in static analysis. Example:
+Python TypedDict is a recommended data type compared to a standard dictionary. In run-time, it is a standard dict type, but the advantage is code-completion and type hinting in static analysis. Example:
 
 ```Python
 from typing import TypedDict
@@ -365,8 +360,7 @@ Notes:
 
 IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the drivers instance of the class. 
 
-The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class.
-The driver developer is responsible for defining an instantiable class that inherits from `IviUtility`.
+The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining an instantiable class that inherits from `IviUtility`.
 
 ```Python
 from abc import ABC, abstractmethod
