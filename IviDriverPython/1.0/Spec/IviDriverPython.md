@@ -2,6 +2,7 @@
 
 | Version Number | Date of Version | Version Notes                         |
 |----------------|-----------------|---------------------------------------|
+| 0.4            | July 2025       | Transferred to IVI Foundation repo    |
 | 0.2            | June 2025       | LXI Working group changes             |
 | 0.1            | May 2025        | Preliminary Draft for LXI Development |
 
@@ -44,7 +45,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Target Python Versions](#target-python-versions)
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
-      - [IVI-Python Packages Naming](#ivi-python-packages-naming)
+      - [IVI-Python Packages Naming](#ivi-python-distribution-packages-naming)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
       - [Reference Property and Class Naming](#reference-property-and-class-naming)
@@ -101,7 +102,7 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 
 IVI-Python drivers shall be organized as a package, including a `*__init__.py*` file.
 
-#### IVI-Python Packages Naming
+#### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
 The name should be lowercased with all runs of the characters ., -, or _ replaced with a single - character. This can be implemented in Python with the re module:
 
@@ -113,10 +114,7 @@ def normalize(name):
 ```
 
 Name composition:
-- Variant1: `<VendorPrefix>-<Instrument>` Example: `rs-vna`
-- Variant2: `<VendorPrefix>-<Instrument>-<CustomSuffix>`. Example: `rs-cmx-lte` 
-
-Variant 2 might be used for cases where the instrument contains more sub-systems, and the driver is designed only for one of them.
+- `<vendorPrefix>-<driverIdentifier>` Example: `myvendor-specan`
 
 ### IVI-Python Driver Classes
 
