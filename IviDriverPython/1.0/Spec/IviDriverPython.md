@@ -118,11 +118,6 @@ Name composition:
 
 ### IVI-Python Driver Classes
 
-> [!NOTE]
-> Not clear what we need to specify for the class name since the package name is specified already? However, some consistency for the sake of the customer seems desirable (?). Perhaps the root class for the driver should be named the same as the package? Seems a little redundant??
-> Package and the root class names might not be the same. Python packaging name rules require all-lowercase and dashes, which is both improper for class name.
-> 
-
 IVI-Python drivers are object-oriented. There shall be a class that represents the entire driver. That class is instantiated for each distinct instrument that will be controlled. The name of the class shall be `<DriverIdentifier>`.
 
 ### IVI-Python Hierarchy
@@ -131,9 +126,6 @@ Modules within the driver may be named at the driver vendors discretion.
 An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
 
 One of the classes provided by the driver shall be the IVI-specified driver utility class defined in [IVI-Python Utility Interface](#ivi-python-utility-interface)
-
-> [!NOTE]
-> Note the discussion above on the name of the root class...
 
 The root of the hierarchy shall be the main class `<DriverIdentifier>`.
 
