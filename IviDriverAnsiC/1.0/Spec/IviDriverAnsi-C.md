@@ -231,26 +231,12 @@ All driver functions that reference a specific instance of the driver shall take
 
 #### IVI-ANSI-C Status and Error Handling
 
-> [!NOTE]
-> Should we define a required (or optional?) function to convert the return value to a human readable string?  `char[] <driver_identifier>_error_message()`.  Note this is an example of a function that seems to not require the session parameter.
-> Discussion 2025-06-17:  Add it, and make it required.
-> Update 2025-07-01: Added it.  Needs discussion :)
->
-> Disussion 2025-06-24: 
-> - VXIp&p uses a 32 bit integer.  So code targeted to both VXIp&p and this spec would have to do some translation.  May want to use a 32-bit integer.
-> - Consistent with the comment on session, this could be more strongly typed, but would probably need to be typed beyond the scope of the driver itself.
-> - The existing specs call out numeric ranges for the errors. Should we call that out.
-> - suggestion that the sign statement below (neg/pos) should be a shall.
-
-All IVI-ANSI-C functions that may result in an error shall indicate errors to the client using the function return value.  The return value shall be an *int*.  Zero shall be used to indicate success.
+All IVI-ANSI-C functions that may result in an error shall indicate errors to the client using the function return value.  The return value shall be an *int32_t*.  Zero shall be used to indicate success.
 
 Negative return values shall indicate an error, positive return values shall indicate non-fatal warnings.
 
 > **Observation:**
 > > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be thrown as ANSI-C exceptions.
-
-> **Observation:**
-> > By specifying the return type as an *int*, the compiler is directed to use whatever size integer can be most efficiently represented, while guaranteeing at least 16 bits.  Therefore errors and warnings must fit in a 16-bit signed integer.
 
 #### Properties
 
