@@ -221,13 +221,16 @@ Would translated into:
 
 #### The Session Parameter
 
-> [!NOTE]  Consider making the session typesafe by having the driver specify a type for it.
-> 2025-06-24 --- we generally like this suggestion, should incorporate in next draft.
-> 2025-07-01 -- DONE, but not as a requirement (?)
+As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a value named *session*.  
 
-As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a pointer type named *session*.  Drivers may strongly type this by defining a driver-specific type or use a generic type (_void *_).  In practice, this opaque pointer references an underlying object-like structure that contains instance data for this instance of the driver.
+Drivers shall provide a *typedef* for the type of the *session*. type this by defining a driver-specific type or use a generic type (_void *_).  The type defined by the *typedef* shall be named `<DriverIdentifier>Session`.
+
+Drivers shall also provide a *const* that specifies a value that can be used as a sentinel to indicate an invalid session.  The *const* shall be named `<DRIVER_IDENTIFIER>_INVALID_SESSION`.
 
 All driver functions that reference a specific instance of the driver shall take this *session* as the first parameter.
+
+> **Observations:**
+> > Driver designers frequently choose an integer which is used as an index to access the driver data.  Driver designers also frequently choose to use a pointer type, which directly points to the driver data.  These and other approaches are permitted by these rules.  Regardless, it is wise for the driver to take some steps to validate the session.
 
 #### IVI-ANSI-C Status and Error Handling
 
