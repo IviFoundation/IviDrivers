@@ -223,7 +223,7 @@ Would translated into:
 
 As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a value named *session*.  
 
-Drivers shall provide a *typedef* for the type of the *session*. type this by defining a driver-specific type or use a generic type (_void *_).  The type defined by the *typedef* shall be named `<DriverIdentifier>Session`.
+Drivers shall provide a *typedef* that specifies the type of the *session*. The type defined by the *typedef* shall be named `<DriverIdentifier>Session`.
 
 Drivers shall also provide a *const* that specifies a value that can be used as a sentinel to indicate an invalid session.  The *const* shall be named `<DRIVER_IDENTIFIER>_INVALID_SESSION`.
 
