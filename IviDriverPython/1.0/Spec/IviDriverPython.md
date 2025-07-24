@@ -2,6 +2,7 @@
 
 | Version Number | Date of Version | Version Notes                         |
 |----------------|-----------------|---------------------------------------|
+| 0.4            | July 2025       | Transferred to IVI Foundation repo    |
 | 0.2            | June 2025       | LXI Working group changes             |
 | 0.1            | May 2025        | Preliminary Draft for LXI Development |
 
@@ -44,7 +45,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Target Python Versions](#target-python-versions)
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
-      - [IVI-Python Packages Naming](#ivi-python-packages-naming)
+      - [IVI-Python Packages Naming](#ivi-python-distribution-packages-naming)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
       - [Reference Property and Class Naming](#reference-property-and-class-naming)
@@ -56,7 +57,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Base IVI-Python API](#base-ivi-python-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
     - [Constructors](#constructors)
-      - [Python Constructor Prototypes](#python-constructor-prototypes)
+      - [Python Constructor Prototype](#python-constructor-prototype)
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
     - [Direct IO Properties and Methods](#direct-io-properties-and-methods)
   - [Package Requirements](#package-requirements)
@@ -85,9 +86,7 @@ IVI-Python drivers shall comply with PEP-8 (*Style Guide for Python Code*).
 
 ### Bitness
 
-The IVI Python standard does not require certain operating systems and releases.
-The drivers shall be provided as 64-bit version, the 32-bit drivers are optional.
-The compliance document for an IVI driver states whether the driver is available in a 64-bit version, a 32-bit version, or both.
+The IVI Python standard does not require certain operating systems and releases. The drivers shall be provided as 64-bit version, the 32-bit drivers are optional. The compliance document for an IVI driver states whether the driver is available in a 64-bit version, a 32-bit version, or both.
 
 ### Target Python Versions
 
@@ -101,7 +100,7 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 
 IVI-Python drivers shall be organized as a package, including a `*__init__.py*` file.
 
-#### IVI-Python Packages Naming
+#### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
 The name should be lowercased with all runs of the characters ., -, or _ replaced with a single - character. This can be implemented in Python with the re module:
 
@@ -113,29 +112,17 @@ def normalize(name):
 ```
 
 Name composition:
-- Variant1: `<VendorPrefix>-<Instrument>` Example: `rs-vna`
-- Variant2: `<VendorPrefix>-<Instrument>-<CustomSuffix>`. Example: `rs-cmx-lte` 
-
-Variant 2 might be used for cases where the instrument contains more sub-systems, and the driver is designed only for one of them.
+- `<vendorPrefix>-<driverIdentifier>` Example: `myvendor-specan`
 
 ### IVI-Python Driver Classes
-
-> [!NOTE]
-> Not clear what we need to specify for the class name since the package name is specified already? However, some consistency for the sake of the customer seems desirable (?). Perhaps the root class for the driver should be named the same as the package? Seems a little redundant??
-> Package and the root class names might not be the same. Python packaging name rules require all-lowercase and dashes, which is both improper for class name.
-> 
 
 IVI-Python drivers are object-oriented. There shall be a class that represents the entire driver. That class is instantiated for each distinct instrument that will be controlled. The name of the class shall be `<DriverIdentifier>`.
 
 ### IVI-Python Hierarchy
 
-Modules within the driver may be named at the driver vendors discretion.
-An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
+Modules within the driver may be named at the driver vendors discretion. An IVI-Python driver shall organize the driver's API as a hierarchy of classes. Each of the interfaces is implemented by one of the driver's classes.
 
 One of the classes provided by the driver shall be the IVI-specified driver utility class defined in [IVI-Python Utility Interface](#ivi-python-utility-interface)
-
-> [!NOTE]
-> Note the discussion above on the name of the root class...
 
 The root of the hierarchy shall be the main class `<DriverIdentifier>`.
 
@@ -254,8 +241,7 @@ Interface accessor without the repeated capability shall be implemented as read-
 ax = io.axes
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items.
-Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
 
 ```python
 vertical_items_collection = io.axes.vertical
@@ -309,18 +295,18 @@ This section gives a complete description of each constructor, method, or proper
 
 In IVI-Python, constructors provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
 
-#### Python Constructor Prototypes
+#### Python Constructor Prototype
 
-The IVI-Python drivers shall implement two constructors with the following prototype:
+The IVI-Python drivers shall implement constructor with the following prototype:
 
-  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: str)` 
+  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
 
 Example for DriverIdentifier `MyPowerMeter`:
 
 ```Python
 class MyPowerMeter:
  
-    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or None = None):
+    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or str or None = None):
         # Initialization of the Powermeter.
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
@@ -329,8 +315,7 @@ class MyPowerMeter:
 
 ```
 
-Python TypedDict is a recommended data type compared to a standard dictionary. In run-time, it is a standard dict type,
-but the advantage is code-completion and type hinting in static analysis. Example:
+Python TypedDict is a recommended data type compared to a standard dictionary. In run-time, it is a standard dict type, but the advantage is code-completion and type hinting in static analysis. Example:
 
 ```Python
 from typing import TypedDict
@@ -375,8 +360,7 @@ Notes:
 
 IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the drivers instance of the class. 
 
-The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class.
-The driver developer is responsible for defining an instantiable class that inherits from `IviUtility`.
+The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining an instantiable class that inherits from `IviUtility`.
 
 ```Python
 from abc import ABC, abstractmethod
@@ -525,21 +509,23 @@ The following sections detail the package requirements.
 
 ### Package Meta-data
 
-*setup.py* shall include:
+Project meta-information. Below, is an example of the toml file content: 
 
-- `name`
-- `version`
-- `description`
-- `long_description` (might refer to the readme.md)
-- `author` (driver vendor)
-- `copyright`
-- `license`
-- `classifiers`:
-  - `Programming Language :: Python 3` 
-  - `Programming Language :: Python 3.8`
+```toml
+[project]
+name = "vendorxy-specan"
+version = "1.0"
+requires-python = ">= 3.8"
+authors = [ {name = "VendorXy"} ]
+description = "This is a short description for the vendorxy-specan"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = "MIT"
+classifiers = [ "Programming Language :: Python", "Intended Audience :: Telecommunications Industry" ]
+dependencies = ["pyvisa"]
+keywords = ["vendorxy", "specan", "signal", "analysis"]
 
-```Python
-SUPPORTED_INSTRUMENTS = "comma separated list"
+[project.urls]
+Documentation = "https://readthedocs.org"
 ```
 
 ### Contents
