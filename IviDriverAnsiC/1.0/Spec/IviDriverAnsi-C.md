@@ -221,7 +221,7 @@ Would translated into:
 
 #### The Session Parameter
 
-As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that returns a value named *session*.  
+As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that has an *out* parameter named *session*.  
 
 Drivers shall provide a *typedef* that specifies the type of the *session*. The type defined by the *typedef* shall be named `<DriverIdentifier>Session`.
 
