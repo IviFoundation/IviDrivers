@@ -98,7 +98,7 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 
 ### IVI-Python Packages
 
-IVI-Python driver shall be organized as a package, including a `*__init__.py*` file. Exactly one driver per distribution package shall be present. 
+The IVI-Python driver shall be organized as a package, including an `__init__.py` file. Exactly one driver per distribution package shall be present. 
 
 #### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
