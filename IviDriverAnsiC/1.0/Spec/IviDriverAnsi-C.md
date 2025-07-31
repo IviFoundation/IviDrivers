@@ -230,7 +230,7 @@ Drivers shall also provide a *const* that specifies a value that can be used as 
 All driver functions that reference a specific instance of the driver shall take this *session* as the first parameter.
 
 > **Observations:**
-> > Driver designers frequently choose an integer which is used as an index to access the driver data.  Driver designers also frequently choose to use a pointer type, which directly points to the driver data.  These and other approaches are permitted by these rules.  Regardless, it is wise for the driver to take some steps to validate the session.
+> > Driver designers frequently choose an integer for the session parameter which is used as an index to access the driver data.  Driver designers also frequently choose to use a pointer type for the session parameter, which directly points to the driver data.  These and other approaches are permitted by these rules.  Regardless, it is wise for the driver to take some steps to validate the session.
 
 #### IVI-ANSI-C Status and Error Handling
 
