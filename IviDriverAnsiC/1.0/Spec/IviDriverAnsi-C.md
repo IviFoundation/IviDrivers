@@ -110,6 +110,15 @@ When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 co
 
 To avoid naming collisions, symbols that the driver puts into the global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the `<DriverIdentifier>`.
 
+The following casing rules shall be followed in drivers:
+
+| Language Element | Casing                  |
+| ---------------- | ----------------------- |
+| function names   | snake-case              |
+| enumeration members | upper-case with underscore separators ('_') |
+| const (and macros (`#define`)) | upper-case with underscore separators ('_') (also known as screaming snake-case)|
+| types (`typedef`, `struct`) | Pascal case (also known as upper camel-case) |
+
 > **Observation:**
 > > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in [IVI Foundation vendor registration](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf).
 
