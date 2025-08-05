@@ -245,13 +245,13 @@ Interface accessor without the repeated capability shall be implemented as read-
 ax = io.axes
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a plural word, to hint the user that the data type is a collection: 
 
 ```python
-vertical_items_collection = io.axes.vertical
-vertical_item_1a = io.axes.vertical[VerticalIndex.Vertical_1]
-vertical_item_1b = io.axes.vertical['Vertical_1']
-vertical_item_1c = io.axes.vertical[1]  # Optional integer indexer
+vertical_items_collection = io.axes.verticals
+vertical_item_1a = io.axes.verticals[VerticalIndex.Vertical_1]
+vertical_item_1b = io.axes.verticals['Vertical_1']
+vertical_item_1c = io.axes.verticals[1]  # Optional integer indexer
 ```
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
