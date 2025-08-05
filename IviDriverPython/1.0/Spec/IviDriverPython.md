@@ -45,6 +45,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Target Python Versions](#target-python-versions)
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
+      - [IVI-Python Package Versioning](#ivi-python-package-versioning)
       - [IVI-Python Packages Naming](#ivi-python-distribution-packages-naming)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
@@ -99,6 +100,9 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 ### IVI-Python Packages
 
 IVI-Python drivers shall be organized as a package, including a `*__init__.py*` file.
+
+#### IVI-Python Package Versioning
+The version should follow the [semantic versioning](https://semver.org/) (semver).
 
 #### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
