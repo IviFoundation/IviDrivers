@@ -102,7 +102,7 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 IVI-Python drivers shall be organized as a package, including a `*__init__.py*` file.
 
 #### IVI-Python Package Versioning
-The version should follow the [semantic versioning](https://semver.org/) (semver).
+The package should use [semantic versioning](https://semver.org/) (semver).
 
 #### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
