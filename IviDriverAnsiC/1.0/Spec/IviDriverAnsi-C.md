@@ -32,6 +32,8 @@ No investigation has been made of common-law trademark rights in any work.
   - [Trademarks](#trademarks)
   - [Table of Contents](#table-of-contents)
   - [Overview of the IVI-ANSI-C Driver Language Specification](#overview-of-the-ivi-ansi-c-driver-language-specification)
+    - [Relationship to the IVI Driver Core Specification](#relationship-to-the-ivi-driver-core-specification)
+    - [Relationship of IVI-ANSI-C to the IVI-C Specifications](#relationship-of-ivi-ansi-c-to-the-ivi-c-specifications)
     - [Substitutions](#substitutions)
   - [IVI-ANSI-C Driver Architecture](#ivi-ansi-c-driver-architecture)
     - [Operating Systems and Bitness](#operating-systems-and-bitness)
@@ -67,6 +69,18 @@ No investigation has been made of common-law trademark rights in any work.
 This specification contains the ANSI-C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
 
 This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement).  These are included to provide a more consistent customer experience.  However, in general, design decisions are left to the driver designer.
+
+### Relationship to the IVI Driver Core Specification
+
+This specification contains ANSI-C specific requirements for drivers that provide a library for use with ANSI-C compilers or other clients that can use a compiled library to interface to an instrument.
+
+This specification also requires that drivers comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).  That specification is language independent and has several requirements that conformant drivers are required to satisfy independent of the driver language such as documentation, testing, and source code availability.
+
+### Relationship of IVI-ANSI-C to the IVI-C Specifications
+
+This specification, and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
+
+However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system.
 
 ### Substitutions
 
