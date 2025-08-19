@@ -74,16 +74,16 @@ This specification uses paired angle brackets to indicate that the text between 
 
 The *IVI Driver Core Specification* uses the '<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '<DriverIdentifier>' shall be constructed as:
 
-- The first 2 characters shall be the vendor abbreviation assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note than any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.
+- The first 2 characters shall be the vendor abbreviation assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note than any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
 - Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.
 
 Vendors should try to keep the '<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
 
 This document uses the following conventions regarding the '<DriverIdentifier>':
 
-- '<DRIVER_IDENTIFIER>' refers to the driver identifier in upper case with underscores between words and separated from succeeding tokens with an underscore. The vendor abbreviation is NOT separated from the instrument model token with an underscore. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
-- '<driver_identifier>' refers to the driver identifier in snake case, separated from succeeding tokens with an underscore. That is, in lower case with underscores between words.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
-- '<DriverIdentifier'> is used when the context does not require further clarification, or when pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token.  For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
+- '<DRIVER_IDENTIFIER>' refers to the driver identifier in upper case with underscores between words and separated from succeeding tokens with an underscore. The vendor abbreviation is NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
+- '<driver_identifier>' refers to the driver identifier in snake case, separated from succeeding tokens with an underscore. That is, in lower case with underscores between words.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
+- '<DriverIdentifier'> is used when the context does not require further clarification, or when pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
 
 ## IVI-ANSI-C Driver Architecture
 
@@ -110,14 +110,17 @@ When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 co
 
 To avoid naming collisions, symbols that the driver puts into the global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the `<DriverIdentifier>`.
 
+In the following table, examples are all for a device with `<DriverIdentifier>` of `AC123Dev`, which would represent an instrument vendor identified by `AC` and a model or family identified by `123Dev`.  [Substitutions](#substitutions) has usage information on the driver identifier.
+
 The following casing rules shall be followed:
 
-| Language Element | Casing                  |
-| ---------------- | ----------------------- |
-| function names   | snake-case              |
-| enumeration members | upper-case with underscore separators ('_') |
-| const (and macros (`#define`)) | upper-case with underscore separators ('_') (also known as screaming snake-case)|
-| types (`typedef`, `struct`) | Pascal case (also known as upper camel-case) |
+| Language Element | Example | Description                  |
+| ---------------- | ------- | -------------- |
+| function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<driver_identifier>`.  Snake case is, words in lower case separated by underscores. |
+| enumeration members | AC123DEV_COLORS_TEAL |  Enumeration members shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration member name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration types, and finally the member name.  That is: `<DRIVER_IDENTIFIER>_<ENUM TYPE>_<MEMBER>`. |
+| `const` and macros (`#define`) | AC123DEV_MAX_POWER | `const` and macros shall be upper-case with underscore separators ('_') preceded by `<DRIVER_IDENTIFIER>`|
+| types (`typedef`, `struct`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the `<DriverIdentifier>`.  That is, words begin with upper case letter.  Conventional exceptions for acronyms. |
+| formal parameter names | start_frequency | Formal parameter names should be snake case. The driver identifier should not be used |
 
 > **Observation:**
 > > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in [IVI Foundation vendor registration](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf).
