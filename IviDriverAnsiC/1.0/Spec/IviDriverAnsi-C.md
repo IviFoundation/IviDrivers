@@ -91,12 +91,7 @@ This section describes how IVI-ANSI-C instrument drivers use ANSI-C. This sectio
 
 ### Operating Systems and Bitness
 
-> [!NOTE] Need to close on compiler requirement for Windows.
-
-IVI-ANSI-C drivers shall support a popular compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to also support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
-
-> [!NOTE]  2025-06-17 Verify if we need to call out OS or if they are already in requirements.
-> 2025-07-01 -- the OS is required but not the compiler.
+IVI-ANSI-C drivers shall support a compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to also support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
 
 In addition to the compliance documentation required by [IVI Driver Core](#link) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested.
 
@@ -133,21 +128,9 @@ If needed, vendors are permitted to include files with the driver that are commo
 
 ### IVI-ANSI-C Data Types
 
-> [!NOTE]  
-> This draft requires using void* in lieu of vi_session.  Need to be sure we like that.
->
-> We should consider if there are commonly used types we should have a common definition of.  Particularly time (absolute or relative).  Do the ANSI complex type(s) satisfy all of the complex use-cases?
->
-> If we had IVI-specified types, we would need to think about the delivery and management of the common IVI/VPP .h files. (do they go with each driver or is there an IVI shared component?)
-> 
-
 Drivers should prefer the fundamental data types intrinsic to ANSI-C and, the types defined in ANSI-C include files.  This includes, but is not limited to: '<stdint.h>', '<float.h>' and '<string.h>'.
 
 Drivers are encouraged to define other driver-specific types when ANSI types are not available.  Vendors may find it beneficial to define types that are common to multiple drivers.  However, drivers should avoid creating new types that are synonymous with those provided by ANSI.
-
-> [!NOTE] Added 2025-07-02.  Need to discuss the case of types.
-
-The names of types defined by the driver shall be of the form `<DriverIdentifier><TypeName>` and they shall be in Pascal case.
 
 Drivers should consider defining a driver-defined type for the driver session, thereby providing type-checking for that parameter.
 
@@ -157,17 +140,6 @@ Drivers that provide source code shall provide all include files necessary to co
 
 ### IVI-ANSI-C Header Files
 
-> [!NOTE]  
-> Need to decide what we need to say here.
->
-> - File naming 
-> - How enumerations are declared (since we don't an enum type in C99)
-> - types -- what do we need beyond C99, what of visa_types.h ???
-> 
-> 2025-06-17 --- added section on multiple inclusion. 
->
-> 2025-07-01 --- OOPS!!!  Enumerations ARE supported in C99 (better be more careful with AI!).  Prose updated for that (much simpler).  Note that enumeration member names go into the global namespace 
-
 Drivers shall provide include files for driver clients that contain:
 
 - include directives for any ANSI-C include files required by the driver
@@ -176,25 +148,19 @@ Drivers shall provide include files for driver clients that contain:
 - definitions of enumerated types and their members
 - definitions of any macros used by the driver
 
-Definitions for enumerated members and other macros shall be prefixed with '<DRIVER_IDENTIFIER>' and be upper case.
-  
 #### Multiple Inclusion
 
-All driver include files shall be protected against multiple inclusions by defining a symbol that includes the '<DRIVER_IDENTIFIER>' and file name when first loaded, and subsequently  bypasses included content on subsequent loads.
+All driver include files shall be protected against multiple inclusions.  For instance, by defining a symbol when the file is first loaded, and subsequently bypassing included content on subsequent loads.
 
-For instance, a driver xysiggen42_sg_types.h, would define a symbol `XYSIGGEN42_SG_TYPES_H` when first loaded, then enclose the body of the .h file in appropriate `#ifdef` directives.
+Example: A driver xysiggen42_sg_types.h, would define a symbol `XYSIGGEN42_SG_TYPES_H` when first loaded, then enclose the body of the .h file in appropriate `#ifdef` directives.
 
 ### IVI-ANSI-C Function Style
-
-> [!NOTE]  
-> Need to make sure snake case is called out and in the right section.  Expect it near this context.
-> 2025-07-01: Added it below.
 
 The following sub-sections call out required IVI-ANSI-C style.  There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
 
 #### IVI-ANSI-C Function Naming
 
-> [!NOTE]  Should should probably be titled something more like "function naming" and also include broader discussion especially re. use of things like nouns/verbs in the function name.
+> [!NOTE]  ACTION - JOE CREATE DISCUSSION ITEM -- Should should probably be titled something more like "function naming" and also include broader discussion especially re. use of things like nouns/verbs in the function name.
 
 IVI-ANSI-C function names shall be snake case.
 
@@ -223,7 +189,7 @@ Would translated into:
 
 As shown in the [Base API](#base-ivi-ansi-c-api) drivers shall implement an *open* function that has an *out* parameter named *session*.  
 
-Drivers shall provide a *typedef* that specifies the type of the *session*. The type defined by the *typedef* shall be named `<DriverIdentifier>_Session`.
+Drivers shall provide a *typedef* that specifies the type of the *session*. The type defined by the *typedef* shall be named `<DriverIdentifier>Session`.
 
 Drivers shall also provide a *const* that specifies a value that can be used as a sentinel to indicate an invalid session.  The *const* shall be named `<DRIVER_IDENTIFIER>_INVALID_SESSION`.
 
@@ -242,6 +208,9 @@ Negative return values shall indicate an error, positive return values shall ind
 > > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be thrown as ANSI-C exceptions.
 
 #### Properties
+
+>[NOTE:]
+> Stopped here August 21
 
 Properties are values that can be individually either get, set, or both.  
 
