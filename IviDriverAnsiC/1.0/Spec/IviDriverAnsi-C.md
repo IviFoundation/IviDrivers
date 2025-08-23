@@ -117,9 +117,9 @@ The following casing rules shall be followed:
 | Language Element | Example | Rule |
 | ---------------- | ------- | -------------- |
 | function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<driver_identifier>`.  Snake case is, words in lower case separated by underscores. |
-| enumeration members | AC123DEV_COLORS_TEAL |  Enumeration members shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration member name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration types, and finally the member name.  That is: `<DRIVER_IDENTIFIER>_<ENUM TYPE>_<MEMBER>`. |
+| enumeration constants | AC123DEV_COLORS_TEAL |  Enumeration constants shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration constant name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration type, and finally the constant name.  That is: `<DRIVER_IDENTIFIER>_<ENUM TYPE>_<CONSTANT>`. |
 | `const` and macros (`#define`) | AC123DEV_MAX_POWER | `const` and macros shall be upper-case with underscore separators ('_') preceded by `<DRIVER_IDENTIFIER>`|
-| types (`typedef`, `struct`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the `<DriverIdentifier>`.  That is, words begin with upper case letter.  Conventional exceptions for acronyms. |
+| types (`typedef`, `struct`, `enum`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the `<DriverIdentifier>`.  That is, words begin with upper case letter.  Conventional exceptions for acronyms. |
 | formal parameter names | start_frequency | Formal parameter names should be snake case. The driver identifier should not be used |
 
 > **Observation:**
