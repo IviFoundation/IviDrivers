@@ -114,7 +114,7 @@ In the following table, examples are all for a device with `<DriverIdentifier>` 
 
 The following casing rules shall be followed:
 
-| Language Element | Example | Description                  |
+| Language Element | Example | Rule |
 | ---------------- | ------- | -------------- |
 | function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<driver_identifier>`.  Snake case is, words in lower case separated by underscores. |
 | enumeration members | AC123DEV_COLORS_TEAL |  Enumeration members shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration member name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration types, and finally the member name.  That is: `<DRIVER_IDENTIFIER>_<ENUM TYPE>_<MEMBER>`. |
