@@ -46,7 +46,7 @@ No investigation has been made of common-law trademark rights in any work.
       - [The Session Parameter](#the-session-parameter)
       - [IVI-ANSI-C Status and Error Handling](#ivi-ansi-c-status-and-error-handling)
       - [Properties](#properties)
-      - [Enumerated Types and Their Members](#enumerated-types-and-their-members)
+      - [Enumerated Types and Enumeration Constants](#enumerated-types-and-enumeration-constants)
     - [Repeated Capabilities](#repeated-capabilities)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Thread Safety](#thread-safety)
@@ -157,7 +157,7 @@ Drivers shall provide include files for driver clients that contain:
 - include directives for any ANSI-C include files required by the driver
 - prototypes for all functions provided by the driver
 - definitions for all types not provided by ANSI-C that are needed by the driver client
-- definitions of enumerated types and their members
+- definitions of enumerated types and enumeration constants
 - definitions of any macros used by the driver
 
 #### Multiple Inclusion
@@ -240,26 +240,66 @@ The get/set functions shall:
 > > **Observation**
 > Placing get/set at the *end* of the function name ensures that property accessors alphabetize appropriately into the function namespace.
 
-#### Enumerated Types and Their Members
+#### Enumerated Types and Enumeration Constants
 
-> [!NOTE]  
-> Need to decide what we need to say here.
->
-> 2025-06-16, drafted a proposal
+IVI-ANSI-C drivers may define enumerated types, which are integral types where the allowed values are specified by a set of named enumeration constants.
 
+Enumerated type names shall be of the form `<DriverIdentifier><EnumeratedTypeName>`, in Pascal case.
 
-IVI-ANSI-C drivers shall use the C99 *enum* type for enumerations.
+Enumeration constant names shall be of the form `<DRIVER_IDENTIFIER>_<ENUMERATED_TYPE_NAME>_<ENUMERATION_CONSTANT_NAME>`, in upper case with underscores between words.
 
-- One of the driver include files shall include the *enum* definition.  As with all IVI-ANSI-C types, the name shall composed as `<DriverIdentifier><EnumTypeName>` in Pascal case.
-- The enumeration member names are also placed in the global namespace therefore, they shall be composed as: `<DRIVER_IDENTIFIER>_<ENUM_TYPE_NAME>_<ENUMERATION_MEMBER_NAME>'`.  Note that every character in this string shall be uppercase.
+> **Observation**
+> > Enumeration constants are not scoped by the enumerated type to which they belong.  Prefixing enumeration constants with the enumerated type name prevents name conflicts between types.
 
-> [!NOTE] I don't care for this recommendation, but I believe we agreed to it?
-> 2025-07-01 -- Sorry, I don't recall the following statement --- makes no sense to me -- probably quickly typed in during a meeting (?)
+The implementation of enumerated types is vendor-defined. Recommended implementations:
+
+- A `typedef` for an `enum` type with corresponding enumeration constants.
+
+  ```C
+  typedef enum {
+      XYDMM32_FUNCTION_DC_VOLTS = 1,
+      XYDMM32_FUNCTION_AC_VOLTS = 2
+  } XYDmm32Function;
+  ```
+
+- A `typedef` for an integral type, with `#define`d enumeration constants.
+
+  ```C
+  typedef uint32_t XYDmm32Function;
+  #define XYDMM32_FUNCTION_DC_VOLTS (1)
+  #define XYDMM32_FUNCTION_AC_VOLTS (2)
+  ```
+
+> **Observation:**
+> > In C, the `enum` keyword must be specified when referring to a named `enum` type (e.g. `enum XYDmm32Function`).  In C++, the `enum` keyword is optional and the `enum` type may be used directly (e.g. `XYDmm32Function`). Defining a `typedef` for an unnamed `enum` type allows referring to the type without specifying the `enum` keyword.
+
+> **Observation:**
+> > In C99, the underlying integral type of an `enum` is implementation-defined.  Adding enumeration constants to an existing `enum` may change the width and/or signedness of its underlying integral type, breaking binary and/or source compatibility.  Popular C compilers for Windows and desktop Linux use 32-bit integers when possible, but embedded platforms or compiler options such as GCC's `-fshort-enums` may behave differently.
+> >
+> > C23 and C++11 extend the `enum` syntax to allow specifying the underlying integral type.  This is not legal C99 syntax, so drivers may only use this syntax if it is guarded with appropriate C preprocessor conditionals.
+> >
+> > Example:
+> >
+> > ```C
+> > #if (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 202311L) || (defined(__cplusplus) && __cplusplus >= 201103L)
+> > #define XYDMM32_ENUM_TYPE : uint32_t
+> > #else
+> > #define XYDMM32_ENUM_TYPE
+> > #endif
+> > 
+> > typedef enum XYDMM32_ENUM_TYPE {
+> >     XYDMM32_FUNCTION_DC_VOLTS = 1,
+> >     XYDMM32_FUNCTION_AC_VOLTS = 2
+> > } XYDmm32Function;
+> > ```
+
+> **Observation:**
+> > In C99, `enum` types are not type-safe: an `enum` is compatible with its underlying integral type.  As a result, `enum` types with the same underlying integral type may be used interchangeably.  For example, if `XYDmm32Function` and `XYDmm32TempTransducerType` have the same underlying integral type, then you can pass `XYDMM32_FUNCTION_DC_VOLTS` to the `XYDmm32_temp_transducer_type_set` function without getting a compiler error or warning.  In C++, `enum` types are type-safe, so compiling the same code with a C++ compiler would produce an error or warning.
 
 If the sign of the enumerated type has no significance for the driver, drivers should prefer unsigned types.
 
 > **Observation:**
-> > These enumeration rules permit bit-mapped enumerations to be created as needed by the API.
+> > These enumeration rules permit bit-mapped "flag" enumerations.
 
 ### Repeated Capabilities
 
