@@ -244,8 +244,6 @@ The get/set functions shall:
 
 IVI-ANSI-C drivers may define enumerated types, which are integral types where the allowed values are specified by a set of named enumeration constants.
 
-Enumerated types and enumeration constants shall be defined in a driver include file.
-
 Enumerated type names shall be of the form `<DriverIdentifier><EnumeratedTypeName>`, in Pascal case.
 
 Enumeration constant names shall be of the form `<DRIVER_IDENTIFIER>_<ENUMERATED_TYPE_NAME>_<ENUMERATION_CONSTANT_NAME>`, in upper case with underscores between words.  Note that this includes the enumerated type name because enumeration constants are not scoped by the enumerated type to which they belong.
