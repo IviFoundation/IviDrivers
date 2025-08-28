@@ -80,7 +80,7 @@ This specification also requires that drivers comply with the [IVI Driver Core S
 
 This specification, and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
 
-However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system.
+However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system.  Nor is there any inherent limitation to using an IVI-C driver in an ANSI-C setting.
 
 Drivers that conform to this specification do not automatically conform with IVI-C nor do IVI-ANSI-C drivers automatically conform to IVI-C.
 ### Substitutions
