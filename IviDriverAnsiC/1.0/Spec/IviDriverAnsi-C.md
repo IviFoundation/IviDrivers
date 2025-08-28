@@ -82,7 +82,7 @@ This specification, and other IVI Driver Core specifications have less extensive
 
 However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system.  Nor is there any inherent limitation to using an IVI-C driver in an ANSI-C setting.
 
-Drivers that conform to this specification do not automatically conform with IVI-C nor do IVI-ANSI-C drivers automatically conform to IVI-C.
+Drivers that conform to this specification do not automatically conform with IVI-C nor do IVI-C drivers automatically conform to this specification.
 ### Substitutions
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The *IVI Driver Core Specification* describes these substitutions.
