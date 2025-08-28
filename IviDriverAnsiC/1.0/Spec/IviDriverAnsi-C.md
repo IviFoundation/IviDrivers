@@ -55,7 +55,9 @@ No investigation has been made of common-law trademark rights in any work.
   - [Base IVI-ANSI-C API](#base-ivi-ansi-c-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
-    - [ANSI-C Initialize Function Prototypes](#ansi-c-initialize-function-prototypes)
+      - [Error Message Function](#error-message-function)
+      - [Error Query All](#error-query-all)
+    - [ANSI-C Initialize (Init) Function Prototypes](#ansi-c-initialize-init-function-prototypes)
     - [IVI-ANSI-C Interface](#ivi-ansi-c-interface)
     - [Direct IO functions](#direct-io-functions)
       - [Direct IO ANSI-C Prototypes](#direct-io-ansi-c-prototypes)
@@ -187,8 +189,6 @@ The following sub-sections call out required IVI-ANSI-C style.  There are additi
 
 #### IVI-ANSI-C Function Naming
 
-> [!NOTE]  ACTION - JOE CREATE DISCUSSION ITEM -- Should should probably be titled something more like "function naming" and also include broader discussion especially re. use of things like nouns/verbs in the function name.
-
 IVI-ANSI-C function names shall be snake case.
 
 In general drivers are encouraged to organize ANSI-C function names into a hierarchy.  This is beneficial because:
@@ -206,7 +206,7 @@ Vendors should consider emulating the hierarchical API by appending the names of
 Would translated into:
 
 ```C
-  int status = XYDmm32_measurement_voltage_span(Dmm32Session, start, stop);
+  int32_t status = XYDmm32_measurement_voltage_span(Dmm32Session, start, stop);
 ```
 
 > **Observation:**
@@ -235,9 +235,6 @@ Negative return values shall indicate an error, positive return values shall ind
 > > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be thrown as ANSI-C exceptions.
 
 #### Properties
-
->[NOTE:]
-> Stopped here August 21
 
 Properties are values that can be individually either get, set, or both.  
 
@@ -320,13 +317,6 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 
 Repeated capabilities may be represented in two ways in IVI-ANSI-C drivers. Repeated capability instances may be specified by a method that selects the active instance (the *selector style*) or by selecting a particular instance using a function parameter. See the *IVI Core Driver Specification* for more information on this.
 
-> [!NOTE]  following sentence is incompatible w/ the paragraph after it....
->
-> Need to have a general discussion about how flexible the spec should be on multiple repeated capabilities.
->
-> Note the flexibility that strings bring.
-> 
-
 Driver functions that require a repeated capability parameter(s) should pass it as the second (and or following) parameter(s), after the *session*.  
 
 If a driver implements multiple repeated capabilities (for instance N markers on M waveforms), the driver API may either define a scheme whereby multiple repeated capabilities can be passed in a single parameter, or it may use additional parameters.
@@ -347,7 +337,10 @@ Drivers are permitted to choose any of these, or use other approaches.
 > > Some applications requiring repeated capability parameters that operate on multiple instances of a repeated capability at the same time. For these, bitmapping each repeated capability into an integer may work well.
 
 > **Observation:**
-> > A useful historical solution to the challenge of nested repeated capabilities is to treat them as a string with each element syntactically separated.  The string is then parsed by the driver.
+> > A useful solution to the challenge of nested repeated capabilities is to treat them as a string with each element syntactically separated as in [IVI-C](#link) .  The string is then parsed by the driver.
+
+> **Observation:**
+> > If using a structure, driver designers need to be aware that it may be awkward for the driver client to construct and pass the structure.  Furthermore, stable ABIs are often difficult to provide with structure. The selection of pass-by-value and pass-by-reference needs to be made cautiously.
 
 ### Documentation and Source Code
 
@@ -365,7 +358,7 @@ This section gives a complete description of each function required for an IVI-A
 
 | Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
 |---------------------------------|---------------------------------                 |
-| Initialization                  | <driver_identifier>_open()                       |
+| Initialization                  | <driver_identifier>_init()                       |
 | Driver Version                  | <driver_identifier>_driver_version_get()         |
 | Driver Vendor                   | <driver_identifier>_driver_vendor_get()          |
 | Error Query                     | <driver_identifier>_error_query()                |
@@ -379,48 +372,73 @@ This section gives a complete description of each function required for an IVI-A
 
 ### Additional Required Functions for IVI-ANSI-C Drivers
 
-> [!NOTE:]  Added this per our discussion at June meeting.  Doesn't seem to need the session, do we want to include it in the prototype?
-> Also, do we want to permit this to return an error?  Seems like just a message that indicates "Invalid error number" would be suitable.
-
 | Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
 |---------------------------------|---------------------------------                 |
-| Error Message                  |char[] <driver_identifier>_error_message(<error_type> error)  |
+| Error Message                  |char* <driver_identifier>_error_message()  |
+| Error Query All                | <driver_identifier>_error_query_all() |
 
-### ANSI-C Initialize Function Prototypes
+#### Error Message Function
 
-The IVI-ANSI-C drivers shall implement two initializers with the following prototypes.
+This function converts an error returned by an ANSI-C driver function call into a human readable string.  Note that this function does not accept a session parameter. If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
+
+Prototype:
 
 ```C
-int <driver_identifier>_initialize(const char *resource_name, const _Bool id_query, const _Bool reset, void* &session)
+char* <driver_identifier>_error_message(int32_t error);
 ```
 
-If the client uses this function, *simulation* is initially disabled.
+#### Error Query All
 
-> [!NOTE]  Per discussion 2025-06-24
-> - do we want to use bool instead of _Bool?  This would require including stdbool.h, but this provides true/false definitions also, so seems reasonable.
-> - can we find a common way to pass options in, or do we just go with the ambiguous statement below?   Note that IVI-C really wants a string. VXIp&p has no option string.
+This function repetitively queries the device for errors, ensuring that any device hosted error queue is empty.  If it discovers more than one error it shall concatenate the error messages together, separating them with a new-line and return the resulting string.  Any strings returned by the device that have an embedded new-line will require special handling by the driver.
 
-IVI-ANSI-C drivers shall implement an additional initializer that provides a way for the client to specify driver options (such as *simulation*). The mechanism by which these parameters are passed is driver-specific.
+This function uses client-allocated memory to return the result.  The usual IVI-ANSI-C client-allocated memory protocol is used to return the value.
+
+>**Observation:**
+> > Implementing this function may require that the driver read the complete error queue from the device, keeping it in a cache, in order to determine its size before engaging in the client-allocated memory protocol with the client.
+
+Prototype:
+
+> [!NOTE] Need to fill in the prototype after we agree to the client-allocated memory protocol.
+
+```C
+char* <driver_identifier>_error_query_all()
+```
+
+### ANSI-C Initialize (Init) Function Prototypes
+
+The IVI-ANSI-C drivers shall implement an initializer with the following prototype:
+
+```C
+int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <SESSION_TYPE>* session_out);
+int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <SESSION_TYPE>* session_out);
+```
+
+For the <driver_identifier>_init() function, *simulation* is initially disabled.  For <driver_identifier>_init_with_options() the *simulation* is initially disabled unless specified otherwise in the *options* string.
+
+The format of the *options* string shall be: "<name1>=<value>;<name2>=<value>;...".
 
 IVI-ANSI-C drivers may implement additional initializers.
 
 The parameters are defined in the [IVI Driver Core Specification](#link).  The following table shows their names and types for ANSI-C:
 
-| Inputs        |     Description     |    Data Type |
-| ------------- | ------------------- | ------------ |
-| resource_name |   Resource Name     |  char *      |
-| id_query      |   ID Query          |  _Bool       |
-| reset         |   Reset             |  _Bool       |
+| Inputs        |     Description     |    Data Type  |
+| ------------- | ------------------- | ------------  |
+| resource_name |   Resource Name     |  const char * |
+| id_query      |   ID Query          |  bool         |
+| reset         |   Reset             |  bool         |
 
 ### IVI-ANSI-C Interface
 
 ```C
+int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <SESSION_TYPE>* session_out);
+int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <SESSION_TYPE>* session_out);
 
-NEED TO FILL THIS IN!!!
+
+  AND THE REST
 
 ```
 
-ANSI-C-specific Notes (see *IVI Driver Core Specification* for general requirements):
+ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
 
 - Drivers are permitted to implement a Set function on `Simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
@@ -428,9 +446,9 @@ ANSI-C-specific Notes (see *IVI Driver Core Specification* for general requireme
 
 Per the *IVI Driver Core specification*, IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide an API for sending messages to and from the instrument over the ASCII command channel. This section specifies those functions.
 
-Drivers may implement these functions in the driver hierarchy it makes sense.
+Drivers may implement these functions in the driver hierarchy if it makes sense.
 
-In the following, '<driver_identifier>' indicates the usual snake case driver identifier. '<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
+In the following '<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
 
 | Required Driver API (IVI Driver Core) | Core IVI-ANSI-C API     |
 | ------------------------------------- | --------------------    |
@@ -443,7 +461,8 @@ In the following, '<driver_identifier>' indicates the usual snake case driver id
 
 #### Direct IO ANSI-C Prototypes
 
-In the following, '<driver_identifier>' indicates the usual snake case driver identifier. '<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
+> [!NOTE]
+> Need to update read_bytes, read_string when we finalize the client-allocated memory scheme.
 
 ```C
 error <driver_identifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
@@ -458,6 +477,9 @@ error <driver_identifier>_<hierarchy>_write_string(const void* session, const ch
 Notes:
 
 - The *optional* `iosession` read-only property should return a session for the underlying IO library.
+
+>**Observation:**
+> > Drivers should consider including a query function that combines read and write.
 
 ## Packaging Requirements for ANSI-C
 
