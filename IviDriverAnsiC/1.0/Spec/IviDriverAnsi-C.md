@@ -54,13 +54,13 @@ No investigation has been made of common-law trademark rights in any work.
   - [Thread Safety](#thread-safety)
   - [Base IVI-ANSI-C API](#base-ivi-ansi-c-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
+    - [ANSI-C Initialize Functions](#ansi-c-initialize-functions)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
       - [Error Message Function](#error-message-function)
-      - [Error Query All](#error-query-all)
-    - [ANSI-C Initialize (Init) Function Prototypes](#ansi-c-initialize-init-function-prototypes)
-    - [IVI-ANSI-C Interface](#ivi-ansi-c-interface)
+      - [Error Query All Function](#error-query-all-function)
+    - [Prototypes of Required Driver Functions](#prototypes-of-required-driver-functions)
     - [Direct IO functions](#direct-io-functions)
-      - [Direct IO ANSI-C Prototypes](#direct-io-ansi-c-prototypes)
+      - [Prototypes for Direct IO Functions](#prototypes-for-direct-io-functions)
   - [Packaging Requirements for ANSI-C](#packaging-requirements-for-ansi-c)
     - [Signing](#signing)
   - [IVI-ANSI-C Driver Conformance](#ivi-ansi-c-driver-conformance)
@@ -370,56 +370,11 @@ This section gives a complete description of each function required for an IVI-A
 | Simulate Enabled                | <driver_identifier>_simulate_get                 |
 | Supported Instrument Models     | <driver_identifier>_supported_instrument_models_get() |
 
-### Additional Required Functions for IVI-ANSI-C Drivers
+### ANSI-C Initialize Functions
 
-| Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
-|---------------------------------|---------------------------------                 |
-| Error Message                  |char* <driver_identifier>_error_message()  |
-| Error Query All                | <driver_identifier>_error_query_all() |
+The IVI-ANSI-C drivers shall implement two initializers, one which permits specifying options.
 
-#### Error Message Function
-
-This function converts an error returned by an ANSI-C driver function call into a human readable string.  Note that this function does not accept a session parameter. If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
-
-Prototype:
-
-```C
-char* <driver_identifier>_error_message(int32_t error);
-```
-
-#### Error Query All
-
-This function repetitively queries the device for errors, ensuring that any device hosted error queue is empty.  If it discovers more than one error it shall concatenate the error messages together, separating them with a new-line and return the resulting string.  Any strings returned by the device that have an embedded new-line will require special handling by the driver.
-
-This function uses client-allocated memory to return the result.  The usual IVI-ANSI-C client-allocated memory protocol is used to return the value.
-
->**Observation:**
-> > Implementing this function may require that the driver read the complete error queue from the device, keeping it in a cache, in order to determine its size before engaging in the client-allocated memory protocol with the client.
-
-Prototype:
-
-> [!NOTE] Need to fill in the prototype after we agree to the client-allocated memory protocol.
-
-```C
-char* <driver_identifier>_error_query_all()
-```
-
-### ANSI-C Initialize (Init) Function Prototypes
-
-The IVI-ANSI-C drivers shall implement an initializer with the following prototype:
-
-```C
-int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <SESSION_TYPE>* session_out);
-int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <SESSION_TYPE>* session_out);
-```
-
-For the <driver_identifier>_init() function, *simulation* is initially disabled.  For <driver_identifier>_init_with_options() the *simulation* is initially disabled unless specified otherwise in the *options* string.
-
-The format of the *options* string shall be: "<name1>=<value>;<name2>=<value>;...".
-
-IVI-ANSI-C drivers may implement additional initializers.
-
-The parameters are defined in the [IVI Driver Core Specification](#link).  The following table shows their names and types for ANSI-C:
+The parameters to the initialize function are defined in the [IVI Driver Core Specification](#link).  The following table shows their names and types for ANSI-C:
 
 | Inputs        |     Description     |    Data Type  |
 | ------------- | ------------------- | ------------  |
@@ -427,15 +382,62 @@ The parameters are defined in the [IVI Driver Core Specification](#link).  The f
 | id_query      |   ID Query          |  bool         |
 | reset         |   Reset             |  bool         |
 
-### IVI-ANSI-C Interface
+For the initialization functions *simulation* is initially disabled.  Unless specified otherwise by using <driver_identifier>_init_with_options() and specifying in the *options* string that *simulation* is enabled.
+
+One of the required initializers includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: "<name1>=<value>;<name2>=<value>;...".
+
+IVI-ANSI-C drivers may implement additional initializers.
+
+### Additional Required Functions for IVI-ANSI-C Drivers
+
+In addition to the functions required by the [IVI Driver Core Specification](#link), IVI ANSI-C drivers shall also implement:
+
+| Required API     |  Description |
+|------------------|------------- |
+| Error Message    | This function converts a non-zero return value from a function into a human-readable error message.  |
+| Error Query All | This function behaves like the error query function except that the instrument error queue is read repeatedly until it is empty. |
+
+#### Error Message Function
+
+The *Error Message Function* converts an error returned by an ANSI-C driver function call into a human readable string.  Note that this function does not accept a session parameter. If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
+
+#### Error Query All Function
+
+The *Error Query All Function* repetitively queries the device for errors, ensuring that any device hosted error queue is empty.  If this function discovers more than one error it shall concatenate the error messages together, separating them with a new-line and return the resulting string.  Any strings returned by the device that have an embedded new-line will require special handling by the driver.
+
+This function uses client-allocated memory to return the result.  The usual IVI-ANSI-C client-allocated memory protocol is used to return the value.
+
+>**Observation:**
+> > Implementing this function may require that the driver read the complete error queue from the device, keeping it in a cache, in order to determine its size before engaging in the client-allocated memory protocol with the client.
+
+### Prototypes of Required Driver Functions
+
+In the prototypes below:
+1. The *<DriverIdentifier>* is inserted per the rules in [substitutions](#substitutions).
+2. <DriverIdentifier>Session is the type specified in [the session parameter](#the-session-parameter).
+
+> [!NOTE] Need to update prototypes appropriately after we agree to the client-allocated memory protocol.
 
 ```C
-int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <SESSION_TYPE>* session_out);
-int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <SESSION_TYPE>* session_out);
+/* Initialization functions */
+int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
+int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
 
+/* Functions specified in the base spec */
+int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, char* version_out);
+int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, char* vendor_out);
+int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, char* error_message_out);
+int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, char* manufacturer_out);
+int32_t <driver_identifier>_instrument_model_get(<DriverIdentifier>Session session, char* model_out);
+int32_t <driver_identifier>_query_instrument_status_enabled_get(<DriverIdentifier>Session session, bool* instrument_status_enabled_out);
+int32_t <driver_identifier>_query_instrument_status_enabled_set(<DriverIdentifier>Session session, bool instrument_status_enabled);
+int32_t <driver_identifier>_reset(<DriverIdentifier>Session session);
+int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
+int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, char* supported_instrument_models_out)
 
-  AND THE REST
-
+/* Additional functions required for ANSI-C Drivers */
+char* <driver_identifier>_error_message(int32_t error);
+char* <driver_identifier>_error_query_all()
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
@@ -459,7 +461,7 @@ In the following '<hierarchy>' indicates whatever hierarchy path the driver desi
 | Write Bytes                           | `driver_identifier>_<hierarchy>_write_bytes()`   |
 | Write String                          | `<driver_identifier>_<hierarchy>_write_string()` |
 
-#### Direct IO ANSI-C Prototypes
+#### Prototypes for Direct IO Functions
 
 > [!NOTE]
 > Need to update read_bytes, read_string when we finalize the client-allocated memory scheme.
