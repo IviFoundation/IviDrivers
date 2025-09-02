@@ -542,7 +542,7 @@ All IVI-Python driver packages shall include the following files:
 
 - The driver
 
-- Readme file (`README.md`). Readme file shall contain the same list of supported instrument models as in the package meta-data.
+- Readme file (`README.md`). This file shall contain the same list of supported instrument models as in the package meta-data.
 
 
 ## IVI-Python Driver Conformance
