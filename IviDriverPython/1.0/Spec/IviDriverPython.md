@@ -118,6 +118,10 @@ def normalize(name):
 Name composition:
 - `<vendorPrefix>-<driverIdentifier>` Example: `myvendor-specan`
 
+#### IVI-Python Package Type-Hinting
+
+The driver package shall provide type-hinting for all of its interfaces. In addition, the `py.typed` file with empty content shall be present for it top-level package.
+
 ### IVI-Python Driver Classes
 
 IVI-Python drivers are object-oriented. There shall be a class that represents the entire driver. That class is instantiated for each distinct instrument that will be controlled. The name of the class shall be `<DriverIdentifier>`.
@@ -539,6 +543,8 @@ All IVI-Python driver packages shall include the following files:
 - The driver
 
 - Readme File (`README.md`)
+
+- Type hinting file (`py.typed`) in the top-level package
 
 
 ## IVI-Python Driver Conformance
