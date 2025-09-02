@@ -45,6 +45,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Target Python Versions](#target-python-versions)
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
+      - [IVI-Python Package Versioning](#ivi-python-package-versioning)
       - [IVI-Python Packages Naming](#ivi-python-distribution-packages-naming)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
@@ -99,6 +100,9 @@ IVI-Python drivers shall follow the PEP-8 Python naming guidelines.
 ### IVI-Python Packages
 
 The IVI-Python driver shall be organized as a package, including an `__init__.py` file. Exactly one driver per distribution package shall be present. 
+
+#### IVI-Python Package Versioning
+The package should use [semantic versioning](https://semver.org/) (semver).
 
 #### IVI-Python Distribution Packages Naming
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/):
@@ -241,13 +245,13 @@ Interface accessor without the repeated capability shall be implemented as read-
 ax = io.axes
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer:
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a plural word, to hint to the user that the data type is a collection: 
 
 ```python
-vertical_items_collection = io.axes.vertical
-vertical_item_1a = io.axes.vertical[VerticalIndex.Vertical_1]
-vertical_item_1b = io.axes.vertical['Vertical_1']
-vertical_item_1c = io.axes.vertical[1]  # Optional integer indexer
+vertical_items_collection = io.axes.verticals
+vertical_item_1a = io.axes.verticals[VerticalIndex.Vertical_1]
+vertical_item_1b = io.axes.verticals['Vertical_1']
+vertical_item_1c = io.axes.verticals[1]  # Optional integer indexer
 ```
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
