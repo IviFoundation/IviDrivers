@@ -513,7 +513,11 @@ The following sections detail the package requirements.
 
 ### Package Meta-data
 
-Project meta-information. Below, is an example of the toml file content: 
+Project meta-information. 
+
+At least one instrument model supported by the driver shall be mentioned in the keywords list.
+
+Below, is an example of the toml file content: 
 
 ```toml
 [project]
@@ -526,7 +530,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 license = "MIT"
 classifiers = [ "Programming Language :: Python", "Intended Audience :: Telecommunications Industry" ]
 dependencies = ["pyvisa"]
-keywords = ["vendorxy", "specan", "signal", "analysis"]
+keywords = ["vendorxy", "SpecanModel_ABC"]
 
 [project.urls]
 Documentation = "https://readthedocs.org"
@@ -538,7 +542,7 @@ All IVI-Python driver packages shall include the following files:
 
 - The driver
 
-- Readme File (`README.md`)
+- Readme file (`README.md`). Readme file shall contain the same list of supported instrument models as in the package meta-data.
 
 
 ## IVI-Python Driver Conformance
