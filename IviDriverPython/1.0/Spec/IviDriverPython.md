@@ -544,7 +544,7 @@ All IVI-Python driver packages shall include the following files:
 
 - Readme File (`README.md`)
 
-- Type hinting file (`py.typed`) in the top-level package
+- Type hinting file (`py.typed`) at the top level of the package
 
 
 ## IVI-Python Driver Conformance
