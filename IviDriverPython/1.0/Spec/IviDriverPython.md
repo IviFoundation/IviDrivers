@@ -120,7 +120,7 @@ Name composition:
 
 #### IVI-Python Package Type-Hinting
 
-The driver package shall provide type-hinting for all of its interfaces. In addition, the `py.typed` file with empty content shall be present for it top-level package.
+The driver package shall provide type-hinting for all of its interfaces. In addition, an empty file named `py.typed` shall be included at the top level of the package.
 
 ### IVI-Python Driver Classes
 
