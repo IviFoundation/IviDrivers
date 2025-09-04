@@ -384,7 +384,7 @@ The parameters to the initialize function are defined in the [IVI Driver Core Sp
 
 For the initialization functions *simulation* is initially disabled unless specified otherwise by using <driver_identifier>_init_with_options() and specifying in the *options* string that *simulation* is enabled.
 
-One of the required initializers includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: "<name1>=<value>;<name2>=<value>;...".
+<driver_identifier>_init_with_options() includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.
 
 IVI-ANSI-C drivers may implement additional initializers.
 
