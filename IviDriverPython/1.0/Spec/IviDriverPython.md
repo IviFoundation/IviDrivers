@@ -531,7 +531,7 @@ readme = {file = "README.md", content-type = "text/markdown"}
 license = "MIT"
 classifiers = [ "Programming Language :: Python", "Intended Audience :: Telecommunications Industry" ]
 dependencies = ["pyvisa"]
-keywords = ["vendorxy", "SpecanModel_ABC"]
+keywords = ["Manufacturer_XY", "SpecanModel_ABC"]
 
 [project.urls]
 Documentation = "https://readthedocs.org"
