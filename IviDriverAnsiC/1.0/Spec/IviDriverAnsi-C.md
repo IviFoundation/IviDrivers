@@ -41,6 +41,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [IVI-ANSI-C Naming](#ivi-ansi-c-naming)
     - [IVI-ANSI-C Filenames](#ivi-ansi-c-filenames)
     - [IVI-ANSI-C Data Types](#ivi-ansi-c-data-types)
+      - [IVI-ANSI-C String Encoding](#ivi-ansi-c-string-encoding)
     - [IVI-ANSI-C Header Files](#ivi-ansi-c-header-files)
       - [Multiple Inclusion](#multiple-inclusion)
     - [IVI-ANSI-C Function Style](#ivi-ansi-c-function-style)
@@ -166,6 +167,10 @@ Drivers should consider defining a driver-defined type for the driver session, t
 Drivers shall provide all include files necessary to use the driver in the driver package.
 
 Drivers that provide source code shall provide all include files necessary to compile the driver with the driver source code.
+
+#### IVI-ANSI-C String Encoding
+
+IVI ANSI-C Drivers shall use XXXX string encoding.
 
 ### IVI-ANSI-C Header Files
 
