@@ -13,11 +13,7 @@ Drivers that comply with this specification are also required to comply with the
 
 ## Authorship
 
-> [!NOTE]
-> Standard IVI Boilerplate included, but changed IVI to LXI for now.
-
-This specification is developed by member companies of the LXI Foundation. Feedback is encouraged. 
-To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
+This specification is developed by member companies of the IVI Foundation. Feedback is encouraged. To view the list of member vendors or provide feedback, please visit the IVI Foundation website at [www.ivifoundation.org](https://www.ivifoundation.org).
 
 ## Warranty
 
@@ -91,7 +87,7 @@ The IVI Python standard does not require certain operating systems and releases.
 
 ### Target Python Versions
 
-IVI-Python drivers shall target Python 3.8 or later.
+IVI-Python drivers shall support a major, active Python version at the time the driver was released. The driver should support all active Python versions at the time of release.
 
 ### IVI-Python Naming
 
@@ -117,6 +113,8 @@ def normalize(name):
 
 Name composition:
 - `<vendorPrefix>-<driverIdentifier>` Example: `myvendor-specan`
+
+Existing drivers and vendors with different name compositions are exempt from this rule. [THIS CAN BE CHANGED TO RECOMMENDATION IN THE FUTURE]
 
 #### IVI-Python Package Type-Hinting
 
