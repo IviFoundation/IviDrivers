@@ -396,7 +396,7 @@ In addition to the functions required by the [IVI Driver Core Specification](#li
 | Required API     |  Description |
 |------------------|------------- |
 | Error Message    | This function converts a non-zero return value from a function into a human-readable error message.  |
-| Error Query All | This function behaves like the error query function except that the instrument error queue is read repeatedly until it is empty. |
+| Error Query All | This function behaves like the *Error Query* function except that all errors in the instrument error queue are read and returned. |
 
 #### Error Message Function
 
