@@ -386,7 +386,6 @@ The `<driver_identifier>_init_with_options()` function includes an *options* str
 
 For the initialization functions *simulation* is initially disabled unless specified otherwise by using the `<driver_identifier>_init_with_options()` function and specifying in the *options* string that *simulation* is enabled.
 
-The `<driver_identifier>_init_with_options()` function includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.
 
 IVI-ANSI-C drivers may implement additional initializers.
 
