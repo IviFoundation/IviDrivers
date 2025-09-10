@@ -9,7 +9,7 @@
 ## Abstract
 
 This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification.
-Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
+Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 ## Authorship
 
@@ -65,13 +65,13 @@ No investigation has been made of common-law trademark rights in any work.
 
 ## Overview of the IVI-Python Driver Language Specification
 
-This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
+This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement). These are included to provide a more consistent customer experience. However, in general, design decisions are left to the driver designer.
 
 ### Substitutions
 
-This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The *IVI Driver Core Specification* describes these substitutions.
+This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
 ## IVI-Python Driver Architecture
 
