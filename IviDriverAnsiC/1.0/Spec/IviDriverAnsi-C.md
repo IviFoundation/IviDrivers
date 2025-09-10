@@ -116,7 +116,14 @@ In addition to the compliance documentation required by [IVI Driver Core](#link)
 
 IVI-ANSI-C driver binaries (libraries) shall support clients using ISO/IEC 9899:1999 compilers (henceforth referred to as C99).  Drivers are permitted to provide binaries with APIs that support newer ANSI C features, however they shall provide all instrument capabilities from C99 callable APIs.
 
-When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 compilers, however drivers are encouraged to support newer versions of the ANSI-C standards as well.
+> **Observation:**
+> > Most modern C compilers support both C99 and C++. They typically distinguish between the two languages based on the file extension (`.c` vs. `.cpp` or `.cc`) or command-line options.
+
+Header files for IVI-ANSI-C drivers shall be compilable by C99 compilers.  If these compilers also support C++, then it is also recommended to allow the header files to be used in C++ applications.  For example, use the `__cplusplus` preprocessor conditional to declare public API entry points with `extern "C"` linkage, so that clients using a C++ compiler will import the public API symbols using C name decorations (mangling), rather than C++ name decorations.
+
+Public API entry points in IVI-ANSI-C driver binaries shall follow the compiler's C ABI (Application Binary Interface), not the compiler's C++ ABI. This includes but is not limited to: name decorations, calling conventions, and structure packing/alignment. Drivers implemented in C automatically comply with this requirement. Drivers implemented in C++ may use C++ features internally as long as these are not exposed in the public API interface. Drivers implemented in C++ shall not allow exceptions to escape from public API entry points.
+
+When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 (preferred) or C++ compilers. Drivers are encouraged to support newer versions of the ANSI-C standards as well.
 
 ### IVI-ANSI-C Naming
 
