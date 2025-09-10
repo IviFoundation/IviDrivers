@@ -246,24 +246,24 @@ io = Oscilloscope("TCPIP::192.168.1.101")
 Interface accessor without the repeated capability shall be implemented as read-only property:
 
 ```python
-ax = io.axes
+setup = io.setup
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a plural word, to hint to the user that the data type is a collection: 
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection: 
 
 ```python
-vertical_items_collection = io.axes.verticals
-vertical_item_1a = io.axes.verticals[VerticalIndex.Vertical_1]
-vertical_item_1b = io.axes.verticals['Vertical_1']
-vertical_item_1c = io.axes.verticals[1]  # Optional integer indexer
+vertical_items_collection = io.setup.verticals
+vertical_item_1a = io.setup.verticals[VerticalIndex.Vertical_1]
+vertical_item_1b = io.setup.verticals['Vertical_1']
+vertical_item_1c = io.setup.verticals[1]  # Optional integer indexer
 ```
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
-vertical_item_2a = io.axes.vertical_item(VerticalIndex.Vertical_2)
-vertical_item_2b = io.axes.vertical_item('Vertical_2')
-vertical_item_2c = io.axes.vertical_item(2)  # Optional integer indexer
+vertical_item_2a = io.setup.verticals_item(VerticalIndex.Vertical_2)
+vertical_item_2b = io.setup.verticals_item('Vertical_2')
+vertical_item_2c = io.setup.verticals_item(2)  # Optional integer indexer
 ```
 
 ### IVI-Python Error Handling
