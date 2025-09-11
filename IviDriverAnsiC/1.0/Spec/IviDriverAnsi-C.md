@@ -170,7 +170,10 @@ Drivers that provide source code shall provide all include files necessary to co
 
 #### IVI-ANSI-C String Encoding
 
-IVI ANSI-C Drivers shall use XXXX string encoding.
+IVI ANSI-C Drivers public APIs shall use UTF-8 string encoding.  
+
+> **Observation:**
+>> The string encoding used to communicate with the instrument is instrument specific. For performance reasons, drivers may prefer to not validate that strings exchanged with the instrument are of any particular encoding.
 
 ### IVI-ANSI-C Header Files
 
