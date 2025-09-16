@@ -395,20 +395,10 @@ In addition to the functions required by the [IVI Driver Core Specification](#li
 | Required API     |  Description |
 |------------------|------------- |
 | Error Message    | This function converts a non-zero return value from a function into a human-readable error message.  |
-| Error Query All | This function behaves like the *Error Query* function except that all errors in the instrument error queue are read and returned. |
 
 #### Error Message Function
 
 The *Error Message Function* converts an error returned by an ANSI-C driver function call into a human readable string.  Note that this function does not accept a session parameter. If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
-
-#### Error Query All Function
-
-The *Error Query All Function* repetitively queries the device for errors, ensuring that any device hosted error queue is empty.  If this function discovers more than one error it shall concatenate the error messages together, separating them with a new-line and return the resulting string.  Any strings returned by the device that have an embedded new-line will require special handling by the driver.
-
-This function uses client-allocated memory to return the result.  The usual IVI-ANSI-C client-allocated memory protocol is used to return the value.
-
->**Observation:**
-> > Implementing this function may require that the driver read the complete error queue from the device, keeping it in a cache, in order to determine its size before engaging in the client-allocated memory protocol with the client.
 
 ### Prototypes of Required Driver Functions
 
@@ -437,7 +427,6 @@ int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Se
 
 /* Additional functions required for ANSI-C Drivers */
 char* <driver_identifier>_error_message(int32_t error);
-char* <driver_identifier>_error_query_all()
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
