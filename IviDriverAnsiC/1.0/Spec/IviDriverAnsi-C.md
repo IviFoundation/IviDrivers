@@ -57,7 +57,6 @@ No investigation has been made of common-law trademark rights in any work.
     - [ANSI-C Initialize Functions](#ansi-c-initialize-functions)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
       - [Error Message Function](#error-message-function)
-      - [Error Query All Function](#error-query-all-function)
     - [Prototypes of Required Driver Functions](#prototypes-of-required-driver-functions)
     - [Direct IO functions](#direct-io-functions)
       - [Prototypes for Direct IO Functions](#prototypes-for-direct-io-functions)
