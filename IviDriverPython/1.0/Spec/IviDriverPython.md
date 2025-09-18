@@ -254,7 +254,7 @@ Interface accessor with the repeated capability shall be implemented as a read-o
 
 ```python
 # channels is an interface accessor with repeated capability
-channels_collection = session.setup.channels
+channels_collection = session.channels
 session.channels[1].range = 10.0
 session.channels['1'].range = 10.0
 session.channels[Channels.CHANNEL_1].range = 10.0
