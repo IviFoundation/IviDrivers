@@ -408,6 +408,9 @@ In the prototypes below:
 
 > [!NOTE] Need to update prototypes appropriately after we agree to the client-allocated memory protocol.
 
+> All functions that return a string should (perhaps) use the full protocol for client-allocated memory?
+> Question: should we specify a maximum length for convenience?
+
 ```C
 /* Initialization functions */
 int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
