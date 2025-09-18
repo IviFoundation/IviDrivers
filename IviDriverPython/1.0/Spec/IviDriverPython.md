@@ -241,29 +241,32 @@ Python IVI Drivers use tree-like structure of interfaces, some with repeated cap
 Consider an Oscilloscope driver with a non-repeated capabilities interface `axes` which contains repeated capabilities interface `vertical`:
 
 ```python
-io = Oscilloscope("TCPIP::192.168.1.101")
+session = Oscilloscope("TCPIP::192.168.1.101")
 ```
 Interface accessor without the repeated capability shall be implemented as read-only property:
 
 ```python
-ax = io.axes
+# setup is an interface accessor without the repeated capability
+session.setup.display_update = False
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a plural word, to hint to the user that the data type is a collection: 
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection: 
 
 ```python
-vertical_items_collection = io.axes.verticals
-vertical_item_1a = io.axes.verticals[VerticalIndex.Vertical_1]
-vertical_item_1b = io.axes.verticals['Vertical_1']
-vertical_item_1c = io.axes.verticals[1]  # Optional integer indexer
+# channels is an interface accessor with repeated capability
+channels_collection = session.channels
+session.channels[1].range = 10.0
+session.channels['1'].range = 10.0
+session.channels[Channels.CHANNEL_1].range = 10.0
 ```
+
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
-vertical_item_2a = io.axes.vertical_item(VerticalIndex.Vertical_2)
-vertical_item_2b = io.axes.vertical_item('Vertical_2')
-vertical_item_2c = io.axes.vertical_item(2)  # Optional integer indexer
+session.channels_item(1).range = 10.0
+session.channels_item('1').range = 10.0
+session.channels_item(Channels.CHANNEL_1).range = 10.0
 ```
 
 ### IVI-Python Error Handling
