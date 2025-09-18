@@ -398,7 +398,7 @@ In addition to the functions required by the [IVI Driver Core Specification](#li
 
 #### Error Message Function
 
-The *Error Message Function* converts an error returned by an ANSI-C driver function call into a human readable string.  Note that this function does not accept a session parameter. If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
+The *Error Message Function* converts an error returned by an ANSI-C driver function call into a human readable string.  If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
 
 ### Prototypes of Required Driver Functions
 
