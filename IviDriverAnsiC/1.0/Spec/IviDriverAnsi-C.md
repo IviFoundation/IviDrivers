@@ -426,7 +426,7 @@ int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool
 int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, char* supported_instrument_models_out)
 
 /* Additional functions required for ANSI-C Drivers */
-char* <driver_identifier>_error_message(int32_t error);
+int32_t <driver_identifier>_error_message(<DriverIdentifier>Session, int32_t error, int32_t error_message_size, char **error_message, int32_t* actual_error_message_size);
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
