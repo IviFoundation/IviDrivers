@@ -286,20 +286,19 @@ This section gives a complete description of each constructor, method, or proper
 
 ### Required Driver API Mapping Table
 
-| Required Driver API (IVI Driver Core) | IVI-Python API                        |
-|---------------------------------------|---------------------------------------|
-| Initialization                        | Driver Constructors                   |
-| Driver Version                        | Property: `driver_version`          |
-| Driver Version                        | Property: `driver_version`           |
-| Driver Vendor                         | Property: `driver_vendor`             |
-| Error Query                           | Method: `error_query()`               |
-| Instrument Manufacturer               | Property: `instrument_manufacturer`   |
-| Instrument Model                      | Property: `instrument_model`          |
-| Query Instrument Status Enabled       | Property: `query_instrument_status`   |
-| Reset                                 | Method: `reset()`                     |
-| Simulate Enabled                      | Property: `simulate`                  |
+| Required Driver API (IVI Driver Core) | IVI-Python API                          |
+|---------------------------------------|-----------------------------------------|
+| Initialization                        | Driver Constructors                     |
+| Driver Version                        | Property: `driver_version`              |
+| Driver Version                        | Property: `driver_version`              |
+| Driver Vendor                         | Property: `driver_vendor`               |
+| Error Query                           | Method: `error_query()`                 |
+| Instrument Manufacturer               | Property: `instrument_manufacturer`     |
+| Instrument Model                      | Property: `instrument_model`            |
+| Query Instrument Status Enabled       | Property: `query_instrument_status`     |
+| Reset                                 | Method: `reset()`                       |
+| Simulate Enabled                      | Property: `simulate`                    |
 | Supported Instrument Models           | Property: `supported_instrument_models` |
-| <None>                                | Method: `error_query_all()`           |
 
 #### Additional Driver API
 
