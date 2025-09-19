@@ -299,6 +299,12 @@ This section gives a complete description of each constructor, method, or proper
 | Simulate Enabled                      | Property: simulate                      |
 | Supported Instrument Models           | Property: supported_instrument_models   |
 
+#### Additional Driver API
+
+Besides the IVI Driver Core required API, the following additional API shall be implemented for the IVI-Python Drivers:
+
+- Method: `throw_on_device_error()` - calls error_query_all() and raises an Exception, if some instrument errors were detected.
+
 ### Constructors
 
 In IVI-Python, constructors provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
@@ -429,8 +435,8 @@ class IviUtility(ABC):
     pass
 
   @abstractmethod
-  def check_status(self) -> None:
-    """Combines error_query_all and Exception rising when some errors are detected."""
+  def raise_on_device_error(self) -> None:
+    """Calls error_query_all() and raises an Exception, if some instrument errors were detected."""
     pass
 
   @abstractmethod
