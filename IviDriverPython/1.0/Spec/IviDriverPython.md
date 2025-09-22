@@ -436,7 +436,7 @@ class IviUtility(ABC):
 
   @abstractmethod
   def raise_on_device_error(self) -> None:
-    """Calls error_query_all() and raises an Exception, if some instrument errors were detected."""
+    """Calls error_query_all() and raises an exception if any instrument errors were detected."""
     pass
 
   @abstractmethod
