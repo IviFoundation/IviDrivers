@@ -303,7 +303,7 @@ This section gives a complete description of each constructor, method, or proper
 
 Besides the IVI Driver Core required API, the following additional API shall be implemented for the IVI-Python Drivers:
 
-- Method: `throw_on_device_error()` - calls error_query_all() and raises an Exception, if some instrument errors were detected.
+- Method: `raise_on_device_error()` - calls `error_query_all()` and raises an exception if any instrument errors were detected.
 
 ### Constructors
 
