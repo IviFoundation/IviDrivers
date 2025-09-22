@@ -290,7 +290,6 @@ This section gives a complete description of each constructor, method, or proper
 |---------------------------------------|-----------------------------------------|
 | Initialization                        | Driver Constructors                     |
 | Driver Version                        | Property: `driver_version`              |
-| Driver Version                        | Property: `driver_version`              |
 | Driver Vendor                         | Property: `driver_vendor`               |
 | Error Query                           | Method: `error_query()`                 |
 | Instrument Manufacturer               | Property: `instrument_manufacturer`     |
