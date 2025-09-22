@@ -304,7 +304,7 @@ This section gives a complete description of each constructor, method, or proper
 
 Besides the IVI Driver Core required API, the following additional API shall be implemented for the IVI-Python Drivers:
 
-- Method: `error_query_all()`, returning a collection of `ErrorQueryResult`, and optionally implements a custom `__str__`
+- Method: `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
 
 ### Constructors
 
