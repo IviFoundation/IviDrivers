@@ -126,7 +126,7 @@ Public API entry points in IVI-ANSI-C driver binaries shall follow the compiler'
 When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 compilers, however drivers are encouraged to support newer versions of the ANSI-C standards as well.
 
 > **Observation:**
-> > IVI-ANSI-C drivers that do not supply source code are not required to be implemented in C.
+> > IVI-ANSI-C drivers that are not required to supply source code are not required to be implemented in C.
 
 ### IVI-ANSI-C Naming
 
