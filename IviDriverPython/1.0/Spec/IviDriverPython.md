@@ -308,6 +308,12 @@ Besides the IVI Driver Core required API, the following additional API shall be 
 
 - Method: `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
 
+#### Additional Driver API
+
+Besides the IVI Driver Core required API, the following additional API shall be implemented for the IVI-Python Drivers:
+
+- Method: `raise_on_device_error()` - calls `error_query_all()` and raises an exception if any instrument errors were detected.
+
 ### Constructors
 
 In IVI-Python, constructors provide the initialization functionality described in *IVI Driver Core Specification*. This section specifies the required IVI-Python specific driver constructors.
@@ -438,8 +444,8 @@ class IviUtility(ABC):
     return []
 
   @abstractmethod
-  def check_status(self) -> None:
-    """Combines error_query_all and Exception rising when some errors are detected."""
+  def raise_on_device_error(self) -> None:
+    """Calls error_query_all() and raises an exception if any instrument errors were detected."""
     pass
 
   @abstractmethod
