@@ -239,29 +239,32 @@ Python IVI Drivers use tree-like structure of interfaces, some with repeated cap
 Consider an Oscilloscope driver with a non-repeated capabilities interface `axes` which contains repeated capabilities interface `vertical`:
 
 ```python
-io = Oscilloscope("TCPIP::192.168.1.101")
+session = Oscilloscope("TCPIP::192.168.1.101")
 ```
 Interface accessor without the repeated capability shall be implemented as read-only property:
 
 ```python
-ax = io.axes
+# setup is an interface accessor without the repeated capability
+session.setup.display_update = False
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a plural word, to hint to the user that the data type is a collection: 
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection: 
 
 ```python
-vertical_items_collection = io.axes.verticals
-vertical_item_1a = io.axes.verticals[VerticalIndex.Vertical_1]
-vertical_item_1b = io.axes.verticals['Vertical_1']
-vertical_item_1c = io.axes.verticals[1]  # Optional integer indexer
+# channels is an interface accessor with repeated capability
+channels_collection = session.channels
+session.channels[1].range = 10.0
+session.channels['1'].range = 10.0
+session.channels[Channels.CHANNEL_1].range = 10.0
 ```
+
 In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
 The method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
-vertical_item_2a = io.axes.vertical_item(VerticalIndex.Vertical_2)
-vertical_item_2b = io.axes.vertical_item('Vertical_2')
-vertical_item_2c = io.axes.vertical_item(2)  # Optional integer indexer
+session.channels_item(1).range = 10.0
+session.channels_item('1').range = 10.0
+session.channels_item(Channels.CHANNEL_1).range = 10.0
 ```
 
 ### IVI-Python Error Handling
@@ -273,29 +276,36 @@ All IVI-Python instrument drivers shall consistently use the standard Python exc
 
 ### Documentation and Source Code
 
-This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md).
+This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in *IVI Driver Core Specification*.
 
 > **Observation:**
 > > Driver developers are encouraged to include documentation and source code in the driver package. At a minimum the package should include a README file that directs customers where they can find additional material.
 
 ## Base IVI-Python API
 
-This section gives a complete description of each constructor, method, or property required for an IVI-Python Core driver. The following table shows the mapping between the required base driver APIs described in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md) and the corresponding IVI-Python specific APIs described in this section.
+This section gives a complete description of each constructor, method, or property required for an IVI-Python Core driver. The following table shows the mapping between the required base driver APIs described in the IVI Driver Core specification and the corresponding IVI-Python specific APIs described in this section.
 
 ### Required Driver API Mapping Table
 
 | Required Driver API (IVI Driver Core) | IVI-Python API                          |
 |---------------------------------------|-----------------------------------------|
 | Initialization                        | Driver Constructors                     |
-| Driver Version                        | Property: driver_version                |
-| Driver Vendor                         | Property: driver_vendor                 |
-| Error Query                           | Method: error_query()                   |
-| Instrument Manufacturer               | Property: instrument_manufacturer       |
-| Instrument Model                      | Property: instrument_model              |
-| Query Instrument Status Enabled       | Property: query_instrument_status       |
-| Reset                                 | Method: reset()                         |
-| Simulate Enabled                      | Property: simulate                      |
-| Supported Instrument Models           | Property: supported_instrument_models   |
+| Driver Version                        | Property: `driver_version`              |
+| Driver Vendor                         | Property: `driver_vendor`               |
+| Error Query                           | Method: `error_query()`                 |
+| Instrument Manufacturer               | Property: `instrument_manufacturer`     |
+| Instrument Model                      | Property: `instrument_model`            |
+| Query Instrument Status Enabled       | Property: `query_instrument_status`     |
+| Reset                                 | Method: `reset()`                       |
+| Simulate Enabled                      | Property: `simulate`                    |
+| Supported Instrument Models           | Property: `supported_instrument_models` |
+
+#### Additional Driver API
+
+Besides the IVI Driver Core required API, the following additional API shall be implemented for the IVI-Python Drivers:
+
+- Method: `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
+- Method: `raise_on_device_error()` - calls `error_query_all()` and raises an exception if any instrument errors were detected.
 
 ### Constructors
 
@@ -421,14 +431,14 @@ class IviUtility(ABC):
     pass
 
   @abstractmethod
-  def error_query_all(self) -> List[ErrorQueryResult]:
+  def error_query_all(self) -> Collection[ErrorQueryResult]:
     """Returns all the errors currently reported in the instrument's error queue.
-    If no error is present, the method returns an empty list."""
-    pass
+      If no error is present, the method returns an empty collection."""
+    return []
 
   @abstractmethod
-  def check_status(self) -> None:
-    """Combines error_query_all and Exception rising when some errors are detected."""
+  def raise_on_device_error(self) -> None:
+    """Calls error_query_all() and raises an exception if any instrument errors were detected."""
     pass
 
   @abstractmethod
