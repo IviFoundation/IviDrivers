@@ -260,7 +260,7 @@ session.channels[Channels.CHANNEL_1].range = 10.0
 session.channels[1].range = 10.0
 ```
 
-In addition, to improve the user experience by utilizing the code-completion, the drivers may implement a method-like accessors with enum and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
+In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with enum and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
 session.channels_item('1').range = 10.0
