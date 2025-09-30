@@ -249,7 +249,7 @@ All IVI-ANSI-C functions that may result in an error shall indicate errors to th
 Negative return values shall indicate an error, positive return values shall indicate non-fatal warnings.
 
 > **Observation:**
-> > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be thrown as ANSI-C exceptions.
+> > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be indicated using the return value from functions.
 
 #### Properties
 
