@@ -114,13 +114,16 @@ def normalize(name):
 
 The distribution package name shall be the same as the import package name except for the choice of separator. Distribution package name shall be all lower-case. Dashes or underscores are allowed.
 
-DriverIdentifier composition when the driver vendor and the instrument manufacturer are the same: <instrument_manufacturer>_<instrument_model> or <instrument_manufacturer><instrument_model>
+DriverIdentifier composition when the driver vendor and the instrument manufacturer are the same:
+`<instrument_manufacturer>_<instrument_model>` or `<instrument_manufacturer><instrument_model>`
 
-DriverIdentifier composition when the driver vendor and the instrument manufacturer are not the same: <driver_vendor><instrument_manufacturer><instrument_model> or <driver_vendor>_<instrument_manufacturer><instrument_model>
+DriverIdentifier composition when the driver vendor and the instrument manufacturer are not the same:
+`<driver_vendor><instrument_manufacturer><instrument_model>` or `<driver_vendor>_<instrument_manufacturer><instrument_model>`
 
-<driver_vendor> and <instrument_manufacturer> may be 2 characters prefix or longer name when appropriate.
+`<driver_vendor>` and `<instrument_manufacturer>` may be 2 characters prefix or longer name when appropriate.
 
 Existing drivers and vendors with different name compositions are exempt from this rule. [THIS CAN BE CHANGED TO RECOMMENDATION IN THE FUTURE]
+
 
 #### IVI-Python Package Type-Hinting
 
