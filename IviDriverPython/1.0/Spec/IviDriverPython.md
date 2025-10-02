@@ -250,23 +250,22 @@ Interface accessor without the repeated capability shall be implemented as read-
 session.setup.display_update = False
 ```
 
-Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. Indexer data type of the collection, shall be enum and string. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection: 
+Interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. The indexer data type of the collection shall be either a string and/or an enum. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement an integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection: 
 
 ```python
 # channels is an interface accessor with repeated capability
 channels_collection = session.channels
-session.channels[1].range = 10.0
 session.channels['1'].range = 10.0
 session.channels[Channels.CHANNEL_1].range = 10.0
+session.channels[1].range = 10.0
 ```
 
-In addition, to improve the user experience by utilizing the code-completion, the drivers shall implement a method-like accessors with enum and string parameter data types. 
-The method accessor shall have the same name as the property, with the suffix `_item`:
+In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with enum and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
-session.channels_item(1).range = 10.0
 session.channels_item('1').range = 10.0
 session.channels_item(Channels.CHANNEL_1).range = 10.0
+session.channels_item(1).range = 10.0
 ```
 
 ### IVI-Python Error Handling
