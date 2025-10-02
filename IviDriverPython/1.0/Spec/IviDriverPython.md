@@ -2,6 +2,7 @@
 
 | Version Number | Date of Version | Version Notes                         |
 |----------------|-----------------|---------------------------------------|
+| 0.5            | October 2025    | First part of spec review             |
 | 0.4            | July 2025       | Transferred to IVI Foundation repo    |
 | 0.2            | June 2025       | LXI Working group changes             |
 | 0.1            | May 2025        | Preliminary Draft for LXI Development |
@@ -9,7 +10,7 @@
 ## Abstract
 
 This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification.
-Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md).
+Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 ## Authorship
 
@@ -65,13 +66,13 @@ No investigation has been made of common-law trademark rights in any work.
 
 ## Overview of the IVI-Python Driver Language Specification
 
-This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md).
+This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement). These are included to provide a more consistent customer experience. However, in general, design decisions are left to the driver designer.
 
 ### Substitutions
 
-This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/Python/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
+This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
 ## IVI-Python Driver Architecture
 
@@ -163,7 +164,7 @@ Repeated capabilities may be represented in two ways in IVI-Python drivers. Repe
 1) a method that selects the active instance (the *selector style*) for subsequent operations
 2) selecting a particular instance from a collection (the *collection style*). 
 
-See the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md) for details.
+See the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for details.
 
 For IVI-Python drivers, collection style repeated capabilities are recommended.
 
@@ -313,7 +314,7 @@ Besides the IVI Driver Core required API, the following additional API shall be 
 
 ### Constructors
 
-In IVI-Python, constructors provide the initialization functionality described in [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md). This section specifies the required IVI-Python specific driver constructors.
+In IVI-Python, constructors provide the initialization functionality described in [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). This section specifies the required IVI-Python specific driver constructors.
 
 #### Python Constructor Prototype
 
@@ -364,7 +365,7 @@ class Options(TypedDict, total=False):
 	block_data_chunk: int
 ```
 
-The parameters are defined in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md). The following table shows their names and types for Python:
+The parameters are defined in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). The following table shows their names and types for Python:
 
 | Inputs        | Description   | Data Type |
 |---------------|---------------|-----------|
@@ -470,13 +471,13 @@ class ErrorQueryResult:
     return self._message
 ```
 
-Python-specific Notes (see [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
+Python-specific Notes (see [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
 
 - Drivers are permitted to implement a Set accessor on `simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
 ### Direct IO Properties and Methods
 
-Per the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md), IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide API for sending messages to and from the instrument over the ASCII command channel. This section specifies those properties and methods.
+Per the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md), IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide API for sending messages to and from the instrument over the ASCII command channel. This section specifies those properties and methods.
 
 The interface reference property should be named *ivi_direct_io*. The interface reference property should be available on the root driver class.
 
@@ -559,7 +560,7 @@ All IVI-Python driver packages shall include the following files:
 
 - The driver
 
-- Readme file (`README.md`) as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/AnsiC/IviDriverCore/1.0/Spec/IviDriverCore.md)
+- Readme file (`README.md`) as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
 
 - Type hinting file (`py.typed`) at the top level of the package
 
