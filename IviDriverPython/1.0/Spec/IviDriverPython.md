@@ -74,6 +74,22 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
+#### Driver Identifier Composition
+
+`<driver_vendor>` and `<instrument_manufacturer>` may be 2 characters prefix or longer name when appropriate.
+
+Driver identifier composition when the driver vendor and the instrument manufacturer are the same:
+`<driver_vendor>_<instrument_model>` or `<driver_vendor><instrument_model>`
+
+Driver identifier composition when the driver vendor and the instrument manufacturer are not the same:
+`<driver_vendor><instrument_manufacturer><instrument_model>` or `<driver_vendor>_<instrument_manufacturer><instrument_model>`
+
+This document uses the following conventions regarding the '<DriverIdentifier>':
+
+- *\<driver_identifier\>* refers to the driver identifier in snake case, That is, in lower case with underscores between words.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42`.
+- '<DriverIdentifier'> is used when the context does not require further clarification, or when pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
+- *\<RootClassName\>* - <instrument_manufacturer><instrument_model> without the <driver_vendor>
+
 ## IVI-Python Driver Architecture
 
 This section describes how IVI-Python instrument drivers use Python. This section does not attempt to describe the technical features of Python, except where necessary to explain a particular IVI-Python feature. This section assumes that the reader is familiar with Python technology.
@@ -114,14 +130,6 @@ def normalize(name):
 
 The distribution package name shall be the same as the import package name except for the choice of separator. Distribution package name shall be all lower-case. Dashes or underscores are allowed.
 
-DriverIdentifier composition when the driver vendor and the instrument manufacturer are the same:
-`<instrument_manufacturer>_<instrument_model>` or `<instrument_manufacturer><instrument_model>`
-
-DriverIdentifier composition when the driver vendor and the instrument manufacturer are not the same:
-`<driver_vendor><instrument_manufacturer><instrument_model>` or `<driver_vendor>_<instrument_manufacturer><instrument_model>`
-
-`<driver_vendor>` and `<instrument_manufacturer>` may be 2 characters prefix or longer name when appropriate.
-
 Existing drivers and vendors with different name compositions are exempt from this rule. [THIS CAN BE CHANGED TO RECOMMENDATION IN THE FUTURE]
 
 
@@ -131,7 +139,21 @@ The driver package shall provide complete type-hinting. In addition, an empty fi
 
 ### IVI-Python Driver Classes
 
-IVI-Python drivers are object-oriented. There shall be a class that represents the entire driver. That class is instantiated for each distinct instrument that will be controlled. The name of the class shall be `<DriverIdentifier>`.
+IVI-Python drivers are object-oriented. There shall be a root class that represents the entire driver. That class is instantiated for each distinct instrument to be controlled. The name of the class shall be `<RootClassName>`. Import package and the Root class name do not collide, because they have different casing and/or missing driver vendor.
+
+If the driver vendor and instrument manufacturer are the same, the import statement looks like this: 
+
+```Python
+from rssiggen42 import RSSigGen42 
+from rs_siggen42 import RSSigGen42
+```
+If the driver vendor and instrument manufacturer are nor the same, the import statement looks like this: 
+
+```Python
+from ni_rssiggen42 import RSSigGen42
+from nirssiggen42 import RSSigGen42
+```
+
 
 ### IVI-Python Hierarchy
 
