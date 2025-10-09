@@ -36,6 +36,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Table of Contents](#table-of-contents)
   - [Overview of the IVI-Python Driver Language Specification](#overview-of-the-ivi-python-driver-language-specification)
     - [Substitutions](#substitutions)
+      - [Driver Identifier and Root Class Name Composition](#driver-identifier-and-root-class-name-composition)
   - [IVI-Python Driver Architecture](#ivi-python-driver-architecture)
     - [Style Guide](#style-guide)
     - [Bitness](#bitness)
@@ -43,17 +44,20 @@ No investigation has been made of common-law trademark rights in any work.
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
       - [IVI-Python Package Versioning](#ivi-python-package-versioning)
-      - [IVI-Python Packages Naming](#ivi-python-distribution-packages-naming)
+      - [IVI-Python Distribution Packages Naming](#ivi-python-distribution-packages-naming)
+      - [IVI-Python Package Type-Hinting](#ivi-python-package-type-hinting)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
       - [Reference Property and Class Naming](#reference-property-and-class-naming)
     - [Repeated Capabilities](#repeated-capabilities)
       - [Collection Style Repeated Capabilities and the Hierarchy](#collection-style-repeated-capabilities-and-the-hierarchy)
       - [Repeated Capability Reference Property Naming](#repeated-capability-reference-property-naming)
+    - [Driver Structure Interfaces](#driver-structure-interfaces)
     - [IVI-Python Error Handling](#ivi-python-error-handling)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Base IVI-Python API](#base-ivi-python-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
+      - [Additional Driver API](#additional-driver-api)
     - [Constructors](#constructors)
       - [Python Constructor Prototype](#python-constructor-prototype)
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
@@ -74,21 +78,108 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
-#### Driver Identifier Composition
+#### Driver Identifier and Root Class Name Composition
 
-`<driver_vendor>` and `<instrument_manufacturer>` may be 2 characters prefix or longer name when appropriate.
+The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Root Class Name* which is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
-Driver identifier composition when the driver vendor and the instrument manufacturer are the same:
-`<driver_vendor>_<instrument_model>` or `<driver_vendor><instrument_model>`
+In order to be guaranteed unique, the first token of the driver identifier shall always indicate the *Driver Vendor*.  Driver vendors are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
 
-Driver identifier composition when the driver vendor and the instrument manufacturer are not the same:
-`<driver_vendor><instrument_manufacturer><instrument_model>` or `<driver_vendor>_<instrument_manufacturer><instrument_model>`
+The next token in the *Driver Identifier* indicates the *Instrument Manufacturer* of the instrument (or family of instruments) controlled by the driver.  If the *Driver Vendor* and the *Instrument Manufacturer* is the same, the token need not be repeated.  If the token for *Instrument Manufacturer* is present, it may be optionally separated from the *Driver Vendor* with an underscore ('_').  If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
 
-This document uses the following conventions regarding the '<DriverIdentifier>':
+The final token is the *Instrument Model*.  This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
-- *\<driver_identifier\>* refers to the driver identifier in snake case, That is, in lower case with underscores between words.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42`.
-- '<DriverIdentifier'> is used when the context does not require further clarification, or when pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
-- *\<RootClassName\>* - <instrument_manufacturer><instrument_model> without the <driver_vendor>
+The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](#link).  This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation.  Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered.
+
+In summary, the *Driver Identifier* is composed as follows (square brackets indicate the enclosed content is optional):
+
+```BNF
+> <Driver Vendor> ::= VPP-9 vendor identifying the author of the driver
+> <Instrument Manufacturer> ::= VPP-9 vendor identifier indicating the instrument vendor
+> <Instrument Model> ::= Identifier indicating the instrument model, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
+> <separator> ::= "_"
+
+> <Driver Identifier> ::= <Driver Vendor>[[<separator>]<InstrumentManufacturer>]<Instrument Model>
+> <Root Class Name> ::= <InstrumentManufacturer><Instrument Model>
+```
+
+Requirements:
+
+- The separator is optional and may be included as the discretion of the *Driver Vendor*, however as indicated above, it may only be included if both the *Driver Vendor* and *Instrument Manufacturer* are included in the *Driver Identifier*.
+
+- The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same
+
+- If selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
+
+The case of the characters in the *Driver Identifier* change depending on the context of its use.  This document uses the following conventions to specify the case of the *DriverIdentifier*:
+
+- *\<driver_identifier\>* refers to the driver identifier in lower case.
+
+- *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendors discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
+
+- *\<RootClassName\>* - is always in Pascal Case, however if the 2-character vendor abbreviation is used, it may have both characters upper case.
+
+Examples:
+
+In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
+
+```
+   <Driver Vendor> and <Instrument Manufacturer>:= the indefinite length form is 'Bask', and the short form is 'BI'
+   <Instrument Model> := the model name is Tdr123A
+
+The following are legal <Driver Identifier>/<RootClassName> pairs.
+
+  # using the indefinite length names 
+    <DriverIdentifier> := BaskTdr123A 
+    <driver_identifier> := basktdr123A
+    <RootClassName> := BaskTdr123A
+
+  # using the definite length name
+    <DriverIdentifier> := BITdr123A 
+    <driver_identifier> := bitdr123A
+    <RootClassName> := BITdr123A
+```
+
+In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
+
+```
+
+   <Driver Vendor> := the idefinite length form is 'Foo', and the short form is 'FI'
+   <Instrument Manufacturer> := the indefinite length is 'Bar' and the short form is 'BI'
+   <Instrument Model> := the model name is Tdr123A
+
+The following are legal <Driver Identifier>/<RootClassName> pairs.
+
+  # using the indefinite length names and omitting the separator
+    <DriverIdentifier> := FooBarTdr123A 
+    <driver_identifier> := foobartdr123A
+    <RootClassName> := BarTdr123A
+
+  # using the indefinite length names and the separator
+    <DriverIdentifier> := Foo_BarTdr123A 
+    <driver_identifier> := foo_bartdr123A
+    <RootClassName> := BarTdr123A
+
+  # using the short names and omitting the separator
+    <DriverIdentifier> := FIBITdr123A 
+    <driver_identifier> := FIBItdr123A
+    <RootClassName> := BITdr123A
+
+  # using the short names and the separator
+    <DriverIdentifier> := FI_BITdr123A 
+    <driver_identifier> := fi_bitdr123A
+    <RootClassName> := BITdr123A
+
+  # using the short names mixed case and omitting the separator
+    <DriverIdentifier> := FiBiTdr123A 
+    <driver_identifier> := FiBitdr123A
+    <RootClassName> := BiTdr123A
+
+  # using the short names mixed case and the separator
+    <DriverIdentifier> := Fi_BiTdr123A 
+    <driver_identifier> := fi_bitdr123A
+    <RootClassName> := BiTdr123A
+   
+```
 
 ## IVI-Python Driver Architecture
 
