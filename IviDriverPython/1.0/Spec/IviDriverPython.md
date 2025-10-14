@@ -36,7 +36,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Table of Contents](#table-of-contents)
   - [Overview of the IVI-Python Driver Language Specification](#overview-of-the-ivi-python-driver-language-specification)
     - [Substitutions](#substitutions)
-      - [Driver Identifier and Root Class Name Composition](#driver-identifier-and-root-class-name-composition)
+      - [Driver Identifier and Driver Class Name Composition](#driver-identifier-and-driver-class-name-composition)
   - [IVI-Python Driver Architecture](#ivi-python-driver-architecture)
     - [Style Guide](#style-guide)
     - [Bitness](#bitness)
