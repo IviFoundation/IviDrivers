@@ -99,7 +99,7 @@ In summary, the *Driver Identifier* is composed as follows (square brackets indi
 > <separator> ::= "_"
 
 > <Driver Identifier> ::= <Driver Vendor>[[<separator>]<InstrumentManufacturer>]<Instrument Model>
-> <Root Class Name> ::= <InstrumentManufacturer><Instrument Model>
+> <Driver Class Name> ::= <InstrumentManufacturer><Instrument Model>
 ```
 
 Requirements:
