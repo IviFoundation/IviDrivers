@@ -104,7 +104,7 @@ In summary, the *Driver Identifier* is composed as follows (square brackets indi
 
 Requirements:
 
-- The separator is optional and may be included as the discretion of the *Driver Vendor*, however as indicated above, it may only be included if both the *Driver Vendor* and *Instrument Manufacturer* are included in the *Driver Identifier*.
+- The separator is optional and may be included at the discretion of the *Driver Vendor*, however as indicated above, it may only be included if both the *Driver Vendor* and *Instrument Manufacturer* are included in the *Driver Identifier*.
 
 - The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same
 
