@@ -152,7 +152,7 @@ The following are legal <Driver Identifier>/<DriverClassName> pairs.
   # using the indefinite length names and omitting the separator
     <DriverIdentifier> := FooBarTdr123A 
     <driver_identifier> := foobartdr123A
-    <RootClassName> := BarTdr123A
+    <DriverClassName> := BarTdr123A
 
   # using the indefinite length names and the separator
     <DriverIdentifier> := Foo_BarTdr123A 
