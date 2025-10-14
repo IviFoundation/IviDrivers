@@ -116,7 +116,7 @@ The case of the characters in the *Driver Identifier* change depending on the co
 
 - *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendors discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
 
-- *\<RootClassName\>* - is always in Pascal Case, however if the 2-character vendor abbreviation is used, it may have both characters upper case.
+- *\<DriverClassName\>* - is always in Pascal Case, however if the 2-character vendor abbreviation is used, it may have both characters upper case.
 
 Examples:
 
