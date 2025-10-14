@@ -78,7 +78,7 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
-#### Driver Identifier and Root Class Name Composition
+#### Driver Identifier and Driver Class Name Composition
 
 The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Root Class Name* which is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
