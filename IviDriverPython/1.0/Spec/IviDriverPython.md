@@ -172,7 +172,7 @@ The following are legal <Driver Identifier>/<DriverClassName> pairs.
   # using the short names mixed case and omitting the separator
     <DriverIdentifier> := FiBiTdr123A 
     <driver_identifier> := FiBitdr123A
-    <RootClassName> := BiTdr123A
+    <DriverClassName> := BiTdr123A
 
   # using the short names mixed case and the separator
     <DriverIdentifier> := Fi_BiTdr123A 
