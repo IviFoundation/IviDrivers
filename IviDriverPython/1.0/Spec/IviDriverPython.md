@@ -131,7 +131,7 @@ The following are legal <Driver Identifier>/<DriverClassName> pairs.
   # using the indefinite length names 
     <DriverIdentifier> := BaskTdr123A 
     <driver_identifier> := basktdr123A
-    <RootClassName> := BaskTdr123A
+    <DriverClassName> := BaskTdr123A
 
   # using the definite length name
     <DriverIdentifier> := BITdr123A 
