@@ -136,7 +136,7 @@ The following are legal <Driver Identifier>/<DriverClassName> pairs.
   # using the definite length name
     <DriverIdentifier> := BITdr123A 
     <driver_identifier> := bitdr123A
-    <RootClassName> := BITdr123A
+    <DriverClassName> := BITdr123A
 ```
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
