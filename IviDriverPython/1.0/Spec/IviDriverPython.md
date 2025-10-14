@@ -147,7 +147,7 @@ In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are
    <Instrument Manufacturer> := the indefinite length is 'Bar' and the short form is 'BI'
    <Instrument Model> := the model name is Tdr123A
 
-The following are legal <Driver Identifier>/<RootClassName> pairs.
+The following are legal <Driver Identifier>/<DriverClassName> pairs.
 
   # using the indefinite length names and omitting the separator
     <DriverIdentifier> := FooBarTdr123A 
