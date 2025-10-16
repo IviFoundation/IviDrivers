@@ -439,7 +439,6 @@ The `<driver_identifier>_init_with_options()` function includes an *options* str
 
 For the initialization functions *simulation* is initially disabled unless specified otherwise by using the `<driver_identifier>_init_with_options()` function and specifying in the *options* string that *simulation* is enabled.
 
-
 IVI-ANSI-C drivers may implement additional initializers.
 
 ### Additional Required Functions for IVI-ANSI-C Drivers
@@ -485,20 +484,20 @@ int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool
 int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
 
 /* Functions specified in the base spec */
-int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, char* version_out);
-int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, char* vendor_out);
-int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, char* error_message_out);
-int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, char* manufacturer_out);
+int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, int32_t size, char* version_out, int32_t size_required);
+int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, int32_t size, char* vendor_out,  int32_t size_required);
+int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, int32_t size, char* error_message_out, int32_t size_required);
+int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, int32_t size, char* manufacturer_out, int32_t size_required);
 int32_t <driver_identifier>_instrument_model_get(<DriverIdentifier>Session session, char* model_out);
 int32_t <driver_identifier>_query_instrument_status_enabled_get(<DriverIdentifier>Session session, bool* instrument_status_enabled_out);
 int32_t <driver_identifier>_query_instrument_status_enabled_set(<DriverIdentifier>Session session, bool instrument_status_enabled);
 int32_t <driver_identifier>_reset(<DriverIdentifier>Session session);
 int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
-int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, char* supported_instrument_models_out)
+int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, int32_t size, char* supported_instrument_models_out, int32_t size_required)
 
 /* Additional functions required for ANSI-C Drivers */
-int32_t <driver_identifier>_error_message(int32_t error, int32_t error_message_size, char *error_message, int32_t* error_message_size_required);
-int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t error_message_size, char *error_message, int32_t *error_message_size_required);
+int32_t <driver_identifier>_error_message(int32_t error, int32_t size, char *error_message, int32_t* size_required);
+int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t size, char *error_message, int32_t *size_required);
 int32_t <driver_identifier>_clear_last_error(<DriverIdentifierSession> session);
 ```
 
@@ -512,7 +511,7 @@ Per the *IVI Driver Core specification*, IVI Drivers for instruments that have a
 
 Drivers may implement these functions in the driver hierarchy if it makes sense.
 
-In the following '<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
+In the following '\<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
 
 | Required Driver API (IVI Driver Core) | Core IVI-ANSI-C API     |
 | ------------------------------------- | --------------------    |
@@ -525,17 +524,14 @@ In the following '<hierarchy>' indicates whatever hierarchy path the driver desi
 
 #### Prototypes for Direct IO Functions
 
-> [!NOTE]
-> Need to update read_bytes, read_string when we finalize the client-allocated memory scheme.
-
 ```C
-error <driver_identifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
-error <driver_identifier>_<hierarchy>_timeout_milliseconds_get(const void* session, const &long);
-error <driver_identifier>_<hierarchy>_iosession_get(const void* session, const void **iosession);    // Optional
-error <driver_identifier>_<hierarchy>_read_bytes(const void* session, const byte **, const long maxLength, const long &actualLength);
-error <driver_identifier>_<hierarchy>_read_string(const void* session, const char *);
-error <driver_identifier>_<hierarchy>_write_bytes(const void* session, const byte *, const long length);
-error <driver_identifier>_<hierarchy>_write_string(const void* session, const char *);
+int32_t <driver_identifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
+int32_t <driver_identifier>_<hierarchy>_timeout_milliseconds_get(const void* session, &long);
+int32_t <driver_identifier>_<hierarchy>_iosession_get(const void* session, void **iosession);    // Optional
+int32_t <driver_identifier>_<hierarchy>_read_bytes(const void* session, const long size, byte *);
+int32_t <driver_identifier>_<hierarchy>_read_string(const void* session,const long size, char *);
+int32_t <driver_identifier>_<hierarchy>_write_bytes(const void* session, const long size, const byte *);
+int32_t <driver_identifier>_<hierarchy>_write_string(const void* session, const char *);
 ```
 
 Notes:
