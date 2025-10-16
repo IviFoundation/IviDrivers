@@ -455,9 +455,10 @@ IVI-ANSI-C drivers shall provide three functions to assist customers in interpre
 
 | function | use |
 | --- | --- |
-| *\<DriverIdentifier\>_error_message* | this function converts an error returned by a driver function into a human-readable string |
-| *\<DriverIdentifier\>_last_error_message* | this alternative to *\<DriverIdentifier\>_error_message* returns the message for the most recent error|
+| *\<DriverIdentifier>_error_message* | this function converts an error returned by a driver function into a human-readable string |
+| *\<DriverIdentifier>_last_error_message* | this alternative to *\<DriverIdentifier\>_error_message* returns the message for the most recent error|
 | *\<DriverIdentifier>_clear_last_error_message* | this function clears the last error message |
+| *\<DriverIdentifier>_read_entire_error_queue* | this function reads the entire error queue and returns it as a single string |
 
 The following paragraphs specify the operation of these functions:
 
@@ -467,16 +468,17 @@ The following paragraphs specify the operation of these functions:
 
 - ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return "No Error".
 
+- ***\<DriverIdentifier>_read_and_clear_error_queue*** is used to read as much of the error queue as possible into a string and clear the queue.  This function is passed a fixed sized buffer into which it formats the error numbers and error strings from the instrument error queue into a single string.  Once the string is full, additional errors a read and discarded from the instrument, clearing the instrument error queue.  SCPI instruments include both an integer and a string in the error queue, therefore, for each error taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string.
+
+  This function does not follow the standard client data structure transfer protocol because the function does not know the required size of the data structure without performing a destructive read.  Clients need to allocate a sufficiently large buffer to capture the necessary number of errors.
+
+  For instance, the following may be returned by this function: "-131,Invalid Suffix;-200,Execution Error;-210,Trigger Error;-220,Parameter Error".
+
 ### Prototypes of Required Driver Functions
 
 In the prototypes below:
 1. The *<DriverIdentifier>* is inserted per the rules in [substitutions](#substitutions).
 2. <DriverIdentifier>Session is the type specified in [the session parameter](#the-session-parameter).
-
-> [!NOTE] Need to update prototypes appropriately after we agree to the client-allocated memory protocol.
-
-> [!NOTE] All functions that return a string should (perhaps) use the full protocol for client-allocated memory?
-> Question: should we specify a maximum length for convenience?
 
 ```C
 /* Initialization functions */
@@ -498,7 +500,8 @@ int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Se
 /* Additional functions required for ANSI-C Drivers */
 int32_t <driver_identifier>_error_message(int32_t error, int32_t size, char *error_message, int32_t* size_required);
 int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t size, char *error_message, int32_t *size_required);
-int32_t <driver_identifier>_clear_last_error(<DriverIdentifierSession> session);
+int32_t <driver_identifier>_clear_last_error(<DriverIdentifier>Session session);
+int32_t <driver_identifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, int32_t size, char *error_queue);
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
