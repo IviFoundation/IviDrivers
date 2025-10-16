@@ -57,7 +57,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
     - [ANSI-C Initialize Functions](#ansi-c-initialize-functions)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
-      - [Error Message Function](#error-message-function)
+      - [Error Message Functions](#error-message-functions)
     - [Prototypes of Required Driver Functions](#prototypes-of-required-driver-functions)
     - [Direct IO functions](#direct-io-functions)
       - [Prototypes for Direct IO Functions](#prototypes-for-direct-io-functions)
@@ -418,9 +418,23 @@ In addition to the functions required by the [IVI Driver Core Specification](#li
 |------------------|------------- |
 | Error Message    | This function converts a non-zero return value from a function into a human-readable error message.  |
 
-#### Error Message Function
+#### Error Message Functions
 
-The *Error Message Function* converts an error returned by an ANSI-C driver function call into a human readable string.  If the passed *error* code is not defined by the driver, the driver should return an appropriate error message.
+IVI-ANSI-C drivers shall provide three functions to assist customers in interpreting errors and warnings encountered by the driver.
+
+| function | use |
+| --- | --- |
+| *\<DriverIdentifier\>_error_message* | this function converts an error returned by a driver function into a human-readable string |
+| *\<DriverIdentifier\>_last_error_message* | this alternative to *\<DriverIdentifier\>_error_message* returns the message for the most recent error|
+| *\<DriverIdentifier>_clear_last_error_message* | this function clears the last error message |
+
+The following paragraphs specify the operation of these functions:
+
+- ***\<DriverIdentifier>_error_message*** returns a fixed string that describes the return value from a driver function. The return value may indicate an error, a warning or no error.  For *no error* the driver shall return the string *No Error*. To use this function, the client passes the return value from a driver function and a string buffer using the standard IVI-ANSI-C buffer protocol. A human readable string that describes the error or warning is returned. If the passed error code is not defined by the driver, the driver shall return an appropriate error message.
+
+- ***\<DriverIdentifier>_last_error_message*** returns a string indicating the most recent error from the driver.  This function may provide more detailed error information than *\<DriverIdentifier>_error_message*. Subsequent errors overwrite the buffer used by this function. Calling this function does not clear its internal buffer. To clear the last error, call *\<DriverIdentifier>_clear_last_error_message*
+
+- ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return "No Error".
 
 ### Prototypes of Required Driver Functions
 
@@ -430,7 +444,7 @@ In the prototypes below:
 
 > [!NOTE] Need to update prototypes appropriately after we agree to the client-allocated memory protocol.
 
-> All functions that return a string should (perhaps) use the full protocol for client-allocated memory?
+> [!NOTE] All functions that return a string should (perhaps) use the full protocol for client-allocated memory?
 > Question: should we specify a maximum length for convenience?
 
 ```C
@@ -451,7 +465,9 @@ int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool
 int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, char* supported_instrument_models_out)
 
 /* Additional functions required for ANSI-C Drivers */
-int32_t <driver_identifier>_error_message(<DriverIdentifier>Session, int32_t error, int32_t error_message_size, char **error_message, int32_t* actual_error_message_size);
+int32_t <driver_identifier>_error_message(int32_t error, int32_t error_message_size, char *error_message, int32_t* error_message_size_required);
+int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t error_message_size, char *error_message, int32_t *error_message_size_required);
+int32_t <driver_identifier>_clear_last_error(<DriverIdentifierSession> session);
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
