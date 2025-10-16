@@ -106,7 +106,7 @@ Requirements:
 
 - The separator is optional and may be included at the discretion of the *Driver Vendor*, however as indicated above, it may only be included if both the *Driver Vendor* and *Instrument Manufacturer* are included in the *Driver Identifier*.
 
-- The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same
+- The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
 
 - If selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
 
