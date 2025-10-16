@@ -50,6 +50,7 @@ No investigation has been made of common-law trademark rights in any work.
       - [IVI-ANSI-C Status and Error Handling](#ivi-ansi-c-status-and-error-handling)
       - [Properties](#properties)
       - [Enumerated Types and Enumeration Constants](#enumerated-types-and-enumeration-constants)
+      - [Passing Data Structure from the Driver to the Client](#passing-data-structure-from-the-driver-to-the-client)
     - [Repeated Capabilities](#repeated-capabilities)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Thread Safety](#thread-safety)
@@ -333,6 +334,37 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 
 > **Observation:**
 > > These enumeration rules permit bit-mapped "flag" enumerations.
+
+#### Passing Data Structure from the Driver to the Client
+
+IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus a consistent protocol is required for:
+
+- the client to determine the required size of the buffer
+- the client to determine the actual size of the returned value
+- consistent way to pass the buffer and sizes
+
+Driver authors are permitted to use other methods to negotiate buffer sizes with the client, if and only if they require functionality not provided by this approaches. For instance, when the driver has additional requirements on the function that necessitate it have side effects as part of the read, or if it must return partial buffers.
+
+For this protocol functions that return values shall have the following parameters:
+
+- **size** is an appropriately sized integer that indicates the size of the buffer allocated by the client.
+- **buffer** is a pointer to the client-allocated buffer where the driver will write the data.
+- **size_required** is a pointer to an integer of the same type as *size*.  On a successful write to the buffer, the driver shall fill this pointer in with the quantity of data written to the buffer.  If no write takes place, the driver uses this parameter to return the required size of the buffer.
+
+The parameters should be presented in the function parameter list in the order listed above.
+
+When choosing the formal parameter names, driver authors should consider the names above, however the term *buffer* should usually be replaced by a term that describes the value being returned.
+
+For this protocol drivers shall conform to the following rules and recommendations:
+
+- **size** shall have units that correspond to the elements of the buffer. For instance, if the buffer is an array of 32-bit integers, size shall be the number of 32-bit integers contained in the buffer, if the buffer is a string, the units on size shall be the size of a *char*
+- **size_required** is a required parameter.  If the function is called with **size_required** a *null* pointer the function shall return an error. If the function completes successfully, the *size_required* parameter shall be set to the quantity of data filled in
+- If the function is called with either the *size* set to 0, or the *buffer* pointer set to *null* then the driver shall return the required size for the buffer in the *size_required* parameter and have no other side effects. The driver shall not return an error or warning.
+- If the buffer is too small the function shall return the required space in the *size_required* parameter and have no other side-effects. It shall return an error indicating the buffer was not filled in.
+- When the returned value is a string, the terminating null shall be included in the length of the string, and it shall be written by the driver into the buffer.
+
+> **Observation:**
+> This protocol should not be used if the function is returning data of known size such as a *struct*.  In this case, the client should allocate the *struct* and pass a pointer to it.  This protocol is not needed.
 
 ### Repeated Capabilities
 
