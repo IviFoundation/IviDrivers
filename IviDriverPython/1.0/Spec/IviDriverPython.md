@@ -108,7 +108,7 @@ Requirements:
 
 - The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
 
-- If selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
+- The selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
 
 The case of the characters in the *Driver Identifier* change depending on the context of its use.  This document uses the following conventions to specify the case of the *DriverIdentifier*:
 
