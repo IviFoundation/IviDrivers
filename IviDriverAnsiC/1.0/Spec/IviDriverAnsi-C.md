@@ -85,22 +85,26 @@ This specification, and other IVI Driver Core specifications have less extensive
 However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system.  Nor is there any inherent limitation to using an IVI-C driver in an ANSI-C setting.
 
 Drivers that conform to this specification do not automatically conform with IVI-C nor do IVI-C drivers automatically conform to this specification.
+
 ### Substitutions
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The *IVI Driver Core Specification* describes these substitutions.
 
 The *IVI Driver Core Specification* uses the '<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '<DriverIdentifier>' shall be constructed as:
 
-- The first 2 characters shall be the vendor abbreviation assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note than any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
-- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the `<DriverIdentifier`>.
+- The first characters shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note than any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
+- If the driver vendor is different from the instrument vendor, the driver vendor is followed by an optional underscore ('_') and the 2-character vendor abbreviation for the instrument vendor. If the driver vendor and the instrument vendor are the same, the vendor prefix is not repeated and no underscore is permitted.
+- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier\>' from other identifiers.
 
-Vendors should try to keep the '<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
+VPP-9 has a 2-character abbreviation for every vendor and an optional indefinite length abbreviation that may be used to indicate the driver vendor or the instrument vendor.
 
-This document uses the following conventions regarding the '<DriverIdentifier>':
+Vendors should try to keep the '\<DriverIdentifier\>' short because it appears in any driver symbols that are put into a global namespace.
 
-- '<DRIVER_IDENTIFIER>' refers to the driver identifier in upper case with underscores between words and separated from succeeding tokens with an underscore. The vendor abbreviation is NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
-- '<driver_identifier>' refers to the driver identifier in snake case, separated from succeeding tokens with an underscore. That is, in lower case with underscores between words.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
-- '<DriverIdentifier'> is used when the context does not require further clarification, or when pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
+This document uses the following conventions regarding the '\<DriverIdentifier\>':
+
+- '\<DRIVER_IDENTIFIER>\' refers to the driver identifier in upper case separated from succeeding tokens with an underscore. The vendor abbreviations are NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
+- '\<driver_identifier>\' refers to the driver identifier in lower case, separated from succeeding tokens with underscores.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
+- '\<DriverIdentifier\>' is used when the context does not require further clarification, or when Pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
 
 ## IVI-ANSI-C Driver Architecture
 
