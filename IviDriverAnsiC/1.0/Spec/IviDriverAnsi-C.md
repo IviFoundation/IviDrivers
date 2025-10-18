@@ -50,7 +50,7 @@ No investigation has been made of common-law trademark rights in any work.
       - [IVI-ANSI-C Status and Error Handling](#ivi-ansi-c-status-and-error-handling)
       - [Properties](#properties)
       - [Enumerated Types and Enumeration Constants](#enumerated-types-and-enumeration-constants)
-      - [Passing Data Structure from the Driver to the Client](#passing-data-structure-from-the-driver-to-the-client)
+      - [Data Structure Transfer Protocol](#data-structure-transfer-protocol)
     - [Repeated Capabilities](#repeated-capabilities)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Thread Safety](#thread-safety)
@@ -58,8 +58,8 @@ No investigation has been made of common-law trademark rights in any work.
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
     - [ANSI-C Initialize Functions](#ansi-c-initialize-functions)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
-      - [Read and Clear Error Queue](#read-and-clear-error-queue)
       - [Error Message Functions](#error-message-functions)
+      - [Read and Clear Error Queue](#read-and-clear-error-queue)
     - [Prototypes of Required Driver Functions](#prototypes-of-required-driver-functions)
     - [Direct IO functions](#direct-io-functions)
       - [Prototypes for Direct IO Functions](#prototypes-for-direct-io-functions)
@@ -185,7 +185,7 @@ Drivers that provide source code shall provide all include files necessary to co
 
 #### IVI-ANSI-C String Encoding
 
-IVI ANSI-C Drivers public APIs shall use UTF-8 string encoding.  
+IVI-ANSI-C Drivers' public APIs shall use UTF-8 string encoding.  
 
 > **Observation:**
 >> The string encoding used to communicate with the instrument is instrument specific. For performance reasons drivers are not required to validate the encoding of strings exchanged with the instrument.
@@ -336,7 +336,9 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 > **Observation:**
 > > These enumeration rules permit bit-mapped "flag" enumerations.
 
-#### Passing Data Structure from the Driver to the Client
+#### Data Structure Transfer Protocol
+
+This section defines a *Data Structure Transfer Protocol* for the driver to return data structures to the client.  This protocol is required for functions that pass dynamically-sized data structures from the driver to the client and can be practically implemented using it.
 
 IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus a consistent protocol is required for:
 
@@ -344,28 +346,32 @@ IVI-ANSI-C requires that the driver client allocate memory for values provided b
 - the client to determine the actual size of the returned value
 - consistent way to pass the buffer and sizes
 
-Driver authors are permitted to use other methods to negotiate buffer sizes with the client, if and only if they require functionality not provided by this approaches. For instance, when the driver has additional requirements on the function that necessitate it have side effects as part of the read, or if it must return partial buffers.
+Driver authors are permitted to use other methods to negotiate buffer sizes with the client, if and only if they require functionality not provided by this approaches. For instance:
 
-For this protocol functions that return values shall have the following parameters:
+- the read necessarily has side effects
+- the read needs to return buffers of a client-specified length
+- it is necessary for the server to allocate the memory for the buffer
 
-- **size** is an appropriately sized integer that indicates the size of the buffer allocated by the client.
-- **buffer** is a pointer to the client-allocated buffer where the driver will write the data.
-- **size_required** is a pointer to an integer of the same type as *size*.  On a successful write to the buffer, the driver shall fill this pointer in with the quantity of data written to the buffer.  If no write takes place, the driver uses this parameter to return the required size of the buffer.
+To implement this protocol, functions shall have the following parameters:
+
+- `size` is an appropriately sized integer that indicates the size of the buffer allocated by the client.
+- `buffer` is a pointer to the client-allocated buffer where the driver will write the data.
+- `size_required` is a pointer to an integer of the same type as *size* that shall be written by the driver. On a successful write to the buffer, the `size_required` shall indicate the quantity of data written to the buffer.  If the buffer is not written, the driver uses this parameter to return the buffer size required for a subsequent call to the function.
 
 The parameters should be presented in the function parameter list in the order listed above.
 
-When choosing the formal parameter names, driver authors should consider the names above, however the term *buffer* should usually be replaced by a term that describes the value being returned.
+Driver writers are permitted to choose the formal parameter names.  When choosing the formal parameter names, driver authors should consider the names above, however the term `buffer` should usually be replaced by a term that describes the value being returned.
 
-For this protocol drivers shall conform to the following rules and recommendations:
+For this protocol:
 
-- **size** shall have units that correspond to the elements of the buffer. For instance, if the buffer is an array of 32-bit integers, size shall be the number of 32-bit integers contained in the buffer, if the buffer is a string, the units on size shall be the size of a *char*
-- **size_required** is a required parameter.  If the function is called with **size_required** a *null* pointer the function shall return an error. If the function completes successfully, the *size_required* parameter shall be set to the quantity of data filled in
-- If the function is called with either the *size* set to 0, or the *buffer* pointer set to *null* then the driver shall return the required size for the buffer in the *size_required* parameter and have no other side effects. The driver shall not return an error or warning.
-- If the buffer is too small the function shall return the required space in the *size_required* parameter and have no other side-effects. It shall return an error indicating the buffer was not filled in.
+- `size` shall have units that correspond to the elements of the buffer. For instance, if the buffer is an array of 32-bit integers size shall be the number of 32-bit integers contained in the buffer, if the buffer is a string the units on size shall be the size of a *char*
+- If the function is called with either the *size* set to 0, or the `buffer` pointer set to *null* then the driver shall return the required size for the buffer in the `size_required` parameter and have no other side effects. In this case, the driver shall not return an error or warning.
+- If the function is called with too small of a buffer, it shall indicate the size required in the `size_required` parameter and return an error. Driver authors shall specify what, if any data is written to the buffer.
+- If `size` indicates the buffer is too small the function shall return the required size in the `size_required` parameter and have no other side-effects. It shall return an error indicating the buffer was not filled in.
 - When the returned value is a string, the terminating null shall be included in the length of the string, and it shall be written by the driver into the buffer.
 
 > **Observation:**
-> This protocol should not be used if the function is returning data of known size such as a *struct*.  In this case, the client should allocate the *struct* and pass a pointer to it.  This protocol is not needed.
+> This protocol should not be used if the function is returning data of known size such as a *struct*.  In this case, the client should allocate the necessary memory (for instance by allocating a *struct*) and pass a pointer to it.
 
 ### Repeated Capabilities
 
@@ -444,18 +450,7 @@ IVI-ANSI-C drivers may implement additional initializers.
 
 ### Additional Required Functions for IVI-ANSI-C Drivers
 
-This section defines additional required and optional functions that are not specified in the [IVI Core](#link) specification.
-
-#### Read and Clear Error Queue
-
-The *\<DriverIdentifier>_read_entire_error_queue* is an optional function that reads the entire instrment error queue and returns it as a single string.
-
-***\<DriverIdentifier>_read_and_clear_error_queue*** is used to read as much of the error queue as possible into a string and clear the queue.  This function is passed a fixed sized buffer into which it formats the error numbers and error strings from the instrument error queue into a single string.  Once the string is full, additional errors a read and discarded from the instrument, clearing the instrument error queue.  SCPI instruments include both an integer and a string in the error queue, therefore, for each error taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string.
-
-This function does not follow the standard client data structure transfer protocol because the function does not know the required size of the data structure without performing a destructive read.  Clients need to allocate a sufficiently large buffer to capture the necessary number of errors.
-
-For instance, the following may be returned by this function: "-131,Invalid Suffix;-200,Execution Error;-210,Trigger Error;-220,Parameter Error".
-
+This section defines additional required functions that are not specified in the [IVI Core](#link) specification.
 
 #### Error Message Functions
 
@@ -475,12 +470,27 @@ The following paragraphs specify the operation of these functions:
 
 - ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return "No Error".
 
+#### Read and Clear Error Queue
+
+IVI-ANSI-C Drivers shall provide the *\<DriverIdentifier>_read_and_clear_error_queue* function. *\<DriverIdentifier>_read_and_clear_error_queue* reads as much of the instrument error queue as possible and formats it into the provided buffer. If the instrument error queue length exceeds what can we written into the buffer, the function shall put as many complete formatted errors into the buffer as possible and return success.
+
+[SCPI](#link) instruments include both an integer and a string in the error queue, therefore for each entry taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string. The string itself shall be null terminated.
+
+*\<DriverIdentifier>_read_and_clear_error_queue* does not follow the standard [Data Structure Transfer Protocol](#data-structure-transfer-protocol) because the function is unable to determine the size required for the buffer without performing a destructive read of the error queue.  Therefore, clients must allocate a buffer large enough to capture a sufficient number of errors for their application.  The standard `size_required` parameter is only used to return the buffer size used.
+
+*\<DriverIdentifier>_read_and_clear_error_queue* shall return an error if the *size* parameter is zero or the *error_string* pointer is null. Note that this differs from the standard [Data Structure Transfer Protocol](#data-structure-transfer-protocol).
+
+For instance, the following would be a valid string produced by this function for a *SCPI* instrument: "-131,Invalid Suffix;-200,Execution Error;-210,Trigger Error;-220,Parameter Error".
+
+> **Observation:**
+> To implement this, the function should read successive entries from the error queue, formatting them into the buffer. Once an entry is retrieved that does not entirely fit into the buffer, that entry and any successive entries should be read from the instrument and discarded.
 
 ### Prototypes of Required Driver Functions
 
 In the prototypes below:
-1. The *<DriverIdentifier>* is inserted per the rules in [substitutions](#substitutions).
-2. <DriverIdentifier>Session is the type specified in [the session parameter](#the-session-parameter).
+
+1. The *\<DriverIdentifier>* is inserted per the rules in [substitutions](#substitutions).
+2. *\<DriverIdentifier>Session* is the type specified in [the session parameter](#the-session-parameter).
 
 ```C
 /* Initialization functions */
@@ -499,10 +509,12 @@ int32_t <driver_identifier>_reset(<DriverIdentifier>Session session);
 int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
 int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, int32_t size, char* supported_instrument_models_out, int32_t size_required)
 
-/* Additional functions required for ANSI-C Drivers */
+/* Additional functions required for driver error management */
 int32_t <driver_identifier>_error_message(int32_t error, int32_t size, char *error_message, int32_t* size_required);
 int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t size, char *error_message, int32_t *size_required);
 int32_t <driver_identifier>_clear_last_error(<DriverIdentifier>Session session);
+
+/* Additional function for working with the instrument error queue */
 int32_t <driver_identifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, int32_t size, char *error_queue);
 ```
 
@@ -542,6 +554,7 @@ int32_t <driver_identifier>_<hierarchy>_write_string(const void* session, const 
 Notes:
 
 - The *optional* `iosession` read-only property should return a session for the underlying IO library.
+- The Direct IO read functions are unable to use the [Data Structure Transfer Protocol](#data-structure-transfer-protocol) because they have no a priori knowledge of the transfer size.
 
 >**Observation:**
 > > Drivers should consider including a query function that combines read and write.
