@@ -80,7 +80,7 @@ This specification uses paired angle brackets to indicate that the text between 
 
 #### Driver Identifier and Driver Class Name Composition
 
-The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Driver Class Name* which is top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
+The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
 In order to be guaranteed unique, the first token of the driver identifier shall always indicate the *Driver Vendor*.  Driver vendors are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
 
