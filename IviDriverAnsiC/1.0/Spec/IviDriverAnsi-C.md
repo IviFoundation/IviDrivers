@@ -367,7 +367,6 @@ For this protocol:
 - `size` shall have units that correspond to the elements of the buffer. For instance, if the buffer is an array of 32-bit integers size shall be the number of 32-bit integers contained in the buffer, if the buffer is a string the units on size shall be the size of a *char*
 - If the function is called with either the *size* set to 0, or the `buffer` pointer set to *null* then the driver shall return the required size for the buffer in the `size_required` parameter and have no other side effects. In this case, the driver shall not return an error or warning.
 - If the function is called with too small of a buffer, it shall indicate the size required in the `size_required` parameter and return an error. Driver authors shall specify what, if any data is written to the buffer.
-- If `size` indicates the buffer is too small the function shall return the required size in the `size_required` parameter and have no other side-effects. It shall return an error indicating the buffer was not filled in.
 - When the returned value is a string, the terminating null shall be included in the length of the string, and it shall be written by the driver into the buffer.
 
 > **Observation:**
