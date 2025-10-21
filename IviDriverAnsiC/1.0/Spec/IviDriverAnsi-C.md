@@ -503,13 +503,16 @@ IVI-ANSI-C drivers are provided as packages.  The packaging technology should be
 
 Driver packages shall include:
 
-- Driver binaries for the supported OS/Compiler
+- Static and Dynamic libraries for the supported OS/Compiler
+- Include files (.h) for the supported OS/Compilers
 - Driver license terms
-- The IVI Compliance document per the IVI Driver Core Specification
-- Documentation or a README file that indicates how to acquire documentation
-- Documentation or a README file that indicates how to acquire source code (if provided for this driver, per the [Core Driver specification](#link) requirements)
+- The IVI Compliance document per the [IVI Core Driver specification](#link)
+- README file as specified in the [IVI Core Driver specification](#link) that indicates how to acquire documentation and, if provided by the driver, source code.
 
 Driver packages may include additional files at the discretion of the provider.
+
+> ***Observation:***
+> Driver providers may need to provide separate packages for different compilers on a given platform.  For instance, a provider may have a Windows driver packages for _Microsoft Visual C/C++_ and another package for _gcc_.
 
 ### Signing
 
