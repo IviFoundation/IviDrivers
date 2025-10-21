@@ -338,7 +338,7 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 
 #### Data Structure Transfer Protocol
 
-This section defines a *Data Structure Transfer Protocol* for the driver to return data structures to the client.  This protocol is required for functions that pass dynamically-sized data structures from the driver to the client and can be practically implemented using it.
+This section defines a *Data Structure Transfer Protocol* for the driver to return data structures to the client.  This protocol is required for functions that: pass dynamically-sized data structures from the driver to the client, and also can be practically implemented using it.
 
 IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus a consistent protocol is required for:
 
