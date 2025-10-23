@@ -84,18 +84,18 @@ The *Driver Identifier* and its variations are used as identifiers within the dr
 
 In order to be guaranteed unique, the first token of the driver identifier shall always indicate the *Driver Vendor*.  Driver vendors are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
 
-The next token in the *Driver Identifier* indicates the *Instrument Manufacturer* of the instrument (or family of instruments) controlled by the driver.  If the *Driver Vendor* and the *Instrument Manufacturer* is the same, the token need not be repeated.  If the token for *Instrument Manufacturer* is present, it may be optionally separated from the *Driver Vendor* with an underscore ('_').  If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
+The next token in the *Driver Identifier* indicates the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver.  If the *Driver Vendor* and the *Instrument Manufacturer* are the same, the token need not be repeated.  If the token for *Instrument Manufacturer* is present, it may be optionally separated from the *Driver Vendor* with an underscore ('_').  If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
 
 The final token is the *Instrument Model*.  This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
 The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](#link).  This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation.  Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered.
 
-In summary, the *Driver Identifier* is composed as follows (square brackets indicate the enclosed content is optional):
+In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
 
 ```BNF
 > <Driver Vendor> ::= VPP-9 vendor identifying the author of the driver
 > <Instrument Manufacturer> ::= VPP-9 vendor identifier indicating the instrument vendor
-> <Instrument Model> ::= Identifier indicating the instrument model, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
+> <Instrument Model> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
 > <separator> ::= "_"
 
 > <Driver Identifier> ::= <Driver Vendor>[[<separator>]<InstrumentManufacturer>]<Instrument Model>
@@ -122,63 +122,47 @@ Examples:
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
 
-```
-   <Driver Vendor> and <Instrument Manufacturer>:= the indefinite length form is 'Bask', and the short form is 'BI'
-   <Instrument Model> := the model name is Tdr123A
+```text
+ For <Driver Vendor> and <Instrument Manufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
+ For <Instrument Model> the name is DMM (family of instruments).
 
 The following are legal <Driver Identifier>/<DriverClassName> pairs.
 
   # using the indefinite length names 
-    <DriverIdentifier> := BaskTdr123A 
-    <driver_identifier> := basktdr123A
-    <DriverClassName> := BaskTdr123A
+    <DriverIdentifier> ::= BaskDMM 
+    <driver_identifier> ::= baskdmm
+    <DriverClassName> ::= BaskDMM
 
   # using the definite length name
-    <DriverIdentifier> := BITdr123A 
-    <driver_identifier> := bitdr123A
-    <DriverClassName> := BITdr123A
+    <DriverIdentifier> ::= BIDMM 
+    <driver_identifier> ::= bidmm
+    <DriverClassName> ::= BIDMM
 ```
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
 
 ```
 
-   <Driver Vendor> := the idefinite length form is 'Foo', and the short form is 'FI'
-   <Instrument Manufacturer> := the indefinite length is 'Bar' and the short form is 'BI'
-   <Instrument Model> := the model name is Tdr123A
+ For <Driver Vendor> the idefinite length form is 'Foo', and the short form is 'FI'.
+For <Instrument Manufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
+For <Instrument Model> the model name is Tdr123A.
 
-The following are legal <Driver Identifier>/<DriverClassName> pairs.
+The following are legal <Driver Identifier> / <DriverClassName> pairs including the variant with and without the optional separator:
 
-  # using the indefinite length names and omitting the separator
-    <DriverIdentifier> := FooBarTdr123A 
-    <driver_identifier> := foobartdr123A
-    <DriverClassName> := BarTdr123A
+# using the indefinite length names
+  <DriverIdentifier> ::= FooBarTdr123A | Foo_BarTdr123A
+  <driver_identifier> ::= foobartdr123A | foo_bartdr123A
+  <DriverClassName> ::= BarTdr123A
 
-  # using the indefinite length names and the separator
-    <DriverIdentifier> := Foo_BarTdr123A 
-    <driver_identifier> := foo_bartdr123A
-    <DriverClassName> := BarTdr123A
+# using the short names
+  <DriverIdentifier> ::= FIBITdr123A | FI_BITdr123A
+  <driver_identifier> ::= fibitdr123A | fi_bitdr123A
+  <DriverClassName> ::= BITdr123A
 
-  # using the short names and omitting the separator
-    <DriverIdentifier> := FIBITdr123A 
-    <driver_identifier> := FIBItdr123A
-    <DriverClassName> := BITdr123A
-
-  # using the short names and the separator
-    <DriverIdentifier> := FI_BITdr123A 
-    <driver_identifier> := fi_bitdr123A
-    <DriverClassName> := BITdr123A
-
-  # using the short names mixed case and omitting the separator
-    <DriverIdentifier> := FiBiTdr123A 
-    <driver_identifier> := FiBitdr123A
-    <DriverClassName> := BiTdr123A
-
-  # using the short names mixed case and the separator
-    <DriverIdentifier> := Fi_BiTdr123A 
-    <driver_identifier> := fi_bitdr123A
-    <DriverClassName> := BiTdr123A
-   
+# using the short names mixed case
+  <DriverIdentifier> ::= FiBiTdr123A | Fi_BiTdr123A
+  <driver_identifier> ::= fibitdr123A | fi_bitdr123A
+  <DriverClassName> ::= BiTdr123A
 ```
 
 ## IVI-Python Driver Architecture
