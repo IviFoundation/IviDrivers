@@ -336,9 +336,9 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 > **Observation:**
 > > These enumeration rules permit bit-mapped "flag" enumerations.
 
-#### Data Structure Transfer Protocol
+#### Variable Sized Data Retrieval Protocol
 
-This section defines a *Data Structure Transfer Protocol* for the driver to return data structures to the client.  This protocol is required for functions that: pass dynamically-sized data structures from the driver to the client, and also can be practically implemented using it.
+This section defines a *Variable Sized Data Retrieval Protocol* for the driver to return data to the client.  This includes strings, arrays, and other dynamically sized structures. This protocol shall be used by functions that return variably sized data; however, it is not required for functions that have requirements that are not satisfied by the protocol.
 
 IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus a consistent protocol is required for:
 
@@ -348,29 +348,29 @@ IVI-ANSI-C requires that the driver client allocate memory for values provided b
 
 Driver authors are permitted to use other methods to negotiate buffer sizes with the client, if and only if they require functionality not provided by this approach. For instance:
 
-- the function necessarily has side effects
+- the function necessarily has side effects that preclude use of this protocol
 - the read needs to return buffers of a client-specified length
-- it is necessary for the server to allocate the memory for the buffer
+- it is necessary for the driver to allocate the memory for the buffer
 
 To implement this protocol, functions shall have the following parameters:
 
-- `size` is an appropriately sized integer that indicates the size of the buffer allocated by the client.
-- `buffer` is a pointer to the client-allocated buffer where the driver will write the data.
-- `size_required` is a pointer to an integer of the same type as *size* that shall be written by the driver. On a successful write to the buffer, the `size_required` shall indicate the quantity of data written to the buffer.  If the buffer is not written, the driver uses this parameter to return the buffer size required for a subsequent call to the function.
+- `size` is an appropriately sized integer that indicates the size of the buffer allocated by the client.  Under most circumstances, it should be `size_t`.
+- `buffer` is a pointer to the client-allocated memory where the driver will write the data.
+- `size_required` is a pointer to an integer of the same type and unit as *size* that shall be written by the driver. On a successful write to the buffer, the `size_required` shall indicate the quantity of data written to the buffer.  If the buffer is not written, the driver uses this parameter to return the buffer size required for a subsequent call to the function.
 
 The parameters should be presented in the function parameter list in the order listed above.
 
-Driver writers are permitted to choose the formal parameter names.  When choosing the formal parameter names, driver authors should consider the names above, however the term `buffer` should usually be replaced by a term that describes the value being returned.
+Driver writers are permitted to choose the formal parameter names.  When choosing the formal parameter names, driver authors should consider the names above, however the term `buffer` should be replaced by a term that describes the value being returned.
 
 For this protocol:
 
 - `size` shall have units that correspond to the elements of the buffer. For instance, if the buffer is an array of 32-bit integers size shall be the number of 32-bit integers contained in the buffer, if the buffer is a string the units on size shall be the size of a *char*
 - If the function is called with either the *size* set to 0, or the `buffer` pointer set to *null* then the driver shall return the required size for the buffer in the `size_required` parameter and have no other side effects. In this case, the driver shall not return an error or warning.
-- If the function is called with too small of a buffer, it shall indicate the size required in the `size_required` parameter and return an error.  This call shall have no side effects other than optionally writing a subset of the data to the buffer. Driver authors shall specify what, if any data is written to the buffer.
+- If the size parameter indicates the buffer is too small, the function shall indicate the size required in the `size_required` parameter and return an error.  This call shall have no side effects.
 - When the returned value is a string, the terminating null shall be included in the length of the string, and it shall be written by the driver into the buffer.
 
 > **Observation:**
-> This protocol should not be used if the function is returning data of known size such as a *struct*.  In this case, the client should allocate the necessary memory (for instance by allocating a *struct*) and pass a pointer to it.
+> > This protocol should not be used if the function is returning data of known size such as a *struct*.  In this case, the client should allocate the necessary memory (for instance by allocating a *struct*) and pass a pointer to it.
 
 ### Repeated Capabilities
 
