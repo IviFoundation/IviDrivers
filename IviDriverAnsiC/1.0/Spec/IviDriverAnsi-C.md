@@ -344,7 +344,7 @@ IVI-ANSI-C requires that the driver client allocate memory for values provided b
 
 - the client to determine the required size of the buffer
 - the client to determine the actual size of the returned value
-- consistent way to pass the buffer and sizes
+- consistently passing the buffer and sizes
 
 Driver authors are permitted to use other methods to negotiate buffer sizes with the client, if and only if they require functionality not provided by this approach. For instance:
 
