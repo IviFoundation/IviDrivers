@@ -503,7 +503,7 @@ IVI-ANSI-C drivers are provided as packages.  The packaging technology should be
 
 Driver packages shall include:
 
-- Static and Dynamic libraries for the supported OS/Compiler
+- Static and Dynamic libraries for the supported OS/Compilers
 - Include files (.h) for the supported OS/Compilers
 - Driver license terms
 - The IVI Compliance document per the [IVI Core Driver specification](#link)
