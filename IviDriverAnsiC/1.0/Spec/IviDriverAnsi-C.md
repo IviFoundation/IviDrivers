@@ -569,7 +569,7 @@ Driver packages shall include:
 - The IVI Compliance document per the IVI Driver Core Specification
 - README.md file
 - Documentation or a README file that indicates how to acquire documentation
-- Documentation or a README file that indicates how to acquire source code 
+- Documentation or a README file that indicates how to acquire source code for drivers that are required to provide source code
 
 The [Core Driver specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) has detailed requirements on the *README.md* file and the *IVI Compliance document* as well as examples.  All of these requirements shall be followed by IVI-ANSI-C drivers.
 
