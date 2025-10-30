@@ -100,7 +100,6 @@ The *IVI Driver Core Specification* uses the '\<DriverIdentifier>' to indicate t
 
 Vendors should try to keep the '\<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
 
-> [!NOTE] Our style has been that snake-case actually refers to a form that is all lower case EXCEPT for the driver identifier.  As written, the substitutions section supports this, but I think we need true all lower-case snake case in some circumstances (file names perhaps?).  What do we want to do?  Also, that section only calls out the instrument vendor as being upper case, is that really what we want?  Seems like the current prose is OK Except the sentence above that states the "abbreviation shall always be in upper case" regarding driver vendor abbreviation.
 
 This document uses the following conventions regarding the '\<DriverIdentifier>':
 
