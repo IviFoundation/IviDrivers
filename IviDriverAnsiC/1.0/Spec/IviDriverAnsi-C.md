@@ -450,7 +450,6 @@ IVI-ANSI-C drivers may implement additional initializers.
 
 This section defines additional required functions that are not specified in the [IVI Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) specification.
 
->[!NOTE]: Do we want to permit <hierarchy> in the function name specifications for these standard functions?  If not, somehow specify a token saying they are defined by IVI?
 
 #### Error Message Functions
 
