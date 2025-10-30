@@ -496,7 +496,7 @@ In the prototypes below:
 ```C
 /* Initialization functions */
 int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
-int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
+int32_t <driver_identifier>_init_with_options(const char* resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
 
 /* Functions specified in the base spec */
 int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, size_t size, char* version_out, size_t* size_required);
