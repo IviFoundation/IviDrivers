@@ -581,7 +581,6 @@ All files included in the IVI-ANSI-C package shall be signed by the driver vendo
 
 ## IVI-ANSI-C Driver Conformance
 
->[!NOTE] Do we want to call out the testing requirements in the Core document?  For instance the registration requirement on the following line is also part of the Core.
 
 IVI-ANSI-C Drivers are required to conform to all of the rules in this document. They are also required to be registered on the IVI website.
 
