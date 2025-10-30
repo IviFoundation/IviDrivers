@@ -7,7 +7,7 @@
 
 ## Abstract
 
-This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
+This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. This specification is to be used in conjunction with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 ## Authorship
 
@@ -50,13 +50,13 @@ No investigation has been made of common-law trademark rights in any work.
       - [IVI-ANSI-C Status and Error Handling](#ivi-ansi-c-status-and-error-handling)
       - [Properties](#properties)
       - [Enumerated Types and Enumeration Constants](#enumerated-types-and-enumeration-constants)
-      - [Data Structure Transfer Protocol](#data-structure-transfer-protocol)
+      - [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol)
     - [Repeated Capabilities](#repeated-capabilities)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Thread Safety](#thread-safety)
   - [Base IVI-ANSI-C API](#base-ivi-ansi-c-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
-    - [ANSI-C Initialize Functions](#ansi-c-initialize-functions)
+    - [IVI-ANSI-C Initialize Functions](#ivi-ansi-c-initialize-functions)
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
       - [Error Message Functions](#error-message-functions)
       - [Read and Clear Error Queue](#read-and-clear-error-queue)
@@ -70,7 +70,7 @@ No investigation has been made of common-law trademark rights in any work.
 
 ## Overview of the IVI-ANSI-C Driver Language Specification
 
-This specification contains the ANSI-C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the *IVI Driver Core Specification*.
+This specification contains the ANSI-C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification.  This specification is to be used in conjunction with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement).  These are included to provide a more consistent customer experience.  However, in general, design decisions are left to the driver designer.
 
@@ -92,21 +92,20 @@ Drivers that conform to this specification do not automatically conform with IVI
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The *IVI Driver Core Specification* describes these substitutions.
 
-The *IVI Driver Core Specification* uses the '<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '<DriverIdentifier>' shall be constructed as:
+The *IVI Driver Core Specification* uses the '\<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '\<DriverIdentifier>' shall be constructed as:
 
 - The first characters shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note than any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
 - If the driver vendor is different from the instrument vendor, the driver vendor is followed by an optional underscore ('_') and the 2-character vendor abbreviation for the instrument vendor. If the driver vendor and the instrument vendor are the same, the vendor prefix is not repeated and no underscore is permitted.
-- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier\>' from other identifiers.
+- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
 
-VPP-9 has a 2-character abbreviation for every vendor and an optional indefinite length abbreviation that may be used to indicate the driver vendor or the instrument vendor.
+Vendors should try to keep the '\<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
 
-Vendors should try to keep the '\<DriverIdentifier\>' short because it appears in any driver symbols that are put into a global namespace.
 
-This document uses the following conventions regarding the '\<DriverIdentifier\>':
+This document uses the following conventions regarding the '\<DriverIdentifier>':
 
 - '\<DRIVER_IDENTIFIER>\' refers to the driver identifier in upper case separated from succeeding tokens with an underscore. The vendor abbreviations are NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
 - '\<driver_identifier>\' refers to the driver identifier in lower case, separated from succeeding tokens with underscores.  The vendor abbreviation is NOT separated from the instrument model token name with an underscore.  An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
-- '\<DriverIdentifier\>' is used when the context does not require further clarification, or when Pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. The driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
+- '\<DriverIdentifier>' is used when the context does not require further clarification, or when Pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. Unless stated otherwise, the driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
 
 ## IVI-ANSI-C Driver Architecture
 
@@ -114,9 +113,9 @@ This section describes how IVI-ANSI-C instrument drivers use ANSI-C. This sectio
 
 ### Operating Systems and Bitness
 
-IVI-ANSI-C drivers shall support a compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to also support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
+IVI-ANSI-C drivers shall support a compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
 
-In addition to the compliance documentation required by [IVI Driver Core](#link) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested.
+In addition to the compliance documentation required by [IVI Driver Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested and is supported.
 
 ### Target ANSI-C Versions
 
@@ -132,37 +131,37 @@ Public API entry points in IVI-ANSI-C driver binaries shall follow the compiler'
 When IVI-ANSI-C driver source code is provided, it shall be compilable by C99 compilers, however drivers are encouraged to support newer versions of the ANSI-C standards as well.
 
 > **Observation:**
-> > IVI-ANSI-C drivers that are not required to supply source code are not required to be implemented in C.
+> > IVI-ANSI-C drivers that are not required to supply source code are not required to be implemented in C, although this spec requires that they be callable from C99.
 
 ### IVI-ANSI-C Naming
 
 To avoid naming collisions, symbols that the driver puts into the global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the `<DriverIdentifier>`.
 
-In the following table, examples are all for a device with `<DriverIdentifier>` of `AC123Dev`, which would represent an instrument vendor identified by `AC` and a model or family identified by `123Dev`.  [Substitutions](#substitutions) has usage information on the driver identifier.
+In the following table, examples are all for a device with `<DriverIdentifier>` of `AC123Dev`, which would represent an instrument vendor identified by `AC` and a model or family identified by `123Dev`.  The section [Substitutions](#substitutions) has detailed information on the driver identifier.
 
 The following casing rules shall be followed:
 
 | Language Element | Example | Rule |
 | ---------------- | ------- | -------------- |
-| function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<driver_identifier>`.  Snake case is, words in lower case separated by underscores. |
+| function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<DriverIdentifier>` and an underscore.  Snake case is, words in lower case separated by underscores. |
 | enumeration constants | AC123DEV_COLORS_TEAL |  Enumeration constants shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration constant name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration type, and finally the constant name.  That is: `<DRIVER_IDENTIFIER>_<ENUM TYPE>_<CONSTANT>`. |
 | `const` and macros (`#define`) | AC123DEV_MAX_POWER | `const` and macros shall be upper-case with underscore separators ('_') preceded by `<DRIVER_IDENTIFIER>`|
 | types (`typedef`, `struct`, `enum`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the `<DriverIdentifier>`.  That is, words begin with upper case letter.  Conventional exceptions for acronyms. |
 | formal parameter names | start_frequency | Formal parameter names should be snake case. The driver identifier should not be used |
 
 > **Observation:**
-> > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in [IVI Foundation vendor registration](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf).
+> > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in the current version of IVI VPP-9, referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications).
 
-> > **Observation:**
-> > Since each vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between vendors.  Each vendor then manages the other characters in the `<DriverIdentifier>` to eliminate collisions.
+> **Observation:**
+> > Since each vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between vendors.  Each vendor then manages the other characters in the '\<DriverIdentifier>' to eliminate collisions.
 
 ### IVI-ANSI-C Filenames
 
 Driver file names shall be snake case.
 
-Source code files shall use *.c* and *.h* suffixes for C source and C header files respectively.
+C source code files shall use a *.c* suffix, and C header files shall use a *.h* suffix.
 
-Binary files should use filename suffixes conventional for the operating system and compilers they are targeted to.
+Binary files should use filename suffixes conventional for the operating system and compilers they target.
 
 In general IVI-ANSI-C drivers are composed of numerous files.  The name of each file that is specific to the driver shall be prefixed by the '<driver_identifier>' in snake case.
 
@@ -173,11 +172,11 @@ If needed, vendors are permitted to include files with the driver that are commo
 
 ### IVI-ANSI-C Data Types
 
-Drivers should prefer the fundamental data types intrinsic to ANSI-C and, the types defined in ANSI-C include files.  This includes, but is not limited to: '<stdint.h>', '<float.h>' and '<string.h>'.
+Drivers should prefer the fundamental data types intrinsic to ANSI-C and the types defined in ANSI-C include files.  This includes, but is not limited to: '<stdint.h>', '<float.h>' and '<string.h>'.
 
 Drivers are encouraged to define other driver-specific types when ANSI types are not available.  Vendors may find it beneficial to define types that are common to multiple drivers.  However, drivers should avoid creating new types that are synonymous with those provided by ANSI.
 
-Drivers should consider defining a driver-defined type for the driver session, thereby providing type-checking for that parameter.
+Drivers shall define a driver-defined type for the driver session, thereby providing type-checking for that parameter.  For details see [the Session Parameter](#the-session-parameter).
 
 Drivers shall provide all include files necessary to use the driver in the driver package.
 
@@ -188,7 +187,7 @@ Drivers that provide source code shall provide all include files necessary to co
 IVI-ANSI-C Drivers' public APIs shall use UTF-8 string encoding.  
 
 > **Observation:**
->> The string encoding used to communicate with the instrument is instrument specific. For performance reasons drivers are not required to validate the encoding of strings exchanged with the instrument.
+>> The string encoding used to communicate with the instrument is instrument-specific. For performance reasons drivers are not required to validate the encoding of strings exchanged with the instrument.
 
 ### IVI-ANSI-C Header Files
 
@@ -204,7 +203,7 @@ Drivers shall provide include files for driver clients that contain:
 
 All driver include files shall be protected against multiple inclusions.  For instance, by defining a symbol when the file is first loaded, and subsequently bypassing included content on subsequent loads.
 
-Example: A driver xysiggen42_sg_types.h, would define a symbol `XYSIGGEN42_SG_TYPES_H` when first loaded, then enclose the body of the .h file in appropriate `#ifdef` directives.
+Example: A driver xysiggen42_sg_types.h, would use a compiler-specific pragma or define a symbol `XYSIGGEN42_SG_TYPES_H` when first loaded, then enclose the body of the .h file in appropriate `#ifdef` directives.
 
 ### IVI-ANSI-C Function Style
 
@@ -212,7 +211,7 @@ The following sub-sections call out required IVI-ANSI-C style.  There are additi
 
 #### IVI-ANSI-C Function Naming
 
-IVI-ANSI-C function names shall be snake case.
+IVI-ANSI-C function names shall be snake case, but preceded with the '\<InstrumentIdentifier>' in Pascal case followed by an underscore.
 
 In general drivers are encouraged to organize ANSI-C function names into a hierarchy.  This is beneficial because:
 
@@ -374,7 +373,7 @@ For this protocol:
 
 ### Repeated Capabilities
 
-Repeated capabilities may be represented in two ways in IVI-ANSI-C drivers. Repeated capability instances may be specified by a method that selects the active instance (the *selector style*) or by selecting a particular instance using a function parameter. See the *IVI Core Driver Specification* for more information on this.
+Repeated capabilities may be represented in two ways in IVI-ANSI-C drivers. Repeated capability instances may be specified by a method that selects the active instance (the *selector style*) or by selecting a particular instance using a function parameter or parameters. See the [IVI Core Driver Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for additional details.
 
 Driver functions that require a repeated capability parameter(s) should pass it as the second (and or following) parameter(s), after the *session*.  
 
@@ -383,20 +382,20 @@ If a driver implements multiple repeated capabilities (for instance N markers on
 For instance, if a driver chooses to use method parameters to identify N markers on M waveforms, it could:
 
 - accept 2 parameters one for the marker and another for the waveform
-- it could bitmap the parameters into an integer, so the 3 third marker on the second waveform may be identified as '0x23' (providing 4 bits for both parameters)
+- it could bitmap the parameters into an integer, so the second waveform's third marker may be identified as '0x23' (providing 4 bits for both parameters)
 - it could accept a repeated capability structure defined by the driver
 - it could treat the repeated capability identifiers as strings and pass a string such as "2:3"
 
 Drivers are permitted to choose any of these, or use other approaches.
 
 > **Observation:**
-> > There are additional details on possible repeated capability implementation strategies in the [IVI SCPI standard](#link), the [IVI Core Repeated Capability Document](#link), and the [IVI Generation 2014](#link) driver specifications.
+> > There are additional details on possible repeated capability implementation strategies in the [IVI SCPI standard](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf), the [IVI Core Repeated Capability Document](https://github.com/IviFoundation/IviDrivers/blob/main/Documentation/UsingStringsAsRepCapSelectors.md), and the [IVI Generation 2014](https://www.ivifoundation.org/specifications/default.html) driver specifications.
 
 > **Observation:**
 > > Some applications requiring repeated capability parameters that operate on multiple instances of a repeated capability at the same time. For these, bitmapping each repeated capability into an integer may work well.
 
 > **Observation:**
-> > A useful solution to the challenge of nested repeated capabilities is to treat them as a string with each element syntactically separated as in [IVI-C](#link) .  The string is then parsed by the driver.
+> > A useful solution to the challenge of nested repeated capabilities is to treat them as a string with each element syntactically separated as in [IVI-C](https://www.ivifoundation.org/specifications/default.html) and described in [Using Strings as RepCap Selectors](https://github.com/IviFoundation/IviDrivers/blob/main/Documentation/UsingStringsAsRepCapSelectors.md) .  The string is then parsed by the driver.
 
 > **Observation:**
 > > If using a structure, driver designers need to be aware that it may be awkward for the driver client to construct and pass the structure.  Furthermore, stable ABIs are often difficult to provide with structure. The selection of pass-by-value and pass-by-reference needs to be made cautiously.
@@ -411,7 +410,7 @@ IVI-ANSI-C drivers shall be thread-safe.  That is, driver functions shall tolera
 
 ## Base IVI-ANSI-C API
 
-This section gives a complete description of each function required for an IVI-ANSI-C Core driver. The following table shows the mapping between the required base driver APIs described in the [IVI Driver Core specification](#link) and the corresponding IVI-ANSI-C specific APIs described in this section.
+This section gives a complete description of each function required for an IVI-ANSI-C Core driver. The following table shows the mapping between the required base driver APIs described in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) and the corresponding IVI-ANSI-C specific APIs described in this section.
 
 ### Required Driver API Mapping Table
 
@@ -429,19 +428,19 @@ This section gives a complete description of each function required for an IVI-A
 | Simulate Enabled                | <driver_identifier>_simulate_get                 |
 | Supported Instrument Models     | <driver_identifier>_supported_instrument_models_get() |
 
-### ANSI-C Initialize Functions
+### IVI-ANSI-C Initialize Functions
 
 The IVI-ANSI-C drivers shall implement two initializers, one which permits specifying options.
 
-The parameters to the initialize function are defined in the [IVI Driver Core Specification](#link).  The following table shows their names and types for ANSI-C:
+The parameters to the initialize function are defined in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).  The following table shows their names and types for ANSI-C:
 
-| Inputs        |     Description     |    Data Type  |
+| Parameter     |     Description     |    Data Type  |
 | ------------- | ------------------- | ------------  |
 | resource_name |   Resource Name     |  const char * |
 | id_query      |   ID Query          |  bool         |
 | reset         |   Reset             |  bool         |
 
-The `<driver_identifier>_init_with_options()` function includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.
+The `<driver_identifier>_init_with_options()` function includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.  That is, the setting name is separated from the initial value with an equal sign ('=') and name value pairs are separated with semicolons (';').
 
 For the initialization functions *simulation* is initially disabled unless specified otherwise by using the `<driver_identifier>_init_with_options()` function and specifying in the *options* string that *simulation* is enabled.
 
@@ -449,7 +448,8 @@ IVI-ANSI-C drivers may implement additional initializers.
 
 ### Additional Required Functions for IVI-ANSI-C Drivers
 
-This section defines additional required functions that are not specified in the [IVI Core](#link) specification.
+This section defines additional required functions that are not specified in the [IVI Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) specification.
+
 
 #### Error Message Functions
 
@@ -458,31 +458,33 @@ IVI-ANSI-C drivers shall provide three functions to assist customers in interpre
 | function | use |
 | --- | --- |
 | *\<DriverIdentifier>_error_message* | this function converts an error returned by a driver function into a human-readable string |
-| *\<DriverIdentifier>_last_error_message* | this alternative to *\<DriverIdentifier\>_error_message* returns the message for the most recent error|
+| *\<DriverIdentifier>_last_error_message* | this alternative to *\<DriverIdentifier>_error_message* returns the message for the most recent error|
 | *\<DriverIdentifier>_clear_last_error_message* | this function clears the last error message |
 
 The following paragraphs specify the operation of these functions:
 
-- ***\<DriverIdentifier>_error_message*** returns a fixed string that describes the return value from a driver function. The return value may indicate an error, a warning or no error.  For *no error* the driver shall return the string *No Error*. To use this function, the client passes the return value from a driver function and a string buffer using the standard IVI-ANSI-C buffer protocol. A human readable string that describes the error or warning is returned. If the passed error code is not defined by the driver, the driver shall return an appropriate error message.
+- ***\<DriverIdentifier>_error_message*** returns a fixed string that describes the return value from a driver function. The return value may indicate an error, a warning or no error.  For *no error* the driver shall return an empty string. To use this function, the client passes the return value from a driver function and a string buffer using the standard IVI-ANSI-C buffer protocol. A human readable string that describes the error or warning is returned. If the passed error code is not defined by the driver, the driver shall return an appropriate error code and not modify the string buffer.
 
 - ***\<DriverIdentifier>_last_error_message*** returns a string indicating the most recent error from the driver.  This function may provide more detailed error information than *\<DriverIdentifier>_error_message*. Subsequent errors overwrite the buffer used by this function. Calling this function does not clear its internal buffer. To clear the last error, call *\<DriverIdentifier>_clear_last_error_message*
 
-- ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return "No Error".
+- ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return an empty string indicating no error.
 
 #### Read and Clear Error Queue
 
 IVI-ANSI-C Drivers shall provide the *\<DriverIdentifier>_read_and_clear_error_queue* function. *\<DriverIdentifier>_read_and_clear_error_queue* reads as much of the instrument error queue as possible and formats it into the provided buffer. If the instrument error queue length exceeds what can we written into the buffer, the function shall put as many complete formatted errors into the buffer as possible and return success.
 
-[SCPI](#link) instruments include both an integer and a string in the error queue, therefore for each entry taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string. The string itself shall be null terminated.
+The *\<DriverIdentifier>_read_and_clear_error_queue* function provides an alternative to using the *\<DriverIdentifier>_error_query* function specified in the [IVI Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) specification.
 
-*\<DriverIdentifier>_read_and_clear_error_queue* does not follow the standard [Data Structure Transfer Protocol](#data-structure-transfer-protocol) because the function is unable to determine the size required for the buffer without performing a destructive read of the error queue.  Therefore, clients must allocate a buffer large enough to capture a sufficient number of errors for their application.  The standard `size_required` parameter is only used to return the buffer size used.
+[SCPI](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf) instruments include both an integer and a string in the error queue, therefore for each entry taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string. The string itself shall be null terminated.
 
-*\<DriverIdentifier>_read_and_clear_error_queue* shall return an error if the *size* parameter is zero or the *error_string* pointer is null. Note that this differs from the standard [Data Structure Transfer Protocol](#data-structure-transfer-protocol).
+*\<DriverIdentifier>_read_and_clear_error_queue* does not follow the standard [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol) because the function is unable to determine the size required for the buffer without performing a destructive read of the error queue.  Therefore, clients must allocate a buffer large enough to capture a sufficient number of errors for their application. The allocated buffer must include space for the trailing null.
+
+*\<DriverIdentifier>_read_and_clear_error_queue* shall return an error if the *size* parameter is zero or the *error_string* pointer is null. Note that this differs from the standard [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol).
 
 For instance, the following would be a valid string produced by this function for a *SCPI* instrument: "-131,Invalid Suffix;-200,Execution Error;-210,Trigger Error;-220,Parameter Error".
 
 > **Observation:**
-> To implement this, the function should read successive entries from the error queue, formatting them into the buffer. Once an entry is retrieved that does not entirely fit into the buffer, that entry and any successive entries should be read from the instrument and discarded.
+> > To implement this, the function should read successive entries from the error queue, formatting them into the buffer. Once an entry is retrieved that does not entirely fit into the buffer, that entry and any successive entries should be read from the instrument and discarded.
 
 ### Prototypes of Required Driver Functions
 
@@ -494,38 +496,36 @@ In the prototypes below:
 ```C
 /* Initialization functions */
 int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
-int32_t <driver_identifier>_init_with_options(const char *resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
+int32_t <driver_identifier>_init_with_options(const char* resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
 
 /* Functions specified in the base spec */
-int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, int32_t size, char* version_out, int32_t size_required);
-int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, int32_t size, char* vendor_out,  int32_t size_required);
-int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, int32_t size, char* error_message_out, int32_t size_required);
-int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, int32_t size, char* manufacturer_out, int32_t size_required);
+int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, size_t size, char* version_out, size_t* size_required);
+int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, size_t size, char* vendor_out,  size_t* size_required);
+int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, size_t size, char* error_message_out, size_t* size_required);
+int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, size_t size, char* manufacturer_out, size_t* size_required);
 int32_t <driver_identifier>_instrument_model_get(<DriverIdentifier>Session session, char* model_out);
 int32_t <driver_identifier>_query_instrument_status_enabled_get(<DriverIdentifier>Session session, bool* instrument_status_enabled_out);
 int32_t <driver_identifier>_query_instrument_status_enabled_set(<DriverIdentifier>Session session, bool instrument_status_enabled);
 int32_t <driver_identifier>_reset(<DriverIdentifier>Session session);
 int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
-int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, int32_t size, char* supported_instrument_models_out, int32_t size_required)
+int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, size_t size, char* supported_instrument_models_out, size_t* size_required)
 
 /* Additional functions required for driver error management */
-int32_t <driver_identifier>_error_message(int32_t error, int32_t size, char *error_message, int32_t* size_required);
-int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, int32_t size, char *error_message, int32_t *size_required);
+int32_t <driver_identifier>_error_message(int32_t error, size_t size, char *error_message, size_t* size_required);
+int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, size_t size, char *error_message, size_t* size_required);
 int32_t <driver_identifier>_clear_last_error(<DriverIdentifier>Session session);
 
 /* Additional function for working with the instrument error queue */
-int32_t <driver_identifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, int32_t size, char *error_queue);
+int32_t <driver_identifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
 ```
 
-ANSI-C-specific Notes (see [IVI Driver Core Specification](#link) for general requirements):
+ANSI-C-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
 
 - Drivers are permitted to implement a Set function on `Simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
 ### Direct IO functions
 
 Per the *IVI Driver Core specification*, IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide an API for sending messages to and from the instrument over the ASCII command channel. This section specifies those functions.
-
-Drivers may implement these functions in the driver hierarchy if it makes sense.
 
 In the following '\<hierarchy>' indicates whatever hierarchy path the driver designer chooses for the direct IO functions.
 
@@ -553,7 +553,7 @@ int32_t <driver_identifier>_<hierarchy>_write_string(const void* session, const 
 Notes:
 
 - The *optional* `iosession` read-only property should return a session for the underlying IO library.
-- The Direct IO read functions are unable to use the [Data Structure Transfer Protocol](#data-structure-transfer-protocol) because they have no a priori knowledge of the transfer size.
+- The Direct IO read functions are unable to use the [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol) because they have no a priori knowledge of the transfer size.
 
 >**Observation:**
 > > Drivers should consider including a query function that combines read and write.
@@ -567,8 +567,11 @@ Driver packages shall include:
 - Driver binaries for the supported OS/Compiler
 - Driver license terms
 - The IVI Compliance document per the IVI Driver Core Specification
+- README.md file
 - Documentation or a README file that indicates how to acquire documentation
-- Documentation or a README file that indicates how to acquire source code (if provided for this driver, per the [Core Driver specification](#link) requirements)
+- Documentation or a README file that indicates how to acquire source code for drivers that are required to provide source code
+
+The [Core Driver specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) has detailed requirements on the *README.md* file and the *IVI Compliance document* as well as examples.  All of these requirements shall be followed by IVI-ANSI-C drivers.
 
 Driver packages may include additional files at the discretion of the provider.
 
@@ -578,7 +581,8 @@ All files included in the IVI-ANSI-C package shall be signed by the driver vendo
 
 ## IVI-ANSI-C Driver Conformance
 
-IVI-ANSI-C Drivers are required to conform to all of the rules in this document. They are also required to be registered on the IVI website.
+
+IVI-ANSI-C Drivers are required to conform to all of the rules in this document as well as the rules in the [IVI Core](#link). They are also required to be registered on the IVI website.
 
 Drivers that satisfy these requirements are IVI-ANSI-C drivers and may be referred to as such.
 
