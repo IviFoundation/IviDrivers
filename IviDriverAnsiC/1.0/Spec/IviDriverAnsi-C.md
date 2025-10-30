@@ -254,7 +254,7 @@ All IVI-ANSI-C functions that may result in an error shall indicate errors to th
 Negative return values shall indicate an error, positive return values shall indicate non-fatal warnings.
 
 > **Observation:**
-> > The driver function `<driver_identifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be indicated using the return value from functions.
+> > The driver function `<DriverIdentifier>_instrument_error_get()` is used to handle errors detected within the instrument that may not be indicated using the return value from functions.
 
 #### Properties
 
@@ -416,17 +416,17 @@ This section gives a complete description of each function required for an IVI-A
 
 | Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
 |---------------------------------|---------------------------------                 |
-| Initialization                  | <driver_identifier>_init()                       |
-| Driver Version                  | <driver_identifier>_driver_version_get()         |
-| Driver Vendor                   | <driver_identifier>_driver_vendor_get()          |
-| Error Query                     | <driver_identifier>_error_query()                |
-| Instrument Manufacturer         | <driver_identifier>_instrument_manufacturer_get()|
-| Instrument Model                | <driver_identifier>_instrument_model_get()       |
-| Query Instrument Status Enabled (Get) | <driver_identifier>_query_instrument_status_enabled_get()|
-| Query Instrument Status Enabled (Set) | <driver_identifier>_query_instrument_status_enabled_set()|
-| Reset                           | <driver_identifier>_reset()                      |
-| Simulate Enabled                | <driver_identifier>_simulate_get                 |
-| Supported Instrument Models     | <driver_identifier>_supported_instrument_models_get() |
+| Initialization                  | <DriverIdentifier>_init()                       |
+| Driver Version                  | <DriverIdentifier>_driver_version_get()         |
+| Driver Vendor                   | <DriverIdentifier>_driver_vendor_get()          |
+| Error Query                     | <DriverIdentifier>_error_query()                |
+| Instrument Manufacturer         | <DriverIdentifier>_instrument_manufacturer_get()|
+| Instrument Model                | <DriverIdentifier>_instrument_model_get()       |
+| Query Instrument Status Enabled (Get) | <DriverIdentifier>_query_instrument_status_enabled_get()|
+| Query Instrument Status Enabled (Set) | <DriverIdentifier>_query_instrument_status_enabled_set()|
+| Reset                           | <DriverIdentifier>_reset()                      |
+| Simulate Enabled                | <DriverIdentifier>_simulate_get                 |
+| Supported Instrument Models     | <DriverIdentifier>_supported_instrument_models_get() |
 
 ### IVI-ANSI-C Initialize Functions
 
@@ -440,9 +440,9 @@ The parameters to the initialize function are defined in the [IVI Driver Core Sp
 | id_query      |   ID Query          |  bool         |
 | reset         |   Reset             |  bool         |
 
-The `<driver_identifier>_init_with_options()` function includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.  That is, the setting name is separated from the initial value with an equal sign ('=') and name value pairs are separated with semicolons (';').
+The `<DriverIdentifier>_init_with_options()` function includes an *options* string used to specify initial settings and various configuration for the driver using name-value pairs. The format of the *options* string shall be: `<name1>=<value>;<name2>=<value>;...`.  That is, the setting name is separated from the initial value with an equal sign ('=') and name value pairs are separated with semicolons (';').
 
-For the initialization functions *simulation* is initially disabled unless specified otherwise by using the `<driver_identifier>_init_with_options()` function and specifying in the *options* string that *simulation* is enabled.
+For the initialization functions *simulation* is initially disabled unless specified otherwise by using the `<DriverIdentifier>_init_with_options()` function and specifying in the *options* string that *simulation* is enabled.
 
 IVI-ANSI-C drivers may implement additional initializers.
 
@@ -495,28 +495,28 @@ In the prototypes below:
 
 ```C
 /* Initialization functions */
-int32_t <driver_identifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
-int32_t <driver_identifier>_init_with_options(const char* resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
+int32_t <DriverIdentifier>_init(const char *resource_name, bool id_query,  bool reset, <DriverIdentifier>Session* session_out);
+int32_t <DriverIdentifier>_init_with_options(const char* resource_name, bool id_query, bool reset, const char* options, <DriverIdentifier>Session* session_out);
 
 /* Functions specified in the base spec */
-int32_t <driver_identifier>_driver_version_get(<DriverIdentifier>Session session, size_t size, char* version_out, size_t* size_required);
-int32_t <driver_identifier>_driver_vendor_get(<DriverIdentifier>Session session, size_t size, char* vendor_out,  size_t* size_required);
-int32_t <driver_identifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, size_t size, char* error_message_out, size_t* size_required);
-int32_t <driver_identifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, size_t size, char* manufacturer_out, size_t* size_required);
-int32_t <driver_identifier>_instrument_model_get(<DriverIdentifier>Session session, char* model_out);
-int32_t <driver_identifier>_query_instrument_status_enabled_get(<DriverIdentifier>Session session, bool* instrument_status_enabled_out);
-int32_t <driver_identifier>_query_instrument_status_enabled_set(<DriverIdentifier>Session session, bool instrument_status_enabled);
-int32_t <driver_identifier>_reset(<DriverIdentifier>Session session);
-int32_t <driver_identifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
-int32_t <driver_identifier>_supported_instrument_models_get(<DriverIdentifier>Session session, size_t size, char* supported_instrument_models_out, size_t* size_required)
+int32_t <DriverIdentifier>_driver_version_get(<DriverIdentifier>Session session, size_t size, char* version_out, size_t* size_required);
+int32_t <DriverIdentifier>_driver_vendor_get(<DriverIdentifier>Session session, size_t size, char* vendor_out,  size_t* size_required);
+int32_t <DriverIdentifier>_error_query(<DriverIdentifier>Session session, int32_t* error_code_out, size_t size, char* error_message_out, size_t* size_required);
+int32_t <DriverIdentifier>_instrument_manufacturer_get(<DriverIdentifier>Session session, size_t size, char* manufacturer_out, size_t* size_required);
+int32_t <DriverIdentifier>_instrument_model_get(<DriverIdentifier>Session session, char* model_out);
+int32_t <DriverIdentifier>_query_instrument_status_enabled_get(<DriverIdentifier>Session session, bool* instrument_status_enabled_out);
+int32_t <DriverIdentifier>_query_instrument_status_enabled_set(<DriverIdentifier>Session session, bool instrument_status_enabled);
+int32_t <DriverIdentifier>_reset(<DriverIdentifier>Session session);
+int32_t <DriverIdentifier>_simulate_get(<DriverIdentifier>Session session, bool* simulate_out)
+int32_t <DriverIdentifier>_supported_instrument_models_get(<DriverIdentifier>Session session, size_t size, char* supported_instrument_models_out, size_t* size_required)
 
 /* Additional functions required for driver error management */
-int32_t <driver_identifier>_error_message(int32_t error, size_t size, char *error_message, size_t* size_required);
-int32_t <driver_identifier>_last_error_message(<DriverIdentifier>Session session, size_t size, char *error_message, size_t* size_required);
-int32_t <driver_identifier>_clear_last_error(<DriverIdentifier>Session session);
+int32_t <DriverIdentifier>_error_message(int32_t error, size_t size, char *error_message, size_t* size_required);
+int32_t <DriverIdentifier>_last_error_message(<DriverIdentifier>Session session, size_t size, char *error_message, size_t* size_required);
+int32_t <DriverIdentifier>_clear_last_error(<DriverIdentifier>Session session);
 
 /* Additional function for working with the instrument error queue */
-int32_t <driver_identifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
+int32_t <DriverIdentifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
 ```
 
 ANSI-C-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
@@ -531,23 +531,23 @@ In the following '\<hierarchy>' indicates whatever hierarchy path the driver des
 
 | Required Driver API (IVI Driver Core) | Core IVI-ANSI-C API     |
 | ------------------------------------- | --------------------    |
-| I/O Timeout Set                       | `<driver_identifier>_<hierarchy>_timeout_milliseconds_set()` |
-| I/O Timeout Get                       | `<driver_identifier>_<hierarchy>_timeout_milliseconds_get()` |
-| Read Bytes                            | `<driver_identifier>_<hierarchy>_read_bytes()`   |
-| Read String                           | `<driver_identifier>_<hierarchy>_read_string()`  |
-| Write Bytes                           | `driver_identifier>_<hierarchy>_write_bytes()`   |
-| Write String                          | `<driver_identifier>_<hierarchy>_write_string()` |
+| I/O Timeout Set                       | `<DriverIdentifier>_<hierarchy>_timeout_milliseconds_set()` |
+| I/O Timeout Get                       | `<DriverIdentifier>_<hierarchy>_timeout_milliseconds_get()` |
+| Read Bytes                            | `<DriverIdentifier>_<hierarchy>_read_bytes()`   |
+| Read String                           | `<DriverIdentifier>_<hierarchy>_read_string()`  |
+| Write Bytes                           | `<DriverIdentifier>_<hierarchy>_write_bytes()`   |
+| Write String                          | `<DriverIdentifier>_<hierarchy>_write_string()` |
 
 #### Prototypes for Direct IO Functions
 
 ```C
-int32_t <driver_identifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
-int32_t <driver_identifier>_<hierarchy>_timeout_milliseconds_get(const void* session, &long);
-int32_t <driver_identifier>_<hierarchy>_iosession_get(const void* session, void **iosession);    // Optional
-int32_t <driver_identifier>_<hierarchy>_read_bytes(const void* session, const long size, byte *);
-int32_t <driver_identifier>_<hierarchy>_read_string(const void* session,const long size, char *);
-int32_t <driver_identifier>_<hierarchy>_write_bytes(const void* session, const long size, const byte *);
-int32_t <driver_identifier>_<hierarchy>_write_string(const void* session, const char *);
+int32_t <DriverIdentifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
+int32_t <DriverIdentifier>_<hierarchy>_timeout_milliseconds_get(const void* session, &long);
+int32_t <DriverIdentifier>_<hierarchy>_iosession_get(const void* session, void **iosession);    // Optional
+int32_t <DriverIdentifier>_<hierarchy>_read_bytes(const void* session, const long size, byte *);
+int32_t <DriverIdentifier>_<hierarchy>_read_string(const void* session,const long size, char *);
+int32_t <DriverIdentifier>_<hierarchy>_write_bytes(const void* session, const long size, const byte *);
+int32_t <DriverIdentifier>_<hierarchy>_write_string(const void* session, const char *);
 ```
 
 Notes:
