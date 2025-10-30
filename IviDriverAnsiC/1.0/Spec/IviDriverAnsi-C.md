@@ -467,7 +467,7 @@ The following paragraphs specify the operation of these functions:
 
 - ***\<DriverIdentifier>_last_error_message*** returns a string indicating the most recent error from the driver.  This function may provide more detailed error information than *\<DriverIdentifier>_error_message*. Subsequent errors overwrite the buffer used by this function. Calling this function does not clear its internal buffer. To clear the last error, call *\<DriverIdentifier>_clear_last_error_message*
 
-- ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return *"No Error"*.
+- ***\<DriverIdentifier>_clear_last_error_message*** clears the buffer used by *\<DriverIdentifier>_last_error_message*. If there are no intervening errors, a subsequent call to *\<DriverIdentifier>_last_error_message* shall return an empty string indicating no error.
 
 #### Read and Clear Error Queue
 
