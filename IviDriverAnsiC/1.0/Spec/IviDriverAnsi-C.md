@@ -159,7 +159,7 @@ The following casing rules shall be followed:
 
 Driver file names shall be snake case.
 
-Source code files shall use *.c* (or the appropriate suffix if they are not C) and *.h* suffixes for C source and C header files respectively.
+C source code files shall use a *.c* suffix, and C header files shall use a *.h* suffix.
 
 Binary files should use filename suffixes conventional for the operating system and compilers they target.
 
