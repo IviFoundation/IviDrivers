@@ -477,7 +477,7 @@ The *\<DriverIdentifier>_read_and_clear_error_queue* function provides an altern
 
 [SCPI](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf) instruments include both an integer and a string in the error queue, therefore for each entry taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string. The string itself shall be null terminated.
 
-*\<DriverIdentifier>_read_and_clear_error_queue* does not follow the standard [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol) because the function is unable to determine the size required for the buffer without performing a destructive read of the error queue.  Therefore, clients must allocate a buffer large enough to capture a sufficient number of errors for their application. The allocated buffer must include space for the trailing null as well.
+*\<DriverIdentifier>_read_and_clear_error_queue* does not follow the standard [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol) because the function is unable to determine the size required for the buffer without performing a destructive read of the error queue.  Therefore, clients must allocate a buffer large enough to capture a sufficient number of errors for their application. The allocated buffer must include space for the trailing null.
 
 *\<DriverIdentifier>_read_and_clear_error_queue* shall return an error if the *size* parameter is zero or the *error_string* pointer is null. Note that this differs from the standard [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol).
 
