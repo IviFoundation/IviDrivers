@@ -94,12 +94,11 @@ This specification uses paired angle brackets to indicate that the text between 
 
 The *IVI Driver Core Specification* uses the '\<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '\<DriverIdentifier>' shall be constructed as:
 
-- The first characters shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note that any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
-- If the driver vendor is different from the instrument vendor, the driver vendor is followed by an optional underscore ('_') and the 2-character vendor abbreviation for the instrument vendor. If the driver vendor and the instrument vendor are the same, the vendor prefix is not repeated and no underscore is permitted.
-- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
+- The first 2 characters shall designate the instrument manufacturer. These shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note that any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.  If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose any two characters, however they shall include the final token indicating the driver vendor.
+- The following character shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
+- The final token indicates the driver vendor.  If the driver vendor is the same as the instrument manufacturer, this token is not included.
 
 Vendors should try to keep the '\<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
-
 
 This document uses the following conventions regarding the '\<DriverIdentifier>':
 
@@ -152,8 +151,8 @@ The following casing rules shall be followed:
 > **Observation:**
 > > The IVI Foundation, grants available 2-character vendor identifiers to any driver vendor requesting them at no cost.  Assigned identifiers can be found in the current version of IVI VPP-9, referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications).
 
-> **Observation:**
-> > Since each vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between vendors.  Each vendor then manages the other characters in the '\<DriverIdentifier>' to eliminate collisions.
+> > **Observation:**
+> > Since each driver vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between driver vendors.  Each vendor then manages the other characters in the '\<DriverIdentifier>' to eliminate collisions.
 
 ### IVI-ANSI-C Filenames
 
