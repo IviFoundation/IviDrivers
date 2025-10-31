@@ -113,7 +113,7 @@ This section describes how IVI-ANSI-C instrument drivers use ANSI-C. This sectio
 
 ### Operating Systems and Bitness
 
-IVI-ANSI-C drivers shall support a compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
+IVI-ANSI-C drivers can support various compilers and operating systems.  Vendors that provide IVI-ANSI-C Drivers shall provide a IVI-ANSI-C driver for Microsoft Windows 11 with a compiler that was current when the driver was released or last updated.  Driver vendors are encouraged to also support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
 
 In addition to the compliance documentation required by [IVI Driver Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested and is supported.
 
