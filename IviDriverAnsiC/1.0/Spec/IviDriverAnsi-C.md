@@ -575,6 +575,8 @@ The [IVI Driver Core specification (README.md)](https://github.com/IviFoundation
 
 Driver packages may include additional files at the discretion of the provider.
 
+Driver providers should consider including a directory hierarchy within the archive that facilitates the customer using the driver with package managers. This is especially relevant for drivers that provide source code.
+
 > ***Observation:***
 > Driver providers may need to provide separate packages for different compilers on a given platform.  For instance, a provider may have a Windows driver packages for _Microsoft Visual C/C++_ and another package for _gcc_.
 
