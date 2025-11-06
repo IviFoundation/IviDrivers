@@ -180,7 +180,7 @@ The IVI Python standard does not specify operating systems. Thus there are no sp
 
 ### Target Python Versions
 
-IVI-Python drivers shall support at least one version of Python supported by the *Python Software Foundation* at the time of the drivers' release. At the time of this writing, this website has details on the current supported versions: <https://devguide.python.org/versions/>. Drivers should support all active Python versions at the time of release.
+IVI-Python drivers shall support at least one version of Python supported by the *Python Software Foundation* at the time of the driver's release. At the time of this writing, this website has details on the current supported versions: <https://devguide.python.org/versions/>. Drivers should support all active Python versions.
 
 ### IVI-Python Naming
 
