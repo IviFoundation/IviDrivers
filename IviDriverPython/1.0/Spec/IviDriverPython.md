@@ -209,9 +209,8 @@ def normalize(name):
 
 The distribution package name shall be the same as the import package name except for the choice of separator. Distribution package names shall be all lower-case. Dashes and underscores are allowed.
 
-> [!NOTE] (JM) Parenthetical comment does not seem to make sense. Also, should be in regular parenthesis not square brackets.
 
-Existing drivers with different name compositions are exempt from this rule. [THIS CAN BE CHANGED TO RECOMMENDATION IN THE FUTURE]
+Existing drivers with different name compositions are exempt from this rule.
 
 #### IVI-Python Package Type-Hinting
 
