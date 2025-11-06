@@ -80,7 +80,7 @@ This specification uses paired angle brackets to indicate that the text between 
 
 #### Driver Identifier and Driver Class Name
 
-This section specifies the substitutions for various forms of the *Driver Identifier* and the *Driver Class Name*
+This section specifies the substitutions for various forms of the *Driver Identifier* and the *Driver Class Name*.
 
 The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
