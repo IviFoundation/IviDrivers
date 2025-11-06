@@ -573,7 +573,7 @@ Driver packages shall include:
 
 The [IVI Driver Core specification (README.md)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#readmemd-documentation) has detailed requirements on the *README.md* file and the *IVI Compliance document* as well as examples.  All of these requirements shall be followed by IVI-ANSI-C drivers.
 
-Driver packages may include additional files at the discretion of the provider.
+Driver packages may include additional files at the discretion of the provider.  They may also organize the files into subdirectories at their discretion.
 
 
 > ***Observation:***
