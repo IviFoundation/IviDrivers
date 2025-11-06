@@ -176,8 +176,7 @@ IVI-Python drivers shall comply with PEP-8 (*Style Guide for Python Code*).
 
 ### Bitness
 
-The IVI Python standard does not specify operating systems. Thus there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment in which it is supported 
-[per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
+The IVI Python standard does not specify operating systems. Thus there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment in which it is supported [per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
 
 ### Target Python Versions
 
