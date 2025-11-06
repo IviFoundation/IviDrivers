@@ -218,7 +218,7 @@ The driver package shall provide complete type-hinting. An empty file named `py.
 
 ### IVI-Python Driver Classes
 
-IVI-Python drivers are object-oriented. There shall be a root class that when instantiated provides the complete driver API. That class is instantiated for each distinct instrument to be controlled. The name of the class shall be `<DriverClassName>`. Note that the import package name and the root class do not collide, because they have different casing and/or missing driver vendor.
+IVI-Python drivers are object-oriented. There shall be a root class that when instantiated provides the complete driver API. That class is instantiated for each resource to be controlled. The name of the class shall be `<DriverClassName>`. Note that the import package name and the root class do not collide, because they have different casing and/or missing driver vendor.
 
 For instance, in the following example the driver vendor and instrument manufacturer are the same, so the import statement would look like this:
 
