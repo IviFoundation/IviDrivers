@@ -2,8 +2,9 @@
 
 | Version Number | Date of Version    | Version Notes                   |
 |--------------- | ---------------    | -------------                   |
-| 0.1            |  May 2025  | Preliminary Draft for LXI Development   |
-| 0.2            | July 2025  | First version in IVI repo, with updates per meeting |
+| 0.1            |  May 2025          | Preliminary Draft for LXI Development   |
+| 0.2            | July 2025          | First version in IVI repo, with updates per meeting |
+| 0.3            | November 07, 2025  | All changes other than OS requirement, ready for face-face meeting |
 
 ## Abstract
 
