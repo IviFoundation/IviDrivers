@@ -7,7 +7,7 @@
 
 ## Abstract
 
-This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. This specification is to be used in conjunction with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
+This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. This specification is to be used in conjunction with the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 ## Authorship
 
@@ -70,7 +70,7 @@ No investigation has been made of common-law trademark rights in any work.
 
 ## Overview of the IVI-ANSI-C Driver Language Specification
 
-This specification contains the ANSI-C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification.  This specification is to be used in conjunction with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
+This specification contains the ANSI-C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification.  This specification is to be used in conjunction with the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement).  These are included to provide a more consistent customer experience.  However, in general, design decisions are left to the driver designer.
 
@@ -78,7 +78,7 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification contains ANSI-C specific requirements for drivers that provide a library for use with ANSI-C compilers or other clients that can use a compiled library to interface to an instrument.
 
-This specification also requires that drivers comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).  That specification is language independent and has several requirements that conformant drivers are required to satisfy independent of the driver language such as documentation, testing, and source code availability.
+This specification also requires that drivers comply with the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).  That specification is language independent and has several requirements that conformant drivers are required to satisfy independent of the driver language such as documentation, testing, and source code availability.
 
 ### Relationship of IVI-ANSI-C to the IVI-C Specifications
 
@@ -94,9 +94,9 @@ This specification uses paired angle brackets to indicate that the text between 
 
 The *IVI Driver Core Specification* uses the '\<DriverIdentifier>' to indicate the name that uniquely identifies the driver.  For IVI-ANSI-C drivers, the '\<DriverIdentifier>' shall be constructed as:
 
-- The first 2 characters shall designate the instrument manufacturer. These shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx).  Note that any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.  If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose any two characters, however they shall include the final token indicating the driver vendor.
-- The following character shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
-- The final token indicates the driver vendor.  If the driver vendor is the same as the instrument manufacturer, this token is not included.
+- The first characters shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification VPP-9 (see [IVI Website](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications)).  Note that any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation.  This abbreviation shall always be in upper case.
+- If the driver vendor is different from the instrument vendor, the driver vendor is followed by an optional underscore ('_') and the 2-character vendor abbreviation for the instrument vendor. If the driver vendor and the instrument vendor are the same, the vendor prefix is not repeated and no underscore is permitted.
+- Additional characters are added that identify the instrument models supported, and any other driver identifying information the vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string.  These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
 
 Vendors should try to keep the '\<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
 
@@ -114,7 +114,7 @@ This section describes how IVI-ANSI-C instrument drivers use ANSI-C. This sectio
 
 IVI-ANSI-C drivers shall support a compiler on a version of Microsoft Windows that was current when the driver was released or last updated.  Driver vendors are encouraged to support IVI-ANSI-C drivers on other operating systems and compilers important to their users.
 
-In addition to the compliance documentation required by [IVI Driver Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested and is supported.
+In addition to the compliance documentation required by the [IVI Driver Core specification (Compliance Documentation)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#compliance-documentation) IVI-ANSI-C drivers shall also document the compilers and compiler versions with which the driver has been tested and is supported.
 
 ### Target ANSI-C Versions
 
@@ -372,7 +372,7 @@ For this protocol:
 
 ### Repeated Capabilities
 
-Repeated capabilities may be represented in two ways in IVI-ANSI-C drivers. Repeated capability instances may be specified by a method that selects the active instance (the *selector style*) or by selecting a particular instance using a function parameter or parameters. See the [IVI Core Driver Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for additional details.
+Repeated capabilities may be represented in two ways in IVI-ANSI-C drivers. Repeated capability instances may be specified by a method that selects the active instance (the *selector style*) or by selecting a particular instance using a function parameter or parameters. See the [IVI Core Driver specification (Repeated Capabilities)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#repeated-capabilities) for additional details.
 
 Driver functions that require a repeated capability parameter(s) should pass it as the second (and or following) parameter(s), after the *session*.  
 
@@ -388,7 +388,7 @@ For instance, if a driver chooses to use method parameters to identify N markers
 Drivers are permitted to choose any of these, or use other approaches.
 
 > **Observation:**
-> > There are additional details on possible repeated capability implementation strategies in the [IVI SCPI standard](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf), the [IVI Core Repeated Capability Document](https://github.com/IviFoundation/IviDrivers/blob/main/Documentation/UsingStringsAsRepCapSelectors.md), and the [IVI Generation 2014](https://www.ivifoundation.org/specifications/default.html) driver specifications.
+> > There are additional details on possible repeated capability implementation strategies in the [IVI SCPI standard](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf), the [IVI Driver Core 'Using Strings as RepCap Selectors' Document](https://github.com/IviFoundation/IviDrivers/blob/main/Documentation/UsingStringsAsRepCapSelectors.md), and the [IVI Generation 2014](https://www.ivifoundation.org/specifications/default.html) driver specifications.
 
 > **Observation:**
 > > Some applications requiring repeated capability parameters that operate on multiple instances of a repeated capability at the same time. For these, bitmapping each repeated capability into an integer may work well.
@@ -409,7 +409,7 @@ IVI-ANSI-C drivers shall be thread-safe.  That is, driver functions shall tolera
 
 ## Base IVI-ANSI-C API
 
-This section gives a complete description of each function required for an IVI-ANSI-C Core driver. The following table shows the mapping between the required base driver APIs described in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) and the corresponding IVI-ANSI-C specific APIs described in this section.
+This section gives a complete description of each function required for an IVI-ANSI-C Core driver. The following table shows the mapping between the required base driver APIs described in the [IVI Driver Core specification (Required Driver APIs)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#required-driver-apis) and the corresponding IVI-ANSI-C specific APIs described in this section.
 
 ### Required Driver API Mapping Table
 
@@ -431,7 +431,7 @@ This section gives a complete description of each function required for an IVI-A
 
 The IVI-ANSI-C drivers shall implement two initializers, one which permits specifying options.
 
-The parameters to the initialize function are defined in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).  The following table shows their names and types for ANSI-C:
+The parameters to the initialize function are defined in the [IVI Driver Core specification (Initialization)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction).  The following table shows their names and types for ANSI-C:
 
 | Parameter     |     Description     |    Data Type  |
 | ------------- | ------------------- | ------------  |
@@ -447,8 +447,7 @@ IVI-ANSI-C drivers may implement additional initializers.
 
 ### Additional Required Functions for IVI-ANSI-C Drivers
 
-This section defines additional required functions that are not specified in the [IVI Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) specification.
-
+This section defines additional required functions that are not specified in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
 #### Error Message Functions
 
@@ -472,7 +471,7 @@ The following paragraphs specify the operation of these functions:
 
 IVI-ANSI-C Drivers shall provide the *\<DriverIdentifier>_read_and_clear_error_queue* function. *\<DriverIdentifier>_read_and_clear_error_queue* reads as much of the instrument error queue as possible and formats it into the provided buffer. If the instrument error queue length exceeds what can we written into the buffer, the function shall put as many complete formatted errors into the buffer as possible and return success.
 
-The *\<DriverIdentifier>_read_and_clear_error_queue* function provides an alternative to using the *\<DriverIdentifier>_error_query* function specified in the [IVI Core](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) specification.
+The *\<DriverIdentifier>_read_and_clear_error_queue* function provides an alternative to using the *\<DriverIdentifier>_error_query* function specified in the [IVI Driver Core specification (Error Query)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#error-query).
 
 [SCPI](https://www.ivifoundation.org/downloads/SCPI/scpi-99.pdf) instruments include both an integer and a string in the error queue, therefore for each entry taken from the queue the integer is formatted into the string, followed by a comma (','), and then the error message from the instrument.  Each error is separated by semicolons. Only complete error entries are written into the string. The string itself shall be null terminated.
 
@@ -518,7 +517,7 @@ int32_t <DriverIdentifier>_clear_last_error(<DriverIdentifier>Session session);
 int32_t <DriverIdentifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
 ```
 
-ANSI-C-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
+ANSI-C-specific Notes (see [IVI Driver Core specification (Required Driver APIs)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#required-driver-apis) for general requirements):
 
 - Drivers are permitted to implement a Set function on `Simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
@@ -571,9 +570,10 @@ Driver packages shall include:
 - Documentation or a README file that indicates how to acquire documentation
 - Documentation or a README file that indicates how to acquire source code for drivers that are required to provide source code
 
-The [Core Driver specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) has detailed requirements on the *README.md* file and the *IVI Compliance document* as well as examples.  All of these requirements shall be followed by IVI-ANSI-C drivers.
+The [IVI Driver Core specification (README.md)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#readmemd-documentation) has detailed requirements on the *README.md* file and the *IVI Compliance document* as well as examples.  All of these requirements shall be followed by IVI-ANSI-C drivers.
 
-Driver packages may include additional files at the discretion of the provider.
+Driver packages may include additional files at the discretion of the provider.  They may also organize the files into subdirectories at their discretion.
+
 
 > ***Observation:***
 > Driver providers may need to provide separate packages for different compilers on a given platform.  For instance, a provider may have a Windows driver packages for _Microsoft Visual C/C++_ and another package for _gcc_.
@@ -584,8 +584,7 @@ All files included in the IVI-ANSI-C package shall be signed by the driver vendo
 
 ## IVI-ANSI-C Driver Conformance
 
-
-IVI-ANSI-C Drivers are required to conform to all of the rules in this document as well as the rules in the [IVI Core](#link). They are also required to be registered on the IVI website.
+IVI-ANSI-C Drivers are required to conform to all of the rules in this document as well as the rules in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). They are also required to be registered on the IVI website.
 
 Drivers that satisfy these requirements are IVI-ANSI-C drivers and may be referred to as such.
 
