@@ -381,7 +381,7 @@ session.channels_item(1).range = 10.0
 All IVI-Python instrument drivers shall consistently use the standard Python exception mechanism to report errors. Neither return values nor *out* parameters shall be used to return error information.
 
 > **Observation:**
-> > The method `error_query()` can be used to read back errors from within the instrument that may not be thrown as Python exceptions.
+> > The method `error_query()` can be used to read back errors from the instrument that may not be thrown as Python exceptions.
 
 ### Documentation and Source Code
 
