@@ -302,7 +302,7 @@ In the following statements, `<RcName>` is the name of the repeated capability.
 
 - Repeated capability collection classes should be named: `<RcName>Collection`
 
-- The interface or class returned by the collection's Item operator should be named: `<RcName>`
+- The interface or class returned by the collection's item operator should be named: `<RcName>`
 
 - The interface or class returned by the collection's Item operator should include a property called *name*. The *name* property returns the physical repeated capability identifier defined by the specific driver for the repeated capability that corresponds to the index that the user specifies.
 
