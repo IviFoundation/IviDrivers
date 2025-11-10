@@ -672,7 +672,7 @@ All IVI-Python driver packages shall include the following files:
 
 - the documentation or directions for how to acquire it; directions are found in the *README.md* file
 
-- Source code if provided with this driver or directions for how to acquire in the *README.md* file.  See the [IVI Core Specification](#link) for details regarding when source code is required.
+- If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README.md*. See the [IVI Core Specification](#link) for details regarding when source code is required.
 
 - The IVI Compliance document as specified in the [IVI Core Specification](#link)
 
