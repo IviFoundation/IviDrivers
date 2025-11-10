@@ -666,7 +666,7 @@ All IVI-Python driver packages shall include the following files:
 
 - the driver
 
-- Readme file (*README.md*) as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
+- the *README.md* as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
 
 - the type hinting file (*py.typed*), at the top level of the package
 
