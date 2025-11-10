@@ -639,8 +639,7 @@ The following sections detail the package requirements.
 
 Project meta-information.
 
-The instrument manufacturer and model(s) supported by the driver shall be mentioned in the keywords list.
-The forms of the manufacturer and the model(s) shall be the same as returned from the driver's API.
+The instrument manufacturer and model(s) supported by the driver shall be mentioned in the keywords list. The forms of the manufacturer and the model(s) shall be the same as returned from the driver's API.
 
 Below, is an example of the toml file content:
 
