@@ -345,7 +345,7 @@ class TriggerCollection(dict):
 
 ### Driver Structure Interfaces
 
-Python IVI Drivers use tree-like structure of classes, some with repeated capabilities, and some without. Consider an Oscilloscope driver with a non-repeated capability interface accessor `setup`, and repeated capabilities interface accessor `channels`:
+Python IVI Drivers use a tree-like structure of classes, some with repeated capabilities, and some without. Consider an Oscilloscope driver with a non-repeated capability interface accessor `setup`, and repeated capabilities interface accessor `channels`:
 
 ```python
 session = Oscilloscope("TCPIP::192.168.1.101")
