@@ -664,7 +664,7 @@ Documentation = "https://readthedocs.org"
 
 All IVI-Python driver packages shall include the following files:
 
-- The driver
+- the driver
 
 - Readme file (*README.md*) as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
 
