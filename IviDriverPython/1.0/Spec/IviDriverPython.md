@@ -387,7 +387,6 @@ All IVI-Python instrument drivers shall consistently use the standard Python exc
 
 This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in *IVI Driver Core Specification*.
 
-> **Observation:**
 
 ## Base IVI-Python API
 
