@@ -380,7 +380,7 @@ If a driver implements multiple repeated capabilities (for instance N markers on
 For instance, if a driver chooses to use method parameters to identify N markers on M waveforms, it could:
 
 - accept 2 parameters one for the marker and another for the waveform
-- it could map the parameters into an integer, so the second waveform's third marker may be identified as '0x23' (providing 4 bits for both parameters)
+- it could bitmap the parameters into an integer, so the second waveform's third marker may be identified as '0x23' (providing 4 bits for both parameters)
 - it could accept a repeated capability structure defined by the driver
 - it could treat the repeated capability identifiers as strings and pass a string such as "2:3"
 
