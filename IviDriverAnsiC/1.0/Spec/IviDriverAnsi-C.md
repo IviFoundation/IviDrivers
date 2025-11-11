@@ -83,7 +83,7 @@ This specification also requires that drivers comply with the [IVI Driver Core s
 
 ### Relationship of IVI-ANSI-C to the IVI-C Specifications
 
-This specification, and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
+This specification and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
 
 However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system. Nor is there any inherent limitation to using an IVI-C driver in an ANSI-C setting.
 
@@ -207,7 +207,7 @@ Example: A driver xysiggen42_sg_types.h, would use a compiler-specific pragma or
 
 ### IVI-ANSI-C Function Style
 
-The following sub-sections call out required IVI-ANSI-C style. There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
+The following subsections call out required IVI-ANSI-C style. There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
 
 #### IVI-ANSI-C Function Naming
 
@@ -216,8 +216,8 @@ IVI-ANSI-C function names shall be snake case, but preceded with the '\<Instrume
 In general drivers are encouraged to organize ANSI-C function names into a hierarchy. This is beneficial because:
 
 - it provides helpful organization for customers to navigate complex APIs
-- It permits vendors targeting drivers to both ANSI-C and object oriented languages
-- It allows the documentation to be leveraged between ANSI-C and object oriented languages
+- It permits vendors targeting drivers to both ANSI-C and object-oriented languages
+- It allows the documentation to be leveraged between ANSI-C and object-oriented languages
 
 Vendors should consider emulating the hierarchical API by appending the names of the elements of the hierarchy in generating the C identifier. For instance:
 
@@ -225,7 +225,7 @@ Vendors should consider emulating the hierarchical API by appending the names of
   Dmm32.Measurement.Voltage.Span(start=1, stop=10);
 ```
 
-Would translated into:
+Would translate into:
 
 ```C
   int32_t status = XYDmm32_measurement_voltage_span(Dmm32Session, start, stop);
@@ -308,7 +308,7 @@ The implementation of enumerated types is vendor-defined. Recommended implementa
 > > In C, the `enum` keyword must be specified when referring to a named `enum` type (e.g. `enum XYDmm32Function`). In C++, the `enum` keyword is optional and the `enum` type may be used directly (e.g. `XYDmm32Function`). Defining a `typedef` for an unnamed `enum` type allows referring to the type without specifying the `enum` keyword.
 
 > **Observation:**
-> > In C99, the underlying integral type of an `enum` is implementation-defined. Adding enumeration constants to an existing `enum` may change the width and/or signedness of its underlying integral type, breaking binary and/or source compatibility. Popular C compilers for Windows and desktop Linux use 32-bit integers when possible, but embedded platforms or compiler options such as GCC's `-fshort-enums` may behave differently.
+> > In C99, the underlying integral type of `enum` is implementation-defined. Adding enumeration constants to an existing `enum` may change the width and/or signedness of its underlying integral type, breaking binary and/or source compatibility. Popular C compilers for Windows and desktop Linux use 32-bit integers when possible, but embedded platforms or compiler options such as GCC's `-fshort-enums` may behave differently.
 > >
 > > C23 and C++11 extend the `enum` syntax to allow specifying the underlying integral type. This is not legal C99 syntax, so drivers may only use this syntax if it is guarded with appropriate C preprocessor conditionals.
 > >
@@ -339,7 +339,7 @@ If the sign of the enumerated type has no significance for the driver, drivers s
 
 This section defines a *Variable Sized Data Retrieval Protocol* for the driver to return data to the client. This includes strings, arrays, and other dynamically sized structures. This protocol shall be used by functions that return variably sized data; however, it is not required for functions that have requirements that are not satisfied by the protocol.
 
-IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus a consistent protocol is required for:
+IVI-ANSI-C requires that the driver client allocate memory for values provided by the driver. This avoids difficulties related to the client freeing the memory after the buffer is no longer needed. Thus, a consistent protocol is required for:
 
 - the client to determine the required size of the buffer
 - the client to determine the actual size of the returned value
@@ -382,7 +382,7 @@ If a driver implements multiple repeated capabilities (for instance N markers on
 For instance, if a driver chooses to use method parameters to identify N markers on M waveforms, it could:
 
 - accept 2 parameters one for the marker and another for the waveform
-- it could bitmap the parameters into an integer, so the second waveform's third marker may be identified as '0x23' (providing 4 bits for both parameters)
+- it could map the parameters into an integer, so the second waveform's third marker may be identified as '0x23' (providing 4 bits for both parameters)
 - it could accept a repeated capability structure defined by the driver
 - it could treat the repeated capability identifiers as strings and pass a string such as "2:3"
 
@@ -462,7 +462,7 @@ IVI-ANSI-C drivers shall provide three functions to assist customers in interpre
 
 The following paragraphs specify the operation of these functions:
 
-- ***\<DriverIdentifier>_error_message*** returns a fixed string that describes the return value from a driver function. The return value may indicate an error, a warning or no error. For *no error* the driver shall return an empty string. To use this function, the client passes the return value from a driver function and a string buffer using the standard IVI-ANSI-C buffer protocol. A human readable string that describes the error or warning is returned. If the passed error code is not defined by the driver, the driver shall return an appropriate error code and not modify the string buffer.
+- ***\<DriverIdentifier>_error_message*** returns a fixed string that describes the return value from a driver function. The return value may indicate an error, a warning or no error. For *no error* the driver shall return an empty string. To use this function, the client passes the return value from a driver function and a string buffer using the standard IVI-ANSI-C buffer protocol. A human-readable string that describes the error or warning is returned. If the passed error code is not defined by the driver, the driver shall return an appropriate error code and not modify the string buffer.
 
 - ***\<DriverIdentifier>_last_error_message*** returns a string indicating the most recent error from the driver. This function may provide more detailed error information than *\<DriverIdentifier>_error_message*. Subsequent errors overwrite the buffer used by this function. Calling this function does not clear its internal buffer. To clear the last error, call *\<DriverIdentifier>_clear_last_error_message*
 
@@ -470,7 +470,7 @@ The following paragraphs specify the operation of these functions:
 
 #### Read and Clear Error Queue
 
-IVI-ANSI-C Drivers shall provide the *\<DriverIdentifier>_read_and_clear_error_queue* function. *\<DriverIdentifier>_read_and_clear_error_queue* reads as much of the instrument error queue as possible and formats it into the provided buffer. If the instrument error queue length exceeds what can we written into the buffer, the function shall put as many complete formatted errors into the buffer as possible and return success.
+IVI-ANSI-C Drivers shall provide the *\<DriverIdentifier>_read_and_clear_error_queue* function. *\<DriverIdentifier>_read_and_clear_error_queue* reads as much of the instrument error queue as possible and formats it into the provided buffer. If the instrument error queue length exceeds what can be written into the buffer, the function shall put as many complete formatted errors into the buffer as possible and return success.
 
 The *\<DriverIdentifier>_read_and_clear_error_queue* function provides an alternative to using the *\<DriverIdentifier>_error_query* function specified in the [IVI Driver Core specification (Error Query)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#error-query).
 
@@ -584,7 +584,7 @@ All files included in the IVI-ANSI-C package shall be signed by the driver vendo
 
 ## IVI-ANSI-C Driver Conformance
 
-IVI-ANSI-C Drivers are required to conform to all of the rules in this document as well as the rules in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). They are also required to be registered on the IVI website.
+IVI-ANSI-C Drivers are required to conform to all the rules in this document as well as the rules in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). They are also required to be registered on the IVI website.
 
 Drivers that satisfy these requirements are IVI-ANSI-C drivers and may be referred to as such.
 
