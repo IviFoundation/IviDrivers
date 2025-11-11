@@ -1,7 +1,10 @@
 # IVI Driver Python Specification
 
+Versions History (temporary)
+
 | Version Number | Date of Version | Version Notes                         |
 |----------------|-----------------|---------------------------------------|
+| 0.6            | November 2025   | After Joe's corrections               |
 | 0.5            | October 2025    | First part of spec review             |
 | 0.4            | July 2025       | Transferred to IVI Foundation repo    |
 | 0.2            | June 2025       | LXI Working group changes             |
@@ -116,7 +119,7 @@ The case of the characters in the *Driver Identifier* changes depending on the c
 
 - *\<driver_identifier\>* refers to the driver identifier in lower case.
 
-- *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendors discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
+- *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
 
 - *\<DriverClassName\>* - is always in Pascal Case, however if a 2-character vendor abbreviation is used both characters may be upper case.
 
@@ -176,7 +179,7 @@ IVI-Python drivers shall comply with PEP-8 (*Style Guide for Python Code*).
 
 ### Bitness
 
-The IVI Python standard does not specify operating systems. Thus there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment in which it is supported [per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
+The IVI Python standard does not specify operating systems. Thus, there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment in which it is supported [per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
 
 ### Target Python Versions
 
@@ -665,15 +668,10 @@ Documentation = "https://readthedocs.org"
 All IVI-Python driver packages shall include the following files:
 
 - the driver
-
-- the *README.md* as specified in the [IVI Driver Core Specification] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
-
+- the *README.md* as specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
 - the type hinting file (*py.typed*), at the top level of the package
-
 - the documentation or directions for how to acquire it; directions are found in the *README.md* file
-
-- If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README.md*. See the [IVI Core Specification](#link) for details regarding when source code is required.
-
+- If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README.md*. See the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/mm/Python_spec_review_part2/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) for details regarding when source code is required.
 - the IVI Compliance document as specified in the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#compliance-documentation)
 
 ## IVI-Python Driver Conformance
