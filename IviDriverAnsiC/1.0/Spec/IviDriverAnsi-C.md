@@ -84,7 +84,7 @@ This specification also requires that drivers comply with the [IVI Driver Core s
 
 ### Relationship of IVI-ANSI-C to the IVI-C Specifications
 
-This specification, and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
+This specification and other IVI Driver Core specifications have less extensive requirements to facilitate instrument interchangeability than IVI-C. For instance, IVI-ANSI-C drivers do not require the IVI Configuration Store.
 
 However, there is no limitation to driver users utilizing both IVI-C and IVI-ANSI-C drivers in their system. Nor is there any inherent limitation to using an IVI-C driver in an ANSI C setting.
 
@@ -206,7 +206,7 @@ Example: A driver xysiggen42_sg_types.h, would use a compiler-specific pragma or
 
 ### IVI-ANSI-C Function Style
 
-The following sub-sections call out required IVI-ANSI-C style. There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
+The following subsections call out required IVI-ANSI-C style. There are additional rules and recommendations in [repeated capabilities](#repeated-capabilities).
 
 #### IVI-ANSI-C Function Naming
 
@@ -224,7 +224,7 @@ Vendors should consider emulating the hierarchical API by appending the names of
   Dmm32.Measurement.Voltage.Span(start, stop);
 ```
 
-Would translated into:
+Would translate into:
 
 ```C
   int32_t status = XYDmm32_measurement_voltage_span(Dmm32Session, start, stop);
@@ -579,7 +579,7 @@ Where possible, the driver library files should be signed by the vendor.
 
 ## IVI-ANSI-C Driver Conformance
 
-IVI-ANSI-C Drivers are required to conform to all of the rules in this document as well as the rules in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). They are also required to be registered on the IVI website.
+IVI-ANSI-C Drivers are required to conform to all the rules in this document as well as the rules in the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). They are also required to be registered on the IVI website.
 
 Drivers that satisfy these requirements are IVI-ANSI-C drivers and may be referred to as such.
 
