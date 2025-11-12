@@ -153,7 +153,7 @@ The following casing rules shall be followed:
 > **Observation:**
 > > The IVI Foundation grants available 2-character vendor identifiers to any driver vendor requesting them at no cost. Assigned identifiers can be found in the current version of IVI VPP-9, referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications).
 
-> > **Observation:**
+> **Observation:**
 > > Since each driver vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between driver vendors. Each vendor then manages the other characters in the '\<DriverIdentifier>' to eliminate collisions.
 
 ### IVI-ANSI-C Filenames
@@ -243,7 +243,7 @@ Drivers shall also provide a `const` that specifies a value that can be used as 
 
 All driver functions that reference a specific instance of the driver shall take `session` as the first parameter.
 
-> **Observations:**
+> **Observation:**
 > > Driver designers frequently choose an integer for the session parameter which is used as an index to access the driver data. Driver designers also frequently choose to use a pointer type for the session parameter which directly points to the driver data. These and other approaches are permitted by these rules. Regardless, it is wise for the driver to take some steps to validate the session.
 
 #### IVI-ANSI-C Status and Error Handling
@@ -270,8 +270,8 @@ The get/set functions shall:
 
 Getting string properties is an exception and is handled using the [variable sized data retrieval protocol](#variable-sized-data-retrieval-protocol).
 
-> > **Observation**
-> Placing get/set at the *end* of the function name ensures that property accessors alphabetize appropriately into the function namespace.
+> **Observation:**
+> > Placing get/set at the *end* of the function name ensures that property accessors alphabetize appropriately into the function namespace.
 
 #### Enumerated Types and Enumeration Constants
 
@@ -281,7 +281,7 @@ Enumerated type names shall be of the form `<DriverIdentifier><EnumeratedTypeNam
 
 Enumeration constant names shall be of the form `<DRIVER_IDENTIFIER>_<ENUMERATED_TYPE_NAME>_<ENUMERATION_CONSTANT_NAME>` in upper case with underscores between words.
 
-> **Observation**
+> **Observation:**
 > > Enumeration constants are not scoped by the enumerated type to which they belong. Prefixing enumeration constants with the enumerated type name prevents name conflicts between constants.
 
 The implementation of enumerated types is vendor-defined. Recommended implementations:
@@ -549,7 +549,7 @@ Notes:
 - The *optional* `iosession` read-only property should return a session for the underlying IO library.
 - The Direct IO read functions are unable to use the [Variable Sized Data Retrieval Protocol](#variable-sized-data-retrieval-protocol) because they have no a priori knowledge of the transfer size.
 
->**Observation:**
+> **Observation:**
 > > Drivers should consider including a query function that combines read and write.
 
 ## Packaging Requirements for ANSI C
@@ -570,8 +570,8 @@ The [IVI Driver Core specification (README.md)](https://github.com/IviFoundation
 
 Driver packages may include additional files at the discretion of the provider. They may also organize the files into subdirectories at their discretion.
 
-> ***Observation:***
-> Driver providers may need to provide separate packages for different compilers on a given platform. For instance, a provider may have separate Windows driver packages for _Microsoft Visual C/C++_ and _gcc_.
+> **Observation:**
+> > Driver providers may need to provide separate packages for different compilers on a given platform. For instance, a provider may have separate Windows driver packages for _Microsoft Visual C/C++_ and _gcc_.
 
 ### Signing
 
