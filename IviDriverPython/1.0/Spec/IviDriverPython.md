@@ -39,7 +39,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Table of Contents](#table-of-contents)
   - [Overview of the IVI-Python Driver Language Specification](#overview-of-the-ivi-python-driver-language-specification)
     - [Substitutions](#substitutions)
-      - [Driver Identifier and Driver Class Name](#driver-identifier-and-driver-class-name)
+      - [Driver Identifier](#driver-identifier)
   - [IVI-Python Driver Architecture](#ivi-python-driver-architecture)
     - [Style Guide](#style-guide)
     - [Bitness](#bitness)
@@ -81,37 +81,33 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
-#### Driver Identifier and Driver Class Name
+#### Driver Identifier
 
-This section specifies the substitutions for various forms of the *Driver Identifier* and the *Driver Class Name*.
+This section specifies the substitutions for various forms of the *Driver Identifier*
 
-The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver.  This section details the composition of the *Driver Identifier* and its variations.  This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
+The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations.
 
-In order to be guaranteed unique, the first token of the driver identifier shall always indicate the *Driver Vendor*.  Driver vendors are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
+The first token of the driver identifier shall always indicate the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver. Instrument Manufacturers are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
 
-The next token in the *Driver Identifier* indicates the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver.  If the *Driver Vendor* and the *Instrument Manufacturer* are the same, the token need not be repeated.  If the token for *Instrument Manufacturer* is present, it may be optionally separated from the *Driver Vendor* with an underscore ('_').  If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
+The second token is the *Instrument Model*. This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
-The final token is the *Instrument Model*.  This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
+The final token in the *Driver Identifier* indicates the *Driver Vendor*. If the *Driver Vendor* and the *Instrument Manufacturer* are the same, the token shall not be present. If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
 
-The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](#link).  This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation.  Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered.
+The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered.
 
-In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
+In summary, the *Driver Identifier* is composed as follows (square brackets indicate the enclosed content is optional):
 
 ```BNF
 > <Driver Vendor> ::= VPP-9 vendor identifying the author of the driver
 > <Instrument Manufacturer> ::= VPP-9 vendor identifier indicating the instrument vendor
 > <Instrument Model> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
-> <separator> ::= "_"
 
-> <Driver Identifier> ::= <Driver Vendor>[[<separator>]<InstrumentManufacturer>]<Instrument Model>
-> <Driver Class Name> ::= <InstrumentManufacturer><Instrument Model>
+> <Driver Identifier> ::= <InstrumentManufacturer><Instrument Model>[<Driver Vendor>]
 ```
 
 Requirements:
 
-- The separator is optional and may be included at the discretion of the *Driver Vendor*, however as indicated above, it may only be included if both the *Driver Vendor* and *Instrument Manufacturer* are included in the *Driver Identifier*.
-
-- The optional separator and *Instrument Manufacturer* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
+- The *Driver Vendor* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
 
 - The selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
 
@@ -121,8 +117,6 @@ The case of the characters in the *Driver Identifier* changes depending on the c
 
 - *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
 
-- *\<DriverClassName\>* - is always in Pascal Case, however if a 2-character vendor abbreviation is used both characters may be upper case.
-
 Examples:
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
@@ -131,17 +125,15 @@ In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are
 For <Driver Vendor> and <Instrument Manufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
 For <Instrument Model> the name is DMM (family of instruments).
 
-The following are legal <DriverIdentifier>/<DriverClassName> pairs.
+The following are legal <DriverIdentifier> / <driver_identifier> pairs.
 
-  # using the indefinite length names 
-    <DriverIdentifier> ::= BaskDmm 
+  # using the indefinite length names
+    <DriverIdentifier> ::= BaskDmm
     <driver_identifier> ::= baskdmm
-    <DriverClassName> ::= BaskDmm
 
   # using the definite length name
-    <DriverIdentifier> ::= BIDmm 
+    <DriverIdentifier> ::= BIDmm
     <driver_identifier> ::= bidmm
-    <DriverClassName> ::= BIDmm
 ```
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
@@ -151,22 +143,19 @@ For <Driver Vendor> the idefinite length form is 'Foo', and the short form is 'F
 For <Instrument Manufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
 For <Instrument Model> the model name is Tdr123A.
 
-The following are legal <DriverIdentifier> / <DriverClassName> pairs including the variant with and without the optional separator:
+The following are legal <DriverIdentifier> / <driver_identifier> pairs.
 
 # using the indefinite length names
-  <DriverIdentifier> ::= FooBarTdr123A | Foo_BarTdr123A
-  <driver_identifier> ::= foobartdr123A | foo_bartdr123A
-  <DriverClassName> ::= BarTdr123A
+  <DriverIdentifier> ::= BarTdr123AFoo
+  <driver_identifier> ::= bartdr123afoo
 
 # using the short names
-  <DriverIdentifier> ::= FIBITdr123A | FI_BITdr123A
-  <driver_identifier> ::= fibitdr123A | fi_bitdr123A
-  <DriverClassName> ::= BITdr123A
+  <DriverIdentifier> ::= BITdr123AFI
+  <driver_identifier> ::= bitdr123afi
 
 # using the short names mixed case
-  <DriverIdentifier> ::= FiBiTdr123A | Fi_BiTdr123A
-  <driver_identifier> ::= fibitdr123A | fi_bitdr123A
-  <DriverClassName> ::= BiTdr123A
+  <DriverIdentifier> ::= BiTdr123AFi
+  <driver_identifier> ::= bitdr123afi
 ```
 
 ## IVI-Python Driver Architecture
@@ -221,20 +210,18 @@ The driver package shall provide complete type-hinting. An empty file named `py.
 
 ### IVI-Python Driver Classes
 
-IVI-Python drivers are object-oriented. There shall be a root class that when instantiated provides the complete driver API. That class is instantiated for each resource to be controlled. The name of the class shall be `<DriverClassName>`. Note that the import package name and the root class do not collide because they have different casing and/or missing driver vendor.
+IVI-Python drivers are object-oriented. There shall be a root class that when instantiated provides the complete driver API. That class is instantiated for each resource to be controlled. The name of the class shall be `<DriverIdentifier>`. Note that the import package name and the root class do not collide because they have different casing.
 
 For instance, in the following example the driver vendor and instrument manufacturer are the same, so the import statement would look like this:
 
 ```Python
-from rssiggen42 import RSSigGen42 
-from rs_siggen42 import RSSigGen42
+from rssiggen42 import RSSigGen42
 ```
 
 If the driver vendor and instrument manufacturer are not the same, the import statement looks like this:
 
 ```Python
-from ni_rssiggen42 import RSSigGen42
-from nirssiggen42 import RSSigGen42
+from rssiggen42ni import RSSigGen42Ni
 ```
 
 ### IVI-Python Hierarchy
@@ -425,7 +412,7 @@ In IVI-Python, constructors provide the initialization functionality described i
 
 The IVI-Python drivers shall implement a constructor with the following prototype:
 
-  `<DriverClassName>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
+  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
 
 Example for DriverIdentifier `MyPowerMeter`:
 
@@ -484,14 +471,14 @@ These required parameters are defined in the [IVI Driver Core Specification](htt
 
 Notes:
 
-- *IVI Driver Python* constructors are implemented on the class named `<DriverIdentifier>`.
+- *IVI Driver Python* constructor is implemented on the class named `<DriverIdentifier>`.
 - Simulation mode can be set via the optional items.
 
 ### IVI-Python Utility Interface
 
 IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the drivers instance of the class.
 
-The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `DriverClassName`) is instantiated.
+The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `DriverIdentifier`) is instantiated.
 
 ```Python
 from abc import ABC, abstractmethod
