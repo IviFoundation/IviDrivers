@@ -87,7 +87,7 @@ This section specifies the substitutions for various forms of the *Driver Identi
 
 The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations.
 
-The first token of the driver identifier shall always indicate the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver. Instrument Manufacturers are then responsible for guaranteeing that the rest of the identifier is unique to the driver.
+The first token of the driver identifier shall always indicate the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver.
 
 The second token is the *Instrument Model*. This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
