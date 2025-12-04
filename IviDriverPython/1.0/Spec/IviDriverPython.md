@@ -91,7 +91,7 @@ The first token of the driver identifier shall always indicate the *Instrument M
 
 The second token is the *Instrument Model*. This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
-The final token in the *Driver Identifier* indicates the *Driver Vendor*. If the *Driver Vendor* and the *Instrument Manufacturer* are the same, the token shall not be present. If the driver supports multiple vendors' instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable.
+If the *Driver Vendor* and the *Instrument Manufacturer* are different, the final token in the *Driver Identifier* shall be the *Driver Vendor*. If they are the same the token shall not be present.
 
 The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
 
