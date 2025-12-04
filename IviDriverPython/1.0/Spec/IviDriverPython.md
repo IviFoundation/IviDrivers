@@ -2,13 +2,14 @@
 
 Versions History (temporary)
 
-| Version Number | Date of Version | Version Notes                         |
-|----------------|-----------------|---------------------------------------|
-| 0.6            | November 2025   | After Joe's corrections               |
-| 0.5            | October 2025    | First part of spec review             |
-| 0.4            | July 2025       | Transferred to IVI Foundation repo    |
-| 0.2            | June 2025       | LXI Working group changes             |
-| 0.1            | May 2025        | Preliminary Draft for LXI Development |
+| Version Number | Date of Version | Version Notes                                        |
+|----------------|-----------------|------------------------------------------------------|
+| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name) |
+| 0.6            | November 2025   | After Joe's corrections                              |
+| 0.5            | October 2025    | First part of spec review                            |
+| 0.4            | July 2025       | Transferred to IVI Foundation repo                   |
+| 0.2            | June 2025       | LXI Working group changes                            |
+| 0.1            | May 2025        | Preliminary Draft for LXI Development                |
 
 ## Abstract
 
@@ -112,7 +113,7 @@ Requirements:
 
 - The selection of short or indefinite length abbreviations for the vendor must remain consistent throughout the driver, however the *Driver Vendor* and *Instrument Manufacturer* may choose different forms.
 
-The case of the characters in the *Driver Identifier* changes depending on the context of its use.  This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
+The case of the characters in the *Driver Identifier* changes depending on the context of its use. This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
 
 - *\<driver_identifier\>* refers to the driver identifier in lower case.
 
@@ -128,7 +129,7 @@ In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are
 For <Driver Vendor> and <Instrument Manufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
 For <Instrument Model> the name is DMM (family of instruments).
 
-The following are legal <DriverIdentifier>/<DriverClassName> pairs.
+The following are legal <DriverIdentifier>/<DriverClassName> pairs:
 
   # using the indefinite length names
     <DriverIdentifier> ::= BaskDmm
@@ -148,7 +149,7 @@ For <Driver Vendor> the idefinite length form is 'Foo', and the short form is 'F
 For <Instrument Manufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
 For <Instrument Model> the model name is Tdr123A.
 
-The following are legal <DriverIdentifier> / <DriverClassName> pairs.
+The following are legal <DriverIdentifier>/<DriverClassName> pairs:
 
 # using the indefinite length names
   <DriverIdentifier> ::= BarTdr123AFoo
