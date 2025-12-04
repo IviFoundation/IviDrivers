@@ -81,7 +81,7 @@ This specification has several recommendations (identified by the use of the wor
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#substitutions) describes these substitutions.
 
-#### Driver Identifier
+#### Driver Identifier and Driver Class Name
 
 This section specifies the substitutions for various forms of the *Driver Identifier*
 
