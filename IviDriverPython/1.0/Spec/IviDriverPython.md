@@ -95,7 +95,7 @@ If the *Driver Vendor* and the *Instrument Manufacturer* are different, the fina
 
 The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
 
-In summary, the *Driver Identifier* is composed as follows (square brackets indicate the enclosed content is optional):
+In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
 
 ```BNF
 > <Driver Vendor> ::= VPP-9 vendor identifying the author of the driver
