@@ -413,7 +413,7 @@ In IVI-Python, constructors provide the initialization functionality described i
 
 The IVI-Python drivers shall implement a constructor with the following prototype:
 
-  `<DriverIdentifier>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
+  `<DriverClassName>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
 
 Example for DriverIdentifier `MyPowerMeter`:
 
