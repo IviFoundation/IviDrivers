@@ -428,7 +428,7 @@ Example for DriverIdentifier `MyPowerMeter`:
 ```Python
 class MyPowerMeter:
  
-    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict or str or None = None):
+    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None):
         # Initialization of the Powermeter.
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
@@ -534,9 +534,23 @@ class IviUtility(ABC):
   @abstractmethod
   def simulation_enabled(self) -> bool:
     pass
+  
+  class ErrorQueryResult:
+      
+      def __init__(self, code: int, message: str):
+        self._code = code
+        self._message = message
+    
+      @property
+      def code(self) -> int:
+        return self._code
+    
+      @property
+      def message(self) -> str:
+        return self._message
 
   @abstractmethod
-  def error_query(self) -> ErrorQueryResult or None:
+  def error_query(self) -> ErrorQueryResult | None:
     """Returns the last error in the instrument's error queue.
     Returns None if no error is present."""
     pass
@@ -561,20 +575,6 @@ class IviUtility(ABC):
   def supported_instrument_models(self) -> Tuple[str, ...]:
     """Returns supported models, one per element."""
     pass
-
-
-class ErrorQueryResult:
-  def __init__(self, code: int, message: str):
-    self._code = code
-    self._message = message
-
-  @property
-  def code(self) -> int:
-    return self._code
-
-  @property
-  def message(self) -> str:
-    return self._message
 ```
 
 Python-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
