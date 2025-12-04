@@ -472,7 +472,7 @@ These required parameters are defined in the [IVI Driver Core Specification](htt
 
 Notes:
 
-- *IVI Driver Python* constructor is implemented on the class named `<DriverIdentifier>`.
+- *IVI Driver Python* constructor is implemented on the class named `<DriverClassName>`.
 - Simulation mode can be set via the optional items.
 
 ### IVI-Python Utility Interface
