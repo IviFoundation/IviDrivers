@@ -39,7 +39,7 @@ No investigation has been made of common-law trademark rights in any work.
   - [Table of Contents](#table-of-contents)
   - [Overview of the IVI-Python Driver Language Specification](#overview-of-the-ivi-python-driver-language-specification)
     - [Substitutions](#substitutions)
-      - [Driver Identifier](#driver-identifier)
+      - [Driver Identifier and Driver Class Name](#driver-identifier-and-driver-class-name)
   - [IVI-Python Driver Architecture](#ivi-python-driver-architecture)
     - [Style Guide](#style-guide)
     - [Bitness](#bitness)
@@ -85,15 +85,15 @@ This specification uses paired angle brackets to indicate that the text between 
 
 This section specifies the substitutions for various forms of the *Driver Identifier* and the *Driver Class Name*.
 
-The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations.
+The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations. This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
-The first token of the driver identifier shall always indicate the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver.
+The first token of the driver identifier shall always indicate the *Instrument Manufacturer*, which is the manufacturer of the instrument (or family of instruments) controlled by the driver. If the driver supports multiple manufacturer's instruments, the *Driver Vendor* is permitted to use whatever identifier is suitable. In this case, the third token shall be *Driver Vendor* as described below.
 
 The second token is the *Instrument Model*. This token indicates the instrument model, or the family of instruments supported by this driver. It shall not include the underscore ('_') character.
 
 If the *Driver Vendor* and the *Instrument Manufacturer* are different, the final token in the *Driver Identifier* shall be the *Driver Vendor*. If they are the same the token shall not be present.
 
-The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.pdf). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described on the [IVI Website VPP-9 registration page](#link). Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
+The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from VPP-9. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described in VPP-9. Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
 
 In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
 
@@ -118,6 +118,8 @@ The case of the characters in the *Driver Identifier* changes depending on the c
 
 - *\<DriverIdentifier\>* is used when the context does not require further clarification, or to indicate pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in *\<driver_identifier\>* it is ***included*** in the *\<DriverIdentifier\>*
 
+- *\<DriverClassName\>* - is always in Pascal Case, however if a 2-character vendor abbreviation is used both characters may be upper case.
+
 Examples:
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
@@ -126,15 +128,17 @@ In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are
 For <Driver Vendor> and <Instrument Manufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
 For <Instrument Model> the name is DMM (family of instruments).
 
-The following are legal <DriverIdentifier> / <driver_identifier> pairs.
+The following are legal <DriverIdentifier>/<DriverClassName> pairs.
 
   # using the indefinite length names
     <DriverIdentifier> ::= BaskDmm
     <driver_identifier> ::= baskdmm
+    <DriverClassName> ::= BaskDmm
 
   # using the definite length name
     <DriverIdentifier> ::= BIDmm
     <driver_identifier> ::= bidmm
+    <DriverClassName> ::= BIDmm
 ```
 
 In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
@@ -144,19 +148,22 @@ For <Driver Vendor> the idefinite length form is 'Foo', and the short form is 'F
 For <Instrument Manufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
 For <Instrument Model> the model name is Tdr123A.
 
-The following are legal <DriverIdentifier> / <driver_identifier> pairs.
+The following are legal <DriverIdentifier> / <DriverClassName> pairs.
 
 # using the indefinite length names
   <DriverIdentifier> ::= BarTdr123AFoo
   <driver_identifier> ::= bartdr123afoo
+  <DriverClassName> ::= BarTdr123A
 
 # using the short names
   <DriverIdentifier> ::= BITdr123AFI
   <driver_identifier> ::= bitdr123afi
+  <DriverClassName> ::= BiTdr123A
 
 # using the short names mixed case
   <DriverIdentifier> ::= BiTdr123AFi
   <driver_identifier> ::= bitdr123afi
+  <DriverClassName> ::= BiTdr123A
 ```
 
 ## IVI-Python Driver Architecture
