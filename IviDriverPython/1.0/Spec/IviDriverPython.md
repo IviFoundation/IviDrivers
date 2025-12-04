@@ -103,6 +103,7 @@ In summary, the *Driver Identifier* and *Driver Class Name* are composed as foll
 > <Instrument Model> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
 
 > <Driver Identifier> ::= <InstrumentManufacturer><Instrument Model>[<Driver Vendor>]
+> <Driver Class Name> ::= <InstrumentManufacturer><Instrument Model>
 ```
 
 Requirements:
