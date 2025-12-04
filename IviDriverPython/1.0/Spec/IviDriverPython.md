@@ -222,7 +222,7 @@ from rssiggen42 import RSSigGen42
 If the driver vendor and instrument manufacturer are not the same, the import statement looks like this:
 
 ```Python
-from rssiggen42ni import RSSigGen42Ni
+from rssiggen42ni import RSSigGen42
 ```
 
 ### IVI-Python Hierarchy
