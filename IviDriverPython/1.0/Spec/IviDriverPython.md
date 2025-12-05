@@ -438,7 +438,7 @@ class MyPowerMeter:
 
 ```
 
-For the options data type, Python TypedDict*TypedDict* is recommended instead of a standard dictionary. At run-time, *TypeDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
+For the options data type, Python *TypedDict* is recommended instead of a standard dictionary. At run-time, *TypeDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
 
 Example:
 
