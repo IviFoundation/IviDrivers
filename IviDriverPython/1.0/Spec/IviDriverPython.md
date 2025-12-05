@@ -308,8 +308,7 @@ In the following statements, `<RcName>` is the name of the repeated capability.
 For example, consider a trigger repeated capability. Then `<RcName>` = `Trigger`, and the collection class is `TriggerCollection`. The code snippet below demonstrates the above recommendations:
 
 ```python
-from typing import Dict
-from typing import Any, List
+from typing import Any
 
 class Trigger:
     """Trigger functions of the instrument."""
