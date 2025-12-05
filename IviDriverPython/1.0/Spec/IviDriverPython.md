@@ -309,11 +309,12 @@ For example, consider a trigger repeated capability. Then `<RcName>` = `Trigger`
 
 ```python
 from typing import Dict
+from typing import Any, List
 
 class Trigger:
     """Trigger functions of the instrument."""
 
-    def __init__(self, name: str, value: int):
+    def __init__(self, name: str, value: int) -> None:
         self._name: str = name
         self._value: int = value
         self._level: float = 1.0
@@ -332,10 +333,10 @@ class Trigger:
     def level(self) -> float:
         return self._level
 
-class TriggerCollection(dict):
+class TriggerCollection(dict[str, Trigger]):
     """Collection of the Trigger items."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self["TriggerA"] = Trigger("TriggerA", 1)
         self["TriggerB"] = Trigger("TriggerB", 2)
@@ -437,7 +438,7 @@ class MyPowerMeter:
 
 ```
 
-Python *TypedDict* is recommended instead of a standard dictionary. At run-time, *TypeDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
+For the options data type, Python TypedDict*TypedDict* is recommended instead of a standard dictionary. At run-time, *TypeDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
 
 Example:
 
