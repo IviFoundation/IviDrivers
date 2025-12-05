@@ -664,10 +664,10 @@ Documentation = "https://readthedocs.org"
 All IVI-Python driver packages shall include the following files:
 
 - the driver
-- the *README.md* as specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md)
+- The *README* file. The format of the file shall be markdown (\*.md) or restructured text (\*.rst), where markdown is recommended. The content of the file is specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 - the type hinting file (*py.typed*), at the top level of the package
-- the documentation or directions for how to acquire it; directions are found in the *README.md* file
-- If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README.md*. See the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/mm/Python_spec_review_part2/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) for details regarding when source code is required.
+- the documentation or directions for how to acquire it; directions are found in the *README* file
+- If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README* file. See the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/mm/Python_spec_review_part2/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) for details regarding when source code is required.
 - the IVI Compliance document as specified in the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#compliance-documentation)
 
 ## IVI-Python Driver Conformance
