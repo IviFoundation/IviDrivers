@@ -493,6 +493,20 @@ The interface reference property shall be named *ivi_utility*. The interface ref
 from abc import ABC, abstractmethod
 from typing import Any, List, Tuple
 
+class ErrorQueryResult:
+      
+      def __init__(self, code: int, message: str):
+        self._code = code
+        self._message = message
+    
+      @property
+      def code(self) -> int:
+        return self._code
+    
+      @property
+      def message(self) -> str:
+        return self._message
+
 class IviUtility(ABC):
   
   @property
@@ -535,20 +549,6 @@ class IviUtility(ABC):
   def simulation_enabled(self) -> bool:
     pass
   
-  class ErrorQueryResult:
-      
-      def __init__(self, code: int, message: str):
-        self._code = code
-        self._message = message
-    
-      @property
-      def code(self) -> int:
-        return self._code
-    
-      @property
-      def message(self) -> str:
-        return self._message
-
   @abstractmethod
   def error_query(self) -> ErrorQueryResult | None:
     """Returns the last error in the instrument's error queue.
