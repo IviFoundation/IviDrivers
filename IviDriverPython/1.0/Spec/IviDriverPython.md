@@ -315,12 +315,12 @@ In the following statements, `<RcName>` is the name of the repeated capability.
 For example, consider a trigger repeated capability. Then `<RcName>` = `Trigger`, and the collection class is `TriggerCollection`. The code snippet below demonstrates the above recommendations:
 
 ```python
-from typing import Dict
+from typing import Any
 
 class Trigger:
     """Trigger functions of the instrument."""
 
-    def __init__(self, name: str, value: int):
+    def __init__(self, name: str, value: int) -> None:
         self._name: str = name
         self._value: int = value
         self._level: float = 1.0
@@ -339,10 +339,10 @@ class Trigger:
     def level(self) -> float:
         return self._level
 
-class TriggerCollection(dict):
+class TriggerCollection(dict[str, Trigger]):
     """Collection of the Trigger items."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
         self["TriggerA"] = Trigger("TriggerA", 1)
         self["TriggerB"] = Trigger("TriggerB", 2)
@@ -444,7 +444,7 @@ class MyPowerMeter:
 
 ```
 
-Python *TypedDict* is recommended instead of a standard dictionary. At run-time, *TypeDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
+For the options data type, Python *TypedDict* is recommended instead of a standard dictionary. At run-time, *TypedDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
 
 Example:
 
