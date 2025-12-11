@@ -88,13 +88,15 @@ This section specifies the substitutions for various forms of the *Driver Identi
 
 The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations. This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
 
-The first token of the driver identifier shall indicate the *Instrument Manufacturer*, that, is the manufacturer of the instrument (or family of instruments) controlled by the driver. If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose the characters, however the *Driver Identifier* shall include the final token indicating the driver vendor.
+The first token of the driver identifier shall indicate the *Instrument Manufacturer*, that is, the manufacturer of the instrument (or family of instruments) controlled by the driver. If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose the characters, however the *Driver Identifier* shall include the final token indicating the driver vendor.
 
 The second token shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used at once, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string. These additional characters shall not include underscores ('_').
 
 If the *Driver Vendor* and the *Instrument Manufacturer* are different, a third token that indicates the *Driver Vendor* shall be included in the *Driver Identifier*.  The *Driver Vendor* may optionally be separated from the second token with an underscore ('_').
 
 The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from VPP-9. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation in upper case or the indefinite length vendor abbreviation in Pascal case. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described in VPP-9. Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
+
+The characters that compose the *Driver Identifier* shall remain the same throughout the driver. That is, the choice of VPP-9 vendor abbreviation, and the optional use of the underscore separator must remain fixed for all uses of the *Driver Identifier*.
 
 In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
 
@@ -112,8 +114,6 @@ Requirements:
 - The *Driver Vendor* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
 
 - The optional underscore ('_') preceding the *Driver Vendor* may be included at the discretion of the *Driver Vendor*
-
-- The characters that compose the *Driver Identifier* shall remain the same throughout the driver. That is, the choice of VPP-9 vendor abbreviation, and the optional use of the underscore separator must remain fixed for all uses of the *Driver Identifier*.
 
 The case of the characters in the *Driver Identifier* change depending on the context of its use. This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
 
