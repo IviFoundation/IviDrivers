@@ -411,17 +411,17 @@ This section gives a complete description of each function required for an IVI-A
 
 | Required Driver API (IVI Driver Core)|Core IVI-ANSI-C API                          |
 |---------------------------------|---------------------------------                 |
-| Initialization                  | <DriverIdentifier>_init()                       |
-| Driver Version                  | <DriverIdentifier>_driver_version_get()         |
-| Driver Vendor                   | <DriverIdentifier>_driver_vendor_get()          |
-| Error Query                     | <DriverIdentifier>_error_query()                |
-| Instrument Manufacturer         | <DriverIdentifier>_instrument_manufacturer_get()|
-| Instrument Model                | <DriverIdentifier>_instrument_model_get()       |
-| Query Instrument Status Enabled (Get) | <DriverIdentifier>_query_instrument_status_enabled_get()|
-| Query Instrument Status Enabled (Set) | <DriverIdentifier>_query_instrument_status_enabled_set()|
-| Reset                           | <DriverIdentifier>_reset()                      |
-| Simulate Enabled                | <DriverIdentifier>_simulate_get                 |
-| Supported Instrument Models     | <DriverIdentifier>_supported_instrument_models_get() |
+| Initialization                  | \<DriverIdentifier>_init()                       |
+| Driver Version                  | \<DriverIdentifier>_driver_version_get()         |
+| Driver Vendor                   | \<DriverIdentifier>_driver_vendor_get()          |
+| Error Query                     | \<DriverIdentifier>_error_query()                |
+| Instrument Manufacturer         | \<DriverIdentifier>_instrument_manufacturer_get()|
+| Instrument Model                | \<DriverIdentifier>_instrument_model_get()       |
+| Query Instrument Status Enabled (Get) | \<DriverIdentifier>_query_instrument_status_enabled_get()|
+| Query Instrument Status Enabled (Set) | \<DriverIdentifier>_query_instrument_status_enabled_set()|
+| Reset                           | \<DriverIdentifier>_reset()                      |
+| Simulate Enabled                | \<DriverIdentifier>_simulate_get                 |
+| Supported Instrument Models     | \<DriverIdentifier>_supported_instrument_models_get() |
 
 ### IVI-ANSI-C Initialize Functions
 
