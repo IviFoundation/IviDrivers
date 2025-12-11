@@ -115,7 +115,7 @@ Requirements:
 
 - The optional underscore ('_') preceding the *Driver Vendor* may be included at the discretion of the *Driver Vendor*
 
-The case of the characters in the *Driver Identifier* change depending on the context of its use. This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
+The case of the characters in the *Driver Identifier* changes depending on the context of its use. This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
 
 - *\<driver_identifier>* refers to the driver identifier in lower case.
 
