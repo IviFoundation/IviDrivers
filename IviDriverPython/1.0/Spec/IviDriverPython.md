@@ -495,16 +495,16 @@ from typing import Any, List, Tuple
 
 class ErrorQueryResult:
       
-      def __init__(self, code: int, message: str):
+    def __init__(self, code: int, message: str):
         self._code = code
         self._message = message
     
-      @property
-      def code(self) -> int:
+    @property
+    def code(self) -> int:
         return self._code
     
-      @property
-      def message(self) -> str:
+    @property
+    def message(self) -> str:
         return self._message
 
 class IviUtility(ABC):
