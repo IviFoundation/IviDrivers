@@ -86,50 +86,50 @@ This specification uses paired angle brackets to indicate that the text between 
 
 This section specifies the substitutions for various forms of the *Driver Identifier* and the *Driver Class Name*.
 
-The *Driver Identifier* and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the *Driver Identifier* and its variations. This section also defines the *Driver Class Name* which is the top-level class instantiated by the driver client. The *Driver Class Name* is only guaranteed to be unique within the scope of the *Driver Identifier*.
+The `<DriverIdentifier>` and its variations are used as identifiers within the driver that are unique to a particular driver. This section details the composition of the `<Driver Identifier>` and its variations. This section also defines the `<DriverClassName>` which is the top-level class instantiated by the driver client. The `<DriverClassName>` is only guaranteed to be unique within the scope of the `<DriverIdentifier>`.
 
-The first token of the driver identifier shall indicate the *Instrument Manufacturer*, that is, the manufacturer of the instrument (or family of instruments) controlled by the driver. If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose the characters, however the *Driver Identifier* shall include the final token indicating the driver vendor.
+The first token of the driver identifier shall indicate the *Instrument Manufacturer*, that is, the manufacturer of the instrument (or family of instruments) controlled by the driver. If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose the characters, however the `<DriverIdentifier>` shall include the final token indicating the driver vendor.
 
 The second token shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used at once, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string. These additional characters shall not include underscores ('_').
 
-If the *Driver Vendor* and the *Instrument Manufacturer* are different, a third token that indicates the *Driver Vendor* shall be included in the *Driver Identifier*.  The *Driver Vendor* may optionally be separated from the second token with an underscore ('_').
+If the *driver vendor* and the *instrument manufacturer* are different, a third token that indicates the `<DriverVendor>` shall be included in the `<DriverIdentifier>`.  The `<DriverVendor>` may optionally be separated from the second token with an underscore ('_').
 
-The token that identifies the *Driver Vendor* and *Instrument Manufacturer* shall be a vendor abbreviation from VPP-9. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation in or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in VPP-9 at no cost as described in VPP-9. Vendors are not permitted to duplicate identifiers that are already registered. Driver Vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
+The token that identifies the `<DriverVendor>` and `<InstrumentManufacturer>` shall be a vendor abbreviation from *VPP-9*. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation in or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in *VPP-9* at no cost as described in *VPP-9*. Vendors are not permitted to duplicate identifiers that are already registered. Driver vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
 
-The characters that compose the *Driver Identifier* shall remain the same throughout the driver. That is, the choice of VPP-9 vendor abbreviation, and the optional use of the underscore separator must remain fixed for all uses of the *Driver Identifier*.
+The characters that compose the `<DriverIdentifier>` shall remain the same throughout the driver. That is, the choice of *VPP-9* vendor abbreviation, and the optional use of the underscore separator must remain fixed for all uses of the `<DriverIdentifier>`.
 
-In summary, the *Driver Identifier* and *Driver Class Name* are composed as follows (square brackets indicate the enclosed content is optional):
+In summary, the `<DriverIdentifier>` and `<DriverClassName>` are composed as follows (square brackets indicate the enclosed content is optional):
 
 ```BNF
-> <Driver Vendor> ::= VPP-9 vendor abbreviation indicating the author of the driver
-> <Instrument Manufacturer> ::= VPP-9 vendor abbreviation indicating the instrument vendor
-> <Instrument Model> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
+> <DriverVendor> ::= VPP-9 vendor abbreviation indicating the author of the driver
+> <InstrumentManufacturer> ::= VPP-9 vendor abbreviation indicating the instrument vendor
+> <InstrumentModel> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
 
-> <DriverIdentifier> ::= <InstrumentManufacturer><Instrument Model>[[_]<Driver Vendor>]
-> <DriverClassName> ::= <InstrumentManufacturer><Instrument Model>
+> <DriverIdentifier> ::= <InstrumentManufacturer><InstrumentModel>[[_]<DriverVendor>]
+> <DriverClassName> ::= <InstrumentManufacturer><InstrumentModel>
 ```
 
 Requirements:
 
-- The *Driver Vendor* may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
+- The `<DriverVendor>` may only be omitted if the *driver vendor* and *instrument manufacturer* are the same.
 
-- The optional underscore ('_') preceding the *Driver Vendor* may be included at the discretion of the *Driver Vendor*
+- The optional underscore ('_') preceding the `<DriverVendor>` may be included at the discretion of the *driver vendor*.
 
-The case of the characters in the *Driver Identifier* changes depending on the context of its use. This document uses the following conventions to specify the case when referring to the *DriverIdentifier*:
+The case of the characters in the `<DriverIdentifier>` changes depending on the context of its use. This document uses the following conventions to specify the case when referring to the `<DriverIdentifier>`:
 
-- *\<driver_identifier>* refers to the driver identifier in lower case.
+- `<driver_identifier>` refers to the driver identifier in lower case
 
-- *\<DriverIdentifier>* is used when the context does not require further clarification, or to indicate Pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in *\<driver_identifier>* it is ***included*** in the *\<DriverIdentifier>*
+- `<DriverIdentifier>` is used when the context does not require further clarification, or to indicate Pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in `<driver_identifier>` it is ***included*** in the `<DriverIdentifier>`.
 
-- *\<DriverClassName>* is always in Pascal Case, however if a 2-character vendor abbreviation is used both characters may be upper case.
+- `<DriverClassName>` is always in Pascal case, however if a 2-character vendor abbreviation is used both characters may be upper case.
 
 Examples:
 
-In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
+In the following examples, the *driver vendor* and *instrument manufacturer* are the same:
 
 ```BNF
-For <Driver Vendor> and <Instrument Manufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
-For <Instrument Model> the name is DMM (family of instruments).
+For <DriverVendor> and <InstrumentManufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
+For <InstrumentModel> the name is DMM (family of instruments).
 
 The following are legal <DriverIdentifier>/<DriverClassName> pairs:
 
@@ -144,12 +144,12 @@ The following are legal <DriverIdentifier>/<DriverClassName> pairs:
     <DriverClassName> ::= BIDmm
 ```
 
-In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
+In the following examples, the *driver vendor* and *instrument manufacturer* are different:
 
 ```BNF
-For <Driver Vendor> the idefinite length form is 'Foo', and the short form is 'FI'.
-For <Instrument Manufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
-For <Instrument Model> the model name is Tdr123A.
+For <DriverVendor> the indefinite length form is 'Foo', and the short form is 'FI'.
+For <InstrumentManufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
+For <InstrumentModel> the model name is Tdr123A.
 
 The following are legal <DriverIdentifier>/<DriverClassName> pairs:
 
@@ -206,9 +206,9 @@ The package should use [semantic versioning](https://semver.org/) (semver).
 
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/).
 
-The name should be lowercase with all runs of the characters ., -, or _ replaced with a single - character. This can be implemented in Python with the re module:
+The name should be lowercase with all runs of the characters ., -, or _ replaced with a single - character. This can be implemented in Python with the `re` module:
 
-```Python
+```python
 import re
 
 def normalize(name):
@@ -230,13 +230,13 @@ IVI-Python drivers are object-oriented. There shall be a root class that when in
 
 For instance, in the following example the driver vendor and instrument manufacturer are the same, so the import statement would look like this:
 
-```Python
+```python
 from rssiggen42 import RSSigGen42
 ```
 
 If the driver vendor and instrument manufacturer are not the same, the import statement looks like this:
 
-```Python
+```python
 from rssiggen42ni import RSSigGen42
 ```
 
@@ -280,13 +280,13 @@ For IVI-Python drivers, collection style repeated capabilities are recommended.
 
 #### Collection Style Repeated Capabilities and the Hierarchy
 
-Collection style repeated capabilities consist of at least two classes. The first is the collection itself, and the second is the object returned by the subscript operator (`[]`) of the collection. In the hierarchy, a reference property returns the collection object. Then the collection's subscript operator `[]` is used to return an item from the collection. Each item in the collection represents one instance of the repeated capability.
+Collection style repeated capabilities consist of at least two classes. The first is the collection itself, and the second is the object returned by the subscript operator (`[]`) of the collection. In the hierarchy, a reference property returns the collection object. Then the collection's subscript operator (`[]`) is used to return an item from the collection. Each item in the collection represents one instance of the repeated capability.
 
 Collection style repeated capabilities may be indexed by a string, integer, or other Python object.
 
 Consider the following example code:
 
-```Python
+```python
 my_peak = kt1234.trace["B"].peak
 ```
 
@@ -351,7 +351,7 @@ class TriggerCollection(dict[str, Trigger]):
 
 ### Driver Structure Interfaces
 
-Python IVI Drivers use a tree-like structure of classes, some with repeated capabilities, and some without. Consider an Oscilloscope driver with a non-repeated capability interface accessor `setup`, and repeated capabilities interface accessor `channels`:
+IVI-Python Drivers use a tree-like structure of classes, some with repeated capabilities, and some without. Consider an Oscilloscope driver with a non-repeated capability interface accessor `setup`, and repeated capabilities interface accessor `channels`:
 
 ```python
 session = Oscilloscope("TCPIP::192.168.1.101")
@@ -364,7 +364,7 @@ An interface accessor without the repeated capability shall be implemented as a 
 session.setup.display_update = False
 ```
 
-An interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. The indexer data type of the collection shall be either a string and/or an enum. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement an integer indexer. The Interface accessor should be a **plural word**, to hint to the user that the data type is a collection:
+An interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. The indexer data type of the collection shall be either a string and/or an `Enum`. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement an integer indexer. The interface accessor should be a **plural word**, to hint to the user that the data type is a collection:
 
 ```python
 # channels is an interface accessor with repeated capability
@@ -374,7 +374,7 @@ session.channels[Channels.CHANNEL_1].range = 10.0
 session.channels[1].range = 10.0
 ```
 
-In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with enum and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
+In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with `Enum` and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
 
 ```python
 session.channels_item('1').range = 10.0
@@ -391,7 +391,7 @@ All IVI-Python instrument drivers shall consistently use the standard Python exc
 
 ### Documentation and Source Code
 
-This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in [IVI Driver Core Specification]. It requires that some drivers provide [source code](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) and has detailed [documentation requirements] (https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#documentation-requirements)
+This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in *IVI Driver Core Specification*. It requires that some drivers provide [source code](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) and has detailed [documentation requirements](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#documentation-requirements).
 
 
 ## Base IVI-Python API
@@ -428,11 +428,11 @@ In IVI-Python, constructors provide the initialization functionality described i
 
 The IVI-Python drivers shall implement a constructor with the following prototype:
 
-  `<DriverClassName>(resource_name: str, id_query: bool, reset: bool, options: dict or str or None = None)` 
+  `<DriverClassName>(resource_name: str, id_query: bool, reset: bool, options: dict | str | None = None)` 
 
 Example for DriverIdentifier `MyPowerMeter`:
 
-```Python
+```python
 class MyPowerMeter:
  
     def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None):
@@ -444,11 +444,11 @@ class MyPowerMeter:
 
 ```
 
-For the options data type, Python *TypedDict* is recommended instead of a standard dictionary. At run-time, *TypedDict* is a standard *dict* type, but has the advantage of providing code-completion and type hinting in static analysis. 
+For the `options` data type, Python `TypedDict` is recommended instead of a standard dictionary. At run-time, `TypedDict` is a standard `dict` type, but has the advantage of providing code-completion and type hinting in static analysis. 
 
 Example:
 
-```Python
+```python
 from typing import TypedDict
 
 class Options(TypedDict, total=False):
@@ -464,11 +464,11 @@ opt['simulate'] = 0 # static analysis shows an error on value type
 opt['something'] = False # static analysis shows an error on key name
 ```
 
-IVI-Python drivers shall provide additional optional parameters for the client to specify driver options (such as simulation or options as string). The mechanism by which these parameters are passed is driver-specific.
+IVI-Python drivers shall provide additional optional parameters for the client to specify driver options (such as *simulation* or options as string). The mechanism by which these parameters are passed is driver-specific.
 
 For instance:
 
-```Python
+```python
 from typing import TypedDict
 
 class Options(TypedDict, total=False):
@@ -479,11 +479,11 @@ class Options(TypedDict, total=False):
 
 These required parameters are defined in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction). The following table shows their names and types for Python:
 
-| Inputs        | Description   | Data Type |
-|---------------|---------------|-----------|
-| resource_name | Resource Name | str       |
-| id_query      | ID Query      | bool      |
-| reset         | Reset         | bool      |
+| Inputs          | Description   | Data Type |
+|-----------------|---------------|-----------|
+| `resource_name` | Resource Name | `str`       |
+| `id_query`      | ID Query      | `bool`      |
+| `reset`         | Reset         | `bool`     |
 
 Notes:
 
@@ -492,11 +492,11 @@ Notes:
 
 ### IVI-Python Utility Interface
 
-IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the drivers instance of the class.
+IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the driver's instance of the class.
 
-The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `DriverClassName`) is instantiated.
+The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `<DriverClassName>`) is instantiated.
 
-```Python
+```python
 from abc import ABC, abstractmethod
 from typing import Any, List, Tuple
 
@@ -586,7 +586,7 @@ class IviUtility(ABC):
 
 Python-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
 
-- Drivers are permitted to implement a Set accessor on `simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
+- Drivers are permitted to allow setting the `simulate` property. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
 ### Direct IO Properties and Methods
 
@@ -594,7 +594,7 @@ Per the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDriv
 
 The interface reference property should be named *ivi_direct_io*. The interface reference property should be available on the root driver class.
 
-```Python
+```python
 from abc import ABC, abstractmethod
 from typing import Any, List
 
@@ -641,9 +641,7 @@ Notes:
 
 The following sections detail the package requirements.
 
-### Package Meta-data
-
-Project meta-information.
+### Package Metadata
 
 The instrument manufacturer and model(s) supported by the driver shall be mentioned in the keywords list. The forms of the manufacturer and the model(s) shall be the same as returned from the driver's API.
 
@@ -671,7 +669,7 @@ Documentation = "https://readthedocs.org"
 All IVI-Python driver packages shall include the following files:
 
 - the driver
-- The *README* file. The format of the file shall be Markdown (\*.md) or reStructuredText (\*.rst), where Markdown is recommended. The content of the file is specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
+- The *README* file. The format of the file shall be Markdown (`*.md`) or reStructuredText (`*.rst`), where Markdown is recommended. The content of the file is specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 - the type hinting file (*py.typed*), at the top level of the package
 - the documentation or directions for how to acquire it; directions are found in the *README* file
 - If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README* file. See the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/mm/Python_spec_review_part2/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) for details regarding when source code is required.
@@ -681,7 +679,7 @@ All IVI-Python driver packages shall include the following files:
 
 IVI-Python drivers are required to conform to all the rules in this document. They are also required to be registered on the IVI website.
 
-Drivers that satisfy these requirements are IVI-Python drivers and may be referred to as such.
+Drivers that satisfy these requirements are *IVI-Python drivers* and may be referred to as such.
 
 Registered conformant drivers are permitted to use the *IVI Conformant Logo*.
 
