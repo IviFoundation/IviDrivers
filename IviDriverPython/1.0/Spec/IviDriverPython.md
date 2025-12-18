@@ -293,7 +293,7 @@ Collections may be implemented in a variety of ways:
 
 - Applications that need to dynamically add or remove methods can use appropriate types, such as *dictionary*.
 
-- Developers may create custom collections by implementing `__get_item()`, `__set_item()`, `__iter__()` and `__next__()`.
+- Developers may create custom collections.
 
 #### Repeated Capability Reference Property Naming
 
