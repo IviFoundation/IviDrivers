@@ -388,6 +388,8 @@ All IVI-Python instrument drivers shall consistently use the standard Python exc
 
 This specification does not have specific requirements on the format or distribution method of documentation and source code other than those called out in *IVI Driver Core Specification*. It requires that some drivers provide [source code](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) and has detailed [documentation requirements](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#documentation-requirements).
 
+IVI Python drivers are permitted to distribute the required documentation online. The README file shall provide instructions to acquire the documentation.
+
 
 ## Base IVI-Python API
 
