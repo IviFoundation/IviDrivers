@@ -52,7 +52,6 @@ No investigation has been made of common-law trademark rights in any work.
       - [IVI-Python Package Type-Hinting](#ivi-python-package-type-hinting)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
-      - [Reference Property and Class Naming](#reference-property-and-class-naming)
     - [Repeated Capabilities](#repeated-capabilities)
       - [Collection Style Repeated Capabilities and the Hierarchy](#collection-style-repeated-capabilities-and-the-hierarchy)
       - [Repeated Capability Reference Property Naming](#repeated-capability-reference-property-naming)
@@ -67,7 +66,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
     - [Direct IO Properties and Methods](#direct-io-properties-and-methods)
   - [Package Requirements](#package-requirements)
-    - [Package Meta-data](#package-meta-data)
+    - [Package Metadata](#package-metadata)
     - [Contents](#contents)
   - [IVI-Python Driver Conformance](#ivi-python-driver-conformance)
     - [Driver Registration](#driver-registration)
@@ -262,10 +261,6 @@ kt1234.cls2.cls3.measure()
 
 > **Observation:**
 > > As the user types each of these names, IntelliSense makes navigating the hierarchy easy. It displays a dropdown list of methods and properties in the corresponding class or interface. After typing `kt1234` followed by a period, a list of all the properties and methods in `kt1234` appears, allowing the user to select one. After selecting `cls2` and typing the period, a list of the methods and properties in `cls2` appears. After selecting `cls3` and typing the period, a list of the methods and properties in `Cls3` appears, and the user can see and select `measure()`.
-
-#### Reference Property and Class Naming
-
-IVI-Python drivers shall follow the PEP-8 Python naming guidelines for references exposed to the user.
 
 ### Repeated Capabilities
 
