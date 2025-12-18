@@ -586,7 +586,7 @@ class IviUtility(ABC):
 
 Python-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
 
-- Drivers are permitted to implement a `Set` accessor on `simulate`. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
+- Drivers are permitted to allow setting the `simulate` property. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
 ### Direct IO Properties and Methods
 
