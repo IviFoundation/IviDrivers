@@ -94,19 +94,19 @@ Drivers that conform to this specification do not automatically conform with IVI
 
 This specification uses paired angle brackets to indicate that the text between the brackets is not the actual text to use, but instead indicates the text that is used in place of the bracketed text. The *IVI Driver Core Specification* describes these substitutions.
 
-The *IVI Driver Core Specification* uses the '\<DriverIdentifier>' to indicate the name that uniquely identifies the driver. For IVI-ANSI-C drivers, the '\<DriverIdentifier>' shall be constructed as:
+The *IVI Driver Core Specification* uses the \<DriverIdentifier> to indicate the name that uniquely identifies the driver. For IVI-ANSI-C drivers, the \<DriverIdentifier> shall be constructed as:
 
 - The first 2 characters shall designate the instrument manufacturer. These shall be one of the vendor abbreviations of the driver vendor assigned to the vendor in the IVI Specification [VPP-9](https://www.ivifoundation.org/downloads/VPP/vpp9_4.35_2024-08-08.docx). Note that any vendor will be assigned an available 2-character abbreviation of their choice at no charge by the IVI Foundation. This abbreviation shall always be in upper case. If the instrument manufacturer is not registered in VPP-9, or if the driver supports multiple manufacturers' instruments the driver vendor may choose any two characters, however they shall include the final token indicating the driver vendor.
-- The following characters shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string. These additional characters shall not include underscores ('_') due to the use of underscore to separate the '\<DriverIdentifier>' from other identifiers.
+- The following characters shall identify the instrument models supported, and any other driver identifying information the driver vendor chooses. If a vendor expects multiple versions of a driver to be used in a single application, the vendor must differentiate the identifiers by incorporating the driver version into the vendor-provided string. These additional characters shall not include underscores ('_') due to the use of underscore to separate the \<DriverIdentifier> from other identifiers.
 - The final token indicates the driver vendor. If the driver vendor is the same as the instrument manufacturer, this token is not included.
 
-Vendors should try to keep the '\<DriverIdentifier>' short because it appears in any driver symbols that are put into a global namespace.
+Vendors should try to keep the \<DriverIdentifier> short because it appears in any driver symbols that are put into a global namespace.
 
-This document uses the following conventions regarding the '\<DriverIdentifier>':
+This document uses the following conventions regarding the \<DriverIdentifier>:
 
-- '\<DRIVER_IDENTIFIER>' refers to the driver identifier in upper case separated from succeeding tokens with an underscore. The vendor abbreviations are NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
-- '\<driver_identifier>' refers to the driver identifier in lower case, separated from succeeding tokens with underscores. The vendor abbreviation is NOT separated from the instrument model token name with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
-- '\<DriverIdentifier>' is used when the context does not require further clarification, or when Pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. Unless stated otherwise, the driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
+- \<DRIVER_IDENTIFIER> refers to the driver identifier in upper case separated from succeeding tokens with an underscore. The vendor abbreviations are NOT separated from the instrument model token with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSIGGEN42_FOO`.
+- \<driver_identifier> refers to the driver identifier in lower case, separated from succeeding tokens with underscores. The vendor abbreviation is NOT separated from the instrument model token name with an underscore. An underscore is used to separate the driver identifier from the rest of the symbol. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `xysiggen42_foo`.
+- \<DriverIdentifier> is used when the context does not require further clarification, or when Pascal case is used. The vendor abbreviation is all upper case as is the first character of the model token. Unless stated otherwise, the driver identifier is separated from the rest of the symbol by putting the first character of the rest of the symbol in upper case. For instance, the token 'Foo' defined by vendor 'XY' for model family 'SigGen42' becomes: `XYSigGen42Foo`.
 
 ## IVI-ANSI-C Driver Architecture
 
@@ -136,25 +136,25 @@ When IVI-ANSI-C driver source code is provided it shall be compilable by C99 com
 
 ### IVI-ANSI-C Naming
 
-To avoid naming collisions, symbols that the driver puts into a global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the `<DriverIdentifier>`.
+To avoid naming collisions, symbols that the driver puts into a global name space shall be guaranteed unique by prefixing the symbol with an appropriately cased version of the \<DriverIdentifier>.
 
-In the following table, examples are all for a device with `<DriverIdentifier>` of `AC123Dev`, which would represent an instrument vendor identified by `AC` and a model or family identified by `123Dev`. The section [Substitutions](#substitutions) has detailed information on the driver identifier.
+In the following table, examples are all for a device with \<DriverIdentifier> of `AC123Dev`, which would represent an instrument vendor identified by `AC` and a model or family identified by `123Dev`. The section [Substitutions](#substitutions) has detailed information on the driver identifier.
 
 The following casing rules shall be followed:
 
 | Language Element | Example | Rule |
 | ---------------- | ------- | -------------- |
-| function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the `<DriverIdentifier>` and an underscore. Snake case is, words in lower case separated by underscores. |
-| enumeration constants | AC123DEV_COLORS_TEAL |  Enumeration constants shall be upper-case with underscore separators ('_') preceded by the `<DRIVER_IDENTIFIER>`. The enumeration constant name should be composed of the `<DRIVER_IDENTIFIER>` followed by a term identifying the enumeration type, and finally the constant name. That is: `<DRIVER_IDENTIFIER>_<ENUM_TYPE>_<CONSTANT>`. |
-| `const` and macros (`#define`) | AC123DEV_MAX_POWER | `const` and macros shall be upper-case with underscore separators ('_') preceded by `<DRIVER_IDENTIFIER>`|
-| types (`typedef`, `struct`, `enum`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the `<DriverIdentifier>`. That is, words begin with upper case letter. Drivers should follow conventional exceptions for acronyms. |
+| function names   | AC1234Dev_my_function | Function names shall be in snake case preceded by the \<DriverIdentifier> and an underscore. Snake case is, words in lower case separated by underscores. |
+| enumeration constants | AC123DEV_COLORS_TEAL |  Enumeration constants shall be upper-case with underscore separators ('_') preceded by the \<DRIVER_IDENTIFIER>. The enumeration constant name should be composed of the \<DRIVER_IDENTIFIER> followed by a term identifying the enumeration type, and finally the constant name. That is: `<DRIVER_IDENTIFIER>_<ENUM_TYPE>_<CONSTANT>`. |
+| `const` and macros (`#define`) | AC123DEV_MAX_POWER | `const` and macros shall be upper-case with underscore separators ('_') preceded by \<DRIVER_IDENTIFIER>|
+| types (`typedef`, `struct`, `enum`) | AC123DevMySpecialType | Types shall be in Pascal case (also known as upper camel-case) preceded by the \<DriverIdentifier>. That is, words begin with upper case letter. Drivers should follow conventional exceptions for acronyms. |
 | formal parameter names | start_frequency | Formal parameter names should be snake case. The driver identifier should not be used. |
 
 > **Observation:**
 > > The IVI Foundation grants available 2-character vendor identifiers to any driver vendor requesting them at no cost. Assigned identifiers can be found in the current version of IVI VPP-9, referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications).
 
 > **Observation:**
-> > Since each driver vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between driver vendors. Each vendor then manages the other characters in the '\<DriverIdentifier>' to eliminate collisions.
+> > Since each driver vendor is assigned a unique 2-character prefix, this scheme eliminates conflicts between driver vendors. Each vendor then manages the other characters in the \<DriverIdentifier> to eliminate collisions.
 
 ### IVI-ANSI-C Filenames
 
@@ -164,12 +164,12 @@ C source code files shall use a *.c* suffix, and C header files shall use a *.h*
 
 Binary files should use filename suffixes conventional for the operating system and compilers they target.
 
-In general IVI-ANSI-C drivers are composed of numerous files. The name of each file that is specific to the driver shall be prefixed by the '<driver_identifier>' in snake case.
+In general IVI-ANSI-C drivers are composed of numerous files. The name of each file that is specific to the driver shall be prefixed by the \<driver_identifier> in snake case.
 
-If needed, vendors are permitted to include files with the driver that are common to multiple drivers provided by the vendor. These files do not require '<driver_identifier>' but shall be prefixed with the vendor 2-character VPP-9 prefix followed by other identifiers assigned by the driver vendor.
+If needed, vendors are permitted to include files with the driver that are common to multiple drivers provided by the vendor. These files do not require \<driver_identifier> but shall be prefixed with the vendor 2-character VPP-9 prefix followed by other identifiers assigned by the driver vendor.
 
 > **Observation:**
-> > The provision to not require '<driver_identifier>' in the filename permits vendors to have common include files that define types that are common to several drivers. For instance, a struct for waveforms.
+> > The provision to not require \<driver_identifier> in the filename permits vendors to have common include files that define types that are common to several drivers. For instance, a struct for waveforms.
 
 ### IVI-ANSI-C Data Types
 
@@ -210,7 +210,7 @@ The following subsections call out required IVI-ANSI-C style. There are addition
 
 #### IVI-ANSI-C Function Naming
 
-IVI-ANSI-C function names shall be snake case, but preceded with the '\<InstrumentIdentifier>' in Pascal case followed by an underscore.
+IVI-ANSI-C function names shall be snake case, but preceded with the \<DriverIdentifier> in Pascal case followed by an underscore.
 
 In general drivers are encouraged to organize ANSI C function names into a hierarchy. This is beneficial because:
 
