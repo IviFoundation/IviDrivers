@@ -4,6 +4,7 @@ Versions History (temporary)
 
 | Version Number | Date of Version | Version Notes                                        |
 |----------------|-----------------|------------------------------------------------------|
+| 0.8            | Januar 2026     | Complete Review                                      |
 | 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name) |
 | 0.6            | November 2025   | After Joe's corrections                              |
 | 0.5            | October 2025    | First part of spec review                            |
@@ -432,7 +433,7 @@ Example for DriverIdentifier `MyPowerMeter`:
 ```python
 class MyPowerMeter:
  
-    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None):
+    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None) -> None:
         # Initialization of the Powermeter.
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
@@ -499,7 +500,7 @@ from typing import Any, List, Tuple
 
 class ErrorQueryResult:
       
-    def __init__(self, code: int, message: str):
+    def __init__(self, code: int, message: str) -> None:
         self._code = code
         self._message = message
     
@@ -571,7 +572,7 @@ class IviUtility(ABC):
     pass
 
   @abstractmethod
-  def reset(self):
+  def reset(self) -> None:
     pass
 
   @property
@@ -596,11 +597,11 @@ from abc import ABC, abstractmethod
 from typing import Any, List
 
 class IviDirectIo(ABC):
-    def __init__(self, io: Resource):
+    def __init__(self, io: Resource) -> None:
       self._io = io
 
     @property
-    def session(self):
+    def session(self) -> Resource:
       return self._io
  
     @property
