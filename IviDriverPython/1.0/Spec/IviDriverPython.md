@@ -458,7 +458,7 @@ opt['something'] = False # static analysis shows an error on key name
 
 ### IVI-Python Utility Interface
 
-IVI-Python drivers shall implement the class defined in this section. The driver shall provide an reference property to acquire the driver's instance of the utility class.
+IVI-Python drivers shall implement the class defined in this section. The driver shall provide a reference property to acquire the driver's instance of the utility class.
 
 The reference property shall be named *ivi_utility*. The reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `<DriverClassName>`) is instantiated.
 
