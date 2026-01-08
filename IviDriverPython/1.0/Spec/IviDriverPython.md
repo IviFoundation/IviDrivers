@@ -4,8 +4,8 @@ Versions History (temporary)
 
 | Version Number | Date of Version | Version Notes                                        |
 |----------------|-----------------|------------------------------------------------------|
-| 0.8            | Januar 2026     | Complete Review                                      |
-| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name) |
+| 0.8            | January 2026    | Completed Walk Through Review                        |
+| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name  |
 | 0.6            | November 2025   | After Joe's corrections                              |
 | 0.5            | October 2025    | First part of spec review                            |
 | 0.4            | July 2025       | Transferred to IVI Foundation repo                   |
@@ -15,7 +15,6 @@ Versions History (temporary)
 ## Abstract
 
 This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. This specification is to be used in conjunction with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
-
 
 ## Authorship
 
@@ -49,26 +48,24 @@ No investigation has been made of common-law trademark rights in any work.
     - [IVI-Python Naming](#ivi-python-naming)
     - [IVI-Python Packages](#ivi-python-packages)
       - [IVI-Python Package Versioning](#ivi-python-package-versioning)
-      - [IVI-Python Distribution Packages Naming](#ivi-python-distribution-packages-naming)
+      - [IVI-Python Distribution Package Naming](#ivi-python-distribution-package-naming)
       - [IVI-Python Package Type-Hinting](#ivi-python-package-type-hinting)
     - [IVI-Python Driver Classes](#ivi-python-driver-classes)
     - [IVI-Python Hierarchy](#ivi-python-hierarchy)
     - [Repeated Capabilities](#repeated-capabilities)
       - [Collection Style Repeated Capabilities and the Hierarchy](#collection-style-repeated-capabilities-and-the-hierarchy)
       - [Repeated Capability Reference Property Naming](#repeated-capability-reference-property-naming)
-    - [Driver Structure Interfaces](#driver-structure-interfaces)
     - [IVI-Python Error Handling](#ivi-python-error-handling)
     - [Documentation and Source Code](#documentation-and-source-code)
   - [Base IVI-Python API](#base-ivi-python-api)
     - [Required Driver API Mapping Table](#required-driver-api-mapping-table)
       - [Additional Driver API](#additional-driver-api)
-    - [Constructors](#constructors)
-      - [Python Constructor Prototype](#python-constructor-prototype)
+    - [Constructor](#constructor)
     - [IVI-Python Utility Interface](#ivi-python-utility-interface)
     - [Direct IO Properties and Methods](#direct-io-properties-and-methods)
   - [Package Requirements](#package-requirements)
     - [Package Metadata](#package-metadata)
-    - [Contents](#contents)
+    - [Package Contents](#package-contents)
   - [IVI-Python Driver Conformance](#ivi-python-driver-conformance)
     - [Driver Registration](#driver-registration)
 
@@ -76,7 +73,7 @@ No investigation has been made of common-law trademark rights in any work.
 
 This specification contains the Python specific requirements for an IVI-Python driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 
-This specification has several recommendations (identified by the use of the work *should* instead of *shall* in the requirement). These are included to provide a more consistent customer experience. However, in general, design decisions are left to the driver designer.
+This specification has several recommendations (identified by the use of the word *should* instead of *shall* in the requirement). These are included to provide a more consistent customer experience. However, in general, design decisions are left to the driver designer.
 
 ### Substitutions
 
@@ -94,41 +91,41 @@ The second token shall identify the instrument models supported, and any other d
 
 If the *driver vendor* and the *instrument manufacturer* are different, a third token that indicates the `<DriverVendor>` shall be included in the `<DriverIdentifier>`.  The `<DriverVendor>` may optionally be separated from the second token with an underscore ('_').
 
-The token that identifies the `<DriverVendor>` and `<InstrumentManufacturer>` shall be a vendor abbreviation from *VPP-9*. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation in or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in *VPP-9* at no cost as described in *VPP-9*. Vendors are not permitted to duplicate identifiers that are already registered. Driver vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
+The token that identifies the `<DriverVendor>` and `<InstrumentManufacturer>` shall be a vendor abbreviation from *VPP-9*. Assigned identifiers can be found in the current version referenced at the [IVI Foundation Specification Download page](https://www.ivifoundation.org/specifications/default.html#other-vxiplugplay-specifications). This may be either the 2-character vendor abbreviation or the indefinite length vendor abbreviation. Vendors may register both identifiers with the IVI foundation for inclusion in *VPP-9* at no cost as described in *VPP-9*. Vendors are not permitted to duplicate identifiers that are already registered. Driver vendors are responsible for guaranteeing that the preceding part of the identifier is unique to the driver.
 
 The characters that compose the `<DriverIdentifier>` shall remain the same throughout the driver. That is, the choice of *VPP-9* vendor abbreviation, and the optional use of the underscore separator must remain fixed for all uses of the `<DriverIdentifier>`.
 
 In summary, the `<DriverIdentifier>` and `<DriverClassName>` are composed as follows (square brackets indicate the enclosed content is optional):
 
 ```BNF
-> <DriverVendor> ::= VPP-9 vendor abbreviation indicating the author of the driver
-> <InstrumentManufacturer> ::= VPP-9 vendor abbreviation indicating the instrument vendor
-> <InstrumentModel> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
+ <DriverVendor> ::= VPP-9 vendor abbreviation indicating the author of the driver
+ <InstrumentManufacturer> ::= VPP-9 vendor abbreviation indicating the instrument vendor
+ <InstrumentModel> ::= Identifier indicating the instrument model or family of instruments, as selected by the *Driver Vendor*. Shall not include the underscore ('_') character
 
-> <DriverIdentifier> ::= <InstrumentManufacturer><InstrumentModel>[[_]<DriverVendor>]
-> <DriverClassName> ::= <InstrumentManufacturer><InstrumentModel>
+ <DriverIdentifier> ::= <InstrumentManufacturer><InstrumentModel>[[_]<DriverVendor>]
+ <DriverClassName> ::= <InstrumentManufacturer><InstrumentModel>
 ```
 
 Requirements:
 
-- The `<DriverVendor>` may only be omitted if the *driver vendor* and *instrument manufacturer* are the same.
+- The `<DriverVendor>` may only be omitted if the *Driver Vendor* and *Instrument Manufacturer* are the same.
 
-- The optional underscore ('_') preceding the `<DriverVendor>` may be included at the discretion of the *driver vendor*.
+- The optional underscore ('_') preceding the `<DriverVendor>` may be included at the discretion of the *Driver Vendor*.
 
 The case of the characters in the `<DriverIdentifier>` changes depending on the context of its use. This document uses the following conventions to specify the case when referring to the `<DriverIdentifier>`:
 
 - `<driver_identifier>` refers to the driver identifier in lower case
 
-- `<DriverIdentifier>` is used when the context does not require further clarification, or to indicate Pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in `<driver_identifier>` it is ***included*** in the `<DriverIdentifier>`.
+- `<DriverIdentifier>` is used when the context does not require further clarification, or to indicate Pascal case. 2-character vendor abbreviations may be in upper case or Pascal case, at the vendor's discretion. If the optional separator is included in `<driver_identifier>` it is *included* in the `<DriverIdentifier>`.
 
-- `<DriverClassName>` is always in Pascal case, however if a 2-character vendor abbreviation is used both characters may be upper case.
+- `<DriverClassName>` is always in Pascal case, however if a definite length (2-character) vendor abbreviation is used both characters may be upper case.
 
 Examples:
 
-In the following examples, the *driver vendor* and *instrument manufacturer* are the same:
+In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are the same:
 
 ```BNF
-For <DriverVendor> and <InstrumentManufacturer> the indefinite length form is 'Bask', and the short form is 'BI'.
+For <DriverVendor> and <InstrumentManufacturer> the indefinite length form is 'Bask', and the definite length form is 'BI'.
 For <InstrumentModel> the name is DMM (family of instruments).
 
 The following are legal <DriverIdentifier>/<DriverClassName> pairs:
@@ -144,11 +141,11 @@ The following are legal <DriverIdentifier>/<DriverClassName> pairs:
     <DriverClassName> ::= BIDmm
 ```
 
-In the following examples, the *driver vendor* and *instrument manufacturer* are different:
+In the following examples, the *Driver Vendor* and *Instrument Manufacturer* are different:
 
 ```BNF
-For <DriverVendor> the indefinite length form is 'Foo', and the short form is 'FI'.
-For <InstrumentManufacturer> the indefinite length is 'Bar' and the short form is 'BI'.
+For <DriverVendor> the indefinite length form is 'Foo', and the definite length form is 'FI'.
+For <InstrumentManufacturer> the indefinite length is 'Bar' and the definite length (2-character) form is 'BI'.
 For <InstrumentModel> the model name is Tdr123A.
 
 The following are legal <DriverIdentifier>/<DriverClassName> pairs:
@@ -158,17 +155,17 @@ The following are legal <DriverIdentifier>/<DriverClassName> pairs:
   <driver_identifier> ::= bartdr123afoo
   <DriverClassName> ::= BarTdr123A
 
-# using the two-character names
+# using the definite length names
   <DriverIdentifier> ::= BITdr123AFI
   <driver_identifier> ::= bitdr123afi
   <DriverClassName> ::= BiTdr123A
 
-# using the two-character names mixed case
+# using the definite length names mixed case
   <DriverIdentifier> ::= BiTdr123AFi
   <driver_identifier> ::= bitdr123afi
   <DriverClassName> ::= BiTdr123A
 
-# using the two-character names mixed case with the optional underscore
+# using the definite length names mixed case with the optional underscore
   <DriverIdentifier> ::= BiTdr123A_Fi
   <driver_identifier> ::= bitdr123a_fi
   <DriverClassName> ::= BiTdr123A
@@ -184,7 +181,7 @@ IVI-Python drivers shall comply with PEP-8 (*Style Guide for Python Code*).
 
 ### Bitness
 
-The IVI Python standard does not specify operating systems. Thus, there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment in which it is supported [per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
+The IVI Python standard does not specify operating systems. Thus, there are no specific requirements around bitness. The IVI Compliance document shall thoroughly describe the capabilities of the driver and the environment(s) in which it is supported [per the IVI Core specifications on driver identification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#driver-identification-section).
 
 ### Target Python Versions
 
@@ -202,7 +199,7 @@ The IVI-Python driver shall be organized as a Python package, including an `__in
 
 The package should use [semantic versioning](https://semver.org/) (semver).
 
-#### IVI-Python Distribution Packages Naming
+#### IVI-Python Distribution Package Naming
 
 The name of the package for the driver shall follow the [Python naming guideline](https://packaging.python.org/en/latest/specifications/name-normalization/).
 
@@ -216,7 +213,6 @@ def normalize(name):
 ```
 
 The distribution package name shall be the same as the import package name except for the choice of separator. Distribution package names shall be all lower-case. Dashes and underscores are allowed.
-
 
 Existing drivers with different name compositions are exempt from this rule.
 
@@ -246,7 +242,7 @@ Modules within the driver may be named at the driver vendor's discretion. An IVI
 
 One of the classes provided by the driver shall be the IVI-specified driver utility class defined in [IVI-Python Utility Interface](#ivi-python-utility-interface)
 
-The root of the hierarchy shall be the main class `<DriverIdentifier>`.
+The root of the hierarchy shall be the main class `<DriverClassName>`.
 
 The main class shall include properties that return references to child classes. A child class may in turn include properties that return references to its child classes, and so on. These *reference properties* may then be used to navigate to any instrument functionality from the main class. The hierarchy may be arbitrarily deep.
 
@@ -258,10 +254,10 @@ Consider the following example code:
 kt1234.cls2.cls3.measure()
 ```
 
-`kt1234` is a reference to an instance of the main class. `kt1234` contains an interface reference property named `cls2`. `cls2` contains a reference property named `cls3`, which returns a reference to a class `Cls3`. `Cls3` contains the method `measure()`.
+`kt1234` is a reference to an instance of the main class. `kt1234` contains an interface reference property named `cls2` which returns an instance of the class `Cls2`. `Cls2` contains a reference property named `cls3`, which returns an instance of the class `Cls3`. `Cls3` contains the method `measure()`.
 
 > **Observation:**
-> > As the user types each of these names, IntelliSense makes navigating the hierarchy easy. It displays a dropdown list of methods and properties in the corresponding class or interface. After typing `kt1234` followed by a period, a list of all the properties and methods in `kt1234` appears, allowing the user to select one. After selecting `cls2` and typing the period, a list of the methods and properties in `cls2` appears. After selecting `cls3` and typing the period, a list of the methods and properties in `Cls3` appears, and the user can see and select `measure()`.
+> > As the user types each of these names, code completion in the Python editor makes navigating the hierarchy easy. It displays a dropdown list of methods and properties in the corresponding class or interface. After typing `kt1234` followed by a period, a list of all the properties and methods in `kt1234` appears, allowing the user to select one. After selecting `cls2` and typing the period, a list of the methods and properties in `cls2` appears. After selecting `cls3` and typing the period, a list of the methods and properties in `cls3` appears, and the user can see and select `measure()`.
 
 ### Repeated Capabilities
 
@@ -270,15 +266,15 @@ Repeated capabilities may be represented in two ways in IVI-Python drivers. Repe
 1) A method that selects the active instance (the *selector style*) for subsequent operations.
 2) Selecting a particular instance from a collection (the *collection style*).
 
-See the [IVI Driver Core Specification relevant section](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#repeated-capabilities) for details.
+See the [IVI Driver Core Specification Repeated Capabilities](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#repeated-capabilities) for details.
 
 For IVI-Python drivers, collection style repeated capabilities are recommended.
 
 #### Collection Style Repeated Capabilities and the Hierarchy
 
-Collection style repeated capabilities consist of at least two classes. The first is the collection itself, and the second is the object returned by the subscript operator (`[]`) of the collection. In the hierarchy, a reference property returns the collection object. Then the collection's subscript operator (`[]`) is used to return an item from the collection. Each item in the collection represents one instance of the repeated capability.
+Collection style repeated capabilities consist of at least two classes. The first is the collection itself, and the second is the class of the object returned by the subscript operator (`[]`) of the collection. In the hierarchy, a reference property returns the collection object. Then the collection's subscript operator (`[]`) is used to return an item from the collection. Each item in the collection represents one instance of the repeated capability.
 
-Collection style repeated capabilities may be indexed by a string, integer, or other Python object.
+Collection style repeated capabilities may be indexed by a string, integer, enumerated type or other Python object.
 
 Consider the following example code:
 
@@ -286,27 +282,47 @@ Consider the following example code:
 my_peak = kt1234.trace["B"].peak
 ```
 
-`kt1234` is a reference to the main class. `kt1234` contains an interface reference property named `trace`, which returns a reference to the trace collection. The subscript operator (`["B"]`) selects the item named "B" from the collection and returns a reference to an object that uniquely represents the "B" trace. That interface or class contains the property `peak`.
+`kt1234` is an instance of the main class. `kt1234` contains a reference property named `trace`, which returns a reference to the trace collection. The subscript operator (`["B"]`) selects the item identified by "B" from the collection and returns a reference to an object that uniquely represents the "B" trace. That class contains the property `peak`.
 
 Collections may be implemented in a variety of ways:
 
 - Many collections do not need to add or remove members after the driver is constructed. These can be implemented as Python read-only collections.
 
-- Applications that need to dynamically add or remove methods can use appropriate types, such as *dictionary*.
+- Applications that need to dynamically add or remove methods can use appropriate types, such as `dict`.
 
 - Developers may create custom collections.
 
 #### Repeated Capability Reference Property Naming
 
-Drivers should name the classes and interfaces associated with Repeated Capability Reference Properties as described in this section.
+Drivers should name the classes associated with Repeated Capability Reference Properties as described in this section.
 
 In the following statements, `<RcName>` is the name of the repeated capability.
 
 - Repeated capability collection classes should be named: `<RcName>Collection`
 
-- The interface or class returned by the collection's item operator should be named: `<RcName>`
+- The class returned by the collection's item operator should be named: `<RcName>`
 
-- The interface or class returned by the collection's item operator should include a property called *name*. The *name* property returns the physical repeated capability identifier defined by the specific driver for the repeated capability that corresponds to the index that the user specifies.
+- The class returned by the collection's item operator should include a property called *name*. The *name* property returns the physical repeated capability identifier defined by the specific driver for the repeated capability that corresponds to the index used to get it from the collection.
+
+The reference property that returns the repeated capability collection should be a **plural word**, to hint to the user that the data type is a collection.
+
+For example:
+
+```python
+# channels is an interface accessor with repeated capability
+channels_collection = session.channels
+session.channels['1'].range = 10.0
+session.channels[Channels.CHANNEL_1].range = 10.0
+session.channels[1].range = 10.0
+```
+
+In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with `Enum` and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
+
+```python
+session.channels_item('1').range = 10.0
+session.channels_item(Channels.CHANNEL_1).range = 10.0
+session.channels_item(1).range = 10.0
+```
 
 For example, consider a trigger repeated capability. Then `<RcName>` = `Trigger`, and the collection class is `TriggerCollection`. The code snippet below demonstrates the above recommendations:
 
@@ -345,39 +361,6 @@ class TriggerCollection(dict[str, Trigger]):
         self["TriggerC"] = Trigger("TriggerC", 3)
 ```
 
-### Driver Structure Interfaces
-
-IVI-Python Drivers use a tree-like structure of classes, some with repeated capabilities, and some without. Consider an Oscilloscope driver with a non-repeated capability interface accessor `setup`, and repeated capabilities interface accessor `channels`:
-
-```python
-session = Oscilloscope("TCPIP::192.168.1.101")
-```
-
-An interface accessor without the repeated capability shall be implemented as a read-only property:
-
-```python
-# setup is an interface accessor without the repeated capability
-session.setup.display_update = False
-```
-
-An interface accessor with the repeated capability shall be implemented as a read-only property returning the whole collection of the items. The indexer data type of the collection shall be either a string and/or an `Enum`. If it makes sense, for example if the underlying communication uses SCPI commands, the driver should implement an integer indexer. The interface accessor should be a **plural word**, to hint to the user that the data type is a collection:
-
-```python
-# channels is an interface accessor with repeated capability
-channels_collection = session.channels
-session.channels['1'].range = 10.0
-session.channels[Channels.CHANNEL_1].range = 10.0
-session.channels[1].range = 10.0
-```
-
-In addition, to improve the user experience by utilizing code-completion, the drivers may implement method-like accessors with `Enum` and string parameter data types. In this case, the method accessor shall have the same name as the property, with the suffix `_item`:
-
-```python
-session.channels_item('1').range = 10.0
-session.channels_item(Channels.CHANNEL_1).range = 10.0
-session.channels_item(1).range = 10.0
-```
-
 ### IVI-Python Error Handling
 
 All IVI-Python instrument drivers shall consistently use the standard Python exception mechanism to report errors. Neither return values nor *out* parameters shall be used to return error information.
@@ -391,16 +374,15 @@ This specification does not have specific requirements on the format or distribu
 
 IVI Python drivers are permitted to distribute the required documentation online. The README file shall provide instructions to acquire the documentation.
 
-
 ## Base IVI-Python API
 
-This section gives a complete description of each constructor, method, or property required for an IVI-Python driver. The following table shows the mapping between the [required base driver APIs](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#required-driver-apis) described in the IVI Driver Core specification and the corresponding IVI-Python specific API described in this section.
+This section gives a complete description of each constructor, method, and property required for an IVI-Python driver. The following table shows the mapping between the [required base driver APIs](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#required-driver-apis) described in the IVI Driver Core specification and the corresponding IVI-Python specific API described in this section.
 
 ### Required Driver API Mapping Table
 
 | Required Driver API (IVI Driver Core) | IVI-Python API                          |
 |---------------------------------------|-----------------------------------------|
-| Initialization                        | Driver Constructors                     |
+| Initialization                        | Driver Constructor                      |
 | Driver Version                        | Property: `driver_version`              |
 | Driver Vendor                         | Property: `driver_vendor`               |
 | Error Query                           | Method: `error_query()`                 |
@@ -413,20 +395,33 @@ This section gives a complete description of each constructor, method, or proper
 
 #### Additional Driver API
 
-Besides the IVI Driver Core required API, the following additional methods shall be implemented for the IVI-Python drivers:
+Besides the IVI Driver Core required API, the following additional methods shall be implemented for IVI-Python drivers:
 
 - Method: `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
-- Method: `raise_on_device_error()` - calls `error_query_all()` and raises an exception if any instrument errors were detected.
+- Method: `raise_on_device_error()` calls `error_query_all()` and raises an exception if any instrument errors were detected.
 
-### Constructors
+### Constructor
 
-In IVI-Python, constructors provide the initialization functionality described in [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction). This section specifies the required IVI-Python specific driver constructors.
+In IVI-Python, the constructor provides the initialization functionality described in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction).
 
-#### Python Constructor Prototype
+IVI-Python drivers shall implement a constructor with the following prototype, however it may have additional optional parameters after `options`:
 
-The IVI-Python drivers shall implement a constructor with the following prototype:
+  `<DriverClassName>(resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None)`
 
-  `<DriverClassName>(resource_name: str, id_query: bool, reset: bool, options: dict | str | None = None)` 
+These required parameters are defined in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction). The following table shows their names and types for Python:
+
+| Inputs          | Description   | Data Type |
+|-----------------|---------------|-----------|
+| `resource_name` | Resource Name | `str`     |
+| `id_query`      | ID Query      | `bool`    |
+| `reset`         | Reset         | `bool`    |
+
+Notes:
+
+- *IVI Driver Python* constructor is implemented on the class named `<DriverClassName>`.
+- Simulation mode can be set via the optional items.
+
+The `options` parameter shall permit the client to specify driver options (such as *simulation* or options as string).
 
 Example for DriverIdentifier `MyPowerMeter`:
 
@@ -438,11 +433,10 @@ class MyPowerMeter:
         self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
         self.id_query: bool = id_query
         self.reset: bool = reset
-        self.options: dict = options
-
+        self.options: dict = self._process_options(options)
 ```
 
-For the `options` data type, Python `TypedDict` is recommended instead of a standard dictionary. At run-time, `TypedDict` is a standard `dict` type, but has the advantage of providing code-completion and type hinting in static analysis. 
+For the `options` data type, Python `TypedDict` is recommended instead of a standard dictionary. At run-time, `TypedDict` is a standard `dict` type, but has the advantage of providing code-completion and type hinting in static analysis.
 
 Example:
 
@@ -462,37 +456,11 @@ opt['simulate'] = 0 # static analysis shows an error on value type
 opt['something'] = False # static analysis shows an error on key name
 ```
 
-IVI-Python drivers shall provide additional optional parameters for the client to specify driver options (such as *simulation* or options as string). The mechanism by which these parameters are passed is driver-specific.
-
-For instance:
-
-```python
-from typing import TypedDict
-
-class Options(TypedDict, total=False):
-	simulate: bool
-	clear_status_on_init: str
-	block_data_chunk: int
-```
-
-These required parameters are defined in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#initialization-construction). The following table shows their names and types for Python:
-
-| Inputs          | Description   | Data Type |
-|-----------------|---------------|-----------|
-| `resource_name` | Resource Name | `str`       |
-| `id_query`      | ID Query      | `bool`      |
-| `reset`         | Reset         | `bool`     |
-
-Notes:
-
-- *IVI Driver Python* constructor is implemented on the class named `<DriverClassName>`.
-- Simulation mode can be set via the optional items.
-
 ### IVI-Python Utility Interface
 
-IVI-Python drivers shall implement the class defined in this section. The driver shall provide an interface reference property to acquire the driver's instance of the class.
+IVI-Python drivers shall implement the class defined in this section. The driver shall provide a reference property to acquire the driver's instance of the utility class.
 
-The interface reference property shall be named *ivi_utility*. The interface reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `<DriverClassName>`) is instantiated.
+The reference property shall be named *ivi_utility*. The reference property shall be available on the root driver class. The driver developer is responsible for defining a class that inherits from `IviUtility` and is instantiated when the top driver class (that is the class named: `<DriverClassName>`) is instantiated.
 
 ```python
 from abc import ABC, abstractmethod
@@ -500,17 +468,18 @@ from typing import Any, List, Tuple
 
 class ErrorQueryResult:
       
-    def __init__(self, code: int, message: str) -> None:
-        self._code = code
-        self._message = message
+  def __init__(self, code: int, message: str) -> None:
+    self._code = code
+    self._message = message
     
-    @property
-    def code(self) -> int:
-        return self._code
+  @property
+  def code(self) -> int:
+    return self._code
     
-    @property
-    def message(self) -> str:
-        return self._message
+  @property
+  def message(self) -> str:
+    return self._message
+
 
 class IviUtility(ABC):
   
@@ -582,7 +551,9 @@ class IviUtility(ABC):
     pass
 ```
 
-Python-specific Notes (see [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements):
+See [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md) for general requirements.
+
+Python Specific Notes:
 
 - Drivers are permitted to allow setting the `simulate` property. However, if they do so, they shall properly manage the driver state when turning simulation on and off.
 
@@ -590,7 +561,7 @@ Python-specific Notes (see [IVI Driver Core Specification](https://github.com/Iv
 
 Per the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md), IVI Drivers for instruments that have an ASCII command set such as SCPI shall also provide an API for sending messages to and from the instrument over the ASCII command channel. This section specifies those properties and methods.
 
-The interface reference property should be named *ivi_direct_io*. The interface reference property should be available on the root driver class.
+The reference property should be named *ivi_direct_io*. The reference property should be available on the root driver class.
 
 ```python
 from abc import ABC, abstractmethod
@@ -654,7 +625,7 @@ authors = [ {name = "VendorXy"} ]
 description = "This is a short description for the vendorxy-specan"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = "MIT"
-classifiers = [ "Programming Language :: Python", "Intended Audience :: Telecommunications Industry" ]
+classifiers = [ "Programming Language :: Python", "Topic :: Scientific/Engineering :: Instrument Drivers", "Topic :: Scientific/Engineering :: Instrument Drivers :: IVI Conformant" ]
 dependencies = ["pyvisa"]
 keywords = ["Manufacturer_XY", "SpecanModel_ABC"]
 
@@ -662,12 +633,12 @@ keywords = ["Manufacturer_XY", "SpecanModel_ABC"]
 Documentation = "https://readthedocs.org"
 ```
 
-### Contents
+### Package Contents
 
 All IVI-Python driver packages shall include the following files:
 
 - the driver
-- The *README* file. The format of the file shall be Markdown (`*.md`) or reStructuredText (`*.rst`), where Markdown is recommended. The content of the file is specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
+- The *README* file. The format of the file shall be Markdown (\*.md) or reStructuredText (\*.rst), where Markdown is recommended. The content of the file is specified in the [IVI Driver Core Specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md).
 - the type hinting file (*py.typed*), at the top level of the package
 - the documentation or directions for how to acquire it; directions are found in the *README* file
 - If the source code is provided with this driver it may be in the package or the driver may provide instructions for how to acquire it in the *README* file. See the [IVI Core Specification](https://github.com/IviFoundation/IviDrivers/blob/mm/Python_spec_review_part2/IviDriverCore/1.0/Spec/IviDriverCore.md#source-code-availability) for details regarding when source code is required.
