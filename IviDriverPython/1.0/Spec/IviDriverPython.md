@@ -309,7 +309,7 @@ The reference property that returns the repeated capability collection should be
 For example:
 
 ```python
-# channels is an interface accessor with repeated capability
+# 'channels' is a reference property with repeated capability
 channels_collection = session.channels
 session.channels['1'].range = 10.0
 session.channels[Channels.CHANNEL_1].range = 10.0
