@@ -625,7 +625,11 @@ authors = [ {name = "VendorXy"} ]
 description = "This is a short description for the vendorxy-specan"
 readme = {file = "README.md", content-type = "text/markdown"}
 license = "MIT"
-classifiers = [ "Programming Language :: Python", "Topic :: Scientific/Engineering :: Instrument Drivers", "Topic :: Scientific/Engineering :: Instrument Drivers :: IVI Conformant" ]
+classifiers = [ 
+  "Programming Language :: Python", 
+  "Topic :: Scientific/Engineering :: Instrument Drivers", 
+  "Topic :: Scientific/Engineering :: Instrument Drivers :: IVI Conformant"
+]
 dependencies = ["pyvisa"]
 keywords = ["Manufacturer_XY", "SpecanModel_ABC"]
 
