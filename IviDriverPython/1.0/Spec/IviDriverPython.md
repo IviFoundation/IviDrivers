@@ -2,15 +2,16 @@
 
 Versions History (temporary)
 
-| Version Number | Date of Version | Version Notes                                        |
-|----------------|-----------------|------------------------------------------------------|
-| 0.8            | January 2026    | Completed Walk Through Review                        |
-| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name  |
-| 0.6            | November 2025   | After Joe's corrections                              |
-| 0.5            | October 2025    | First part of spec review                            |
-| 0.4            | July 2025       | Transferred to IVI Foundation repo                   |
-| 0.2            | June 2025       | LXI Working group changes                            |
-| 0.1            | May 2025        | Preliminary Draft for LXI Development                |
+| Version Number | Date of Version | Version Notes                                       |
+|----------------|-----------------|-----------------------------------------------------|
+| 0.9            | January 2026    | Small editorial changes, ready for approval         |
+| 0.8            | January 2026    | Completed Walk Through Review                       |
+| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name |
+| 0.6            | November 2025   | After Joe's corrections                             |
+| 0.5            | October 2025    | First part of spec review                           |
+| 0.4            | July 2025       | Transferred to IVI Foundation repo                  |
+| 0.2            | June 2025       | LXI Working group changes                           |
+| 0.1            | May 2025        | Preliminary Draft for LXI Development               |
 
 ## Abstract
 
