@@ -380,25 +380,25 @@ This section gives a complete description of each constructor, method, and prope
 
 ### Required Driver API Mapping Table
 
-| Required Driver API (IVI Driver Core) | IVI-Python API                          |
-|---------------------------------------|-----------------------------------------|
-| Initialization                        | Driver Constructor                      |
-| Driver Version                        | Property: `driver_version`              |
-| Driver Vendor                         | Property: `driver_vendor`               |
-| Error Query                           | Method: `error_query()`                 |
-| Instrument Manufacturer               | Property: `instrument_manufacturer`     |
-| Instrument Model                      | Property: `instrument_model`            |
-| Query Instrument Status Enabled       | Property: `query_instrument_status`     |
-| Reset                                 | Method: `reset()`                       |
-| Simulate Enabled                      | Property: `simulate`                    |
-| Supported Instrument Models           | Property: `supported_instrument_models` |
+| Required Driver API (IVI Driver Core) | IVI-Python API                         |
+|---------------------------------------|----------------------------------------|
+| Initialization                        | Driver Constructor                     |
+| Driver Version                        | Property `driver_version`              |
+| Driver Vendor                         | Property `driver_vendor`               |
+| Error Query                           | Method `error_query()`                 |
+| Instrument Manufacturer               | Property `instrument_manufacturer`     |
+| Instrument Model                      | Property `instrument_model`            |
+| Query Instrument Status Enabled       | Property `query_instrument_status`     |
+| Reset                                 | Method `reset()`                       |
+| Simulate Enabled                      | Property `simulate`                    |
+| Supported Instrument Models           | Property `supported_instrument_models` |
 
 #### Additional Driver API
 
 Besides the IVI Driver Core required API, the following additional methods shall be implemented for IVI-Python drivers:
 
-- Method: `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
-- Method: `raise_on_device_error()` calls `error_query_all()` and raises an exception if any instrument errors were detected.
+- Method `error_query_all()` returns a collection of `ErrorQueryResult` objects that can also optionally implement a custom `__str__` method.
+- Method `raise_on_device_error()` calls `error_query_all()` and raises an exception if any instrument errors were detected.
 
 ### Constructor
 
