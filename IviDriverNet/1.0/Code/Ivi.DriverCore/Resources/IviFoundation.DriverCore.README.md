@@ -50,3 +50,8 @@ public sealed class Acme : IIviDriverCore
 }
 
 ```
+
+## Release Notes
+
+- Version 1.0.1 : Added strong name signing to the assembly so it can be installed into the GAC.  This does not impact NuGet users of the package.
+- Version 1.0.0 : Initial Version
