@@ -1,33 +1,68 @@
+# Discuss:
+#  Filename: ivi_python_types.py  
+#  Content -- draft is ABCs for  IviUtility, IviDirectIo, and ErrorQueryResult.
+#               - Stay single file
+#       
+#  Doc Strings -- especially preferred format (this is "Google style")
+#               - We do want to have doc strings.  Experience is that smart editors will see the strings with type names etc.
+#               - doc tools should show inherited doc strings
+#               - Styles: numpy, google, sphinx --- Google style will do.
+#  License statement needed?
+#               - Joe needs to do some homework. Pattern after the IVI VISA include.h.
+#               - aka do we need a comment on the top of the file?
+#               - do we need a disclaimer of some sort (not our fault if it doesn't work)
+#  Other needed content?
+#               - no body can think of anything else for now.  Will check back next week.
+#  Review actual prose for style and extent (use of spec) or just write it clearly?
+#     - introduction
+#     - license
+#     - doc strings
+#  Obvious PEP8 issues (line length, etc.)
+#     - Line length 
+#
+# Run the file through Sphinx make sure it formats as we want it.  Trailing blank lines likely a problem.
+#    - Look up syntax for the URL.
+# Regarding content
+#    document what the property means.  The setter inherits the doc string from the getter.  In the IDE see doc for the setter.
+#    Look at R/W property.
+#    doc string may show or not depending on where the IDE gets the doc string.
+#    Doc tool will determine it is read only so do not need to call that out.
+#    This basically means we go with a terse Python-centric re-write of the doc based on the Core spec for at least the first line (close where it makes sense).
+#         can include additional content and explanation.
+#         Need to be sure to focus on what the property means and not implementation hints, details and requirements.
+#         Terse 1-2 sentence what is this property.
+#             Perhaps additional paragraph it is really helpful.
+# Regarding word-wrap
+#    Use "Black" for formatting (tool for Python).  Pretty strict on format.  Line length can be set, but defaults to 88 chars. But it probably will not wrap it.  Flake8 will warn on line length.  We should wrap.  Use VS Code re-wrap to hard wrap the code, but it will mangle bulleted lists. (alt-Q).  PEP 9 says max of 79 so wrap at 80.
+
+
+
 """
 ===============================================================================
- IVI-Python Driver Abstract Base Classes Module
+ IVI-Python Driver Types Module
 ===============================================================================
 
  This module defines abstract base classes (ABCs) intended to serve as 
-  interfaces for developers. These classes outline the required 
+ interfaces for developers. These classes outline the required 
  methods and behaviors that IVI-Python drivers must provide.
 
- This version of the abstract base classe is aligned with IVI Foundation's 1.0 
+ This version of the IVI Types is aligned with IVI Foundation's 1.0 
  release of IVI-Python.  For details see: 
    https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec
 
  Usage:
+
     - Inherit from these abstract classes to ensure consistent APIs.
     - Implement all abstract methods in subclasses.
     - Refer to project documentation for design guidelines and examples.
 
  Author: IVI Foundation
- Created: 2026-01-20
  Version: 1.0
 ===============================================================================
 """
 
-"""Things to discuss:
-- should we put doc strings in from the Core classes to explain semantics?
-- pull in doc strings regarding parameters and return values from the IVI specs?
-"""
 
-from typing import Any, Generic, Iterable, Optional, TypeVar, List, Tuple
+from typing import Collection, Any
 from abc import ABC, abstractmethod
 
 
@@ -51,7 +86,10 @@ class IviUtility(ABC):
   @property
   @abstractmethod
   def driver_version(self) -> str:
-    """Provides a driver version string. This is a version optionally followed by a descriptive string."""
+    """Provides a driver version string. This is a version optionally followed by a descriptive string.
+    Returns:
+        str: the driver version string
+    """
 
     """Provides a driver version string. This is a version optionally followed by a descriptive string.
 
@@ -143,7 +181,7 @@ class IviUtility(ABC):
 
   @property
   @abstractmethod
-  def supported_instrument_models(self) -> Tuple[str, ...]:
+  def supported_instrument_models(self) -> tuple[str, ...]:
     """Returns supported models, one per element."""
     pass
   
@@ -153,9 +191,9 @@ class IviDirectIo(ABC):
 
     # The session property is optional and may be implemented in subclasses to 
     # return the underlying resource/session object.
-    # @property
-    # def session(self) -> Resource:
-    #   return self._io
+    def session(self) -> Any:
+      # raise unimplemented exception
+      return self._io
  
     @property
     @abstractmethod
