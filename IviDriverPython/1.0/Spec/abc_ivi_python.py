@@ -7,7 +7,9 @@
   interfaces for developers. These classes outline the required 
  methods and behaviors that IVI-Python drivers must provide.
 
- This version of the abstract base classe is aligned with IVI Foundation's 1.0 release of IVI-Python.  For details see: https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec
+ This version of the abstract base classe is aligned with IVI Foundation's 1.0 
+ release of IVI-Python.  For details see: 
+   https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec
 
  Usage:
     - Inherit from these abstract classes to ensure consistent APIs.
@@ -53,19 +55,30 @@ class IviUtility(ABC):
 
     """Provides a driver version string. This is a version optionally followed by a descriptive string.
 
-    The format of the version shall follow the rules for FileVersion defined in File Versioning followed by an optional string. If the string is present, a space shall separate the version from the string. The string contains additional driver specific version information. Multi-byte characters are not allowed in the string that this property returns. String characters shall be in the range of \x20 - \x7E."""
+    The format of the version shall follow the rules for FileVersion defined in File Versioning followed by an optional string. If the string is present, a space shall separate the version from the string. The string contains additional driver specific version information. Multi-byte characters are not allowed in the string that this property returns. String characters shall be in the range of \x20 - \x7E.
+    
+      Returns:
+        str: the driver version string
+    """
     pass
 
   @property
   @abstractmethod
   def driver_vendor(self) -> str:
-    """Returns the name of the vendor that supplies the IVI Core driver."""
+    """Returns the name of the vendor that supplies the IVI Core driver.
+    
+    Returns:
+      str: the driver vendor name
+    """
     pass
 
   @property
   @abstractmethod
   def instrument_manufacturer(self) -> str:
-    """Returns the name of the manufacturer of the instrument. The IVI driver returns the value it queries from the instrument or a string indicating that it cannot query the instrument identity. For instance, "Cannot query from instrument"."""
+    """Returns the name of the manufacturer of the instrument. The IVI driver returns the value it queries from the instrument or a string indicating that it cannot query the instrument identity. For instance, "Cannot query from instrument".
+    
+      Returns:
+        str: the instrument manufacturer name"""
     pass
 
   @property
