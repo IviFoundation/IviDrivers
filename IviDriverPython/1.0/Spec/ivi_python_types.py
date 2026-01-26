@@ -7,7 +7,8 @@
 # SPEC ITEMS IN IMPLEMENTATION VS 1.0 DRAFT
 # - instrument_serial_number, firmware version is not in the Core.  OK,
 #   but why added?  Seems they need to be documented in spec if we are
-#   adding them.
+#   adding them.  If we keep them should we specify null string if they
+#   cannot be queried?
 # - read_bytes does not need a length (that was in C for buffer sizing)
 # - added a setter for io_timeout_ms
 
@@ -18,11 +19,12 @@
 
  This module defines types that are necessary for a driver to comply
  with the IVI-Python specification. This includes abstract base classes
- (ABCs) for the DriverUtility class and IviDirectIo class as well as a
- data class for ErrorQueryResult. These classes outline the required
- methods and behaviors that IVI-Python drivers must provide.
+ (ABCs) for the DriverUtility class and the IviDirectIo class as well as
+ a data class for ErrorQueryResult. These classes outline the required
+ methods and behaviors that are required by the IVI-Python
+ specification.
 
- This version of the IVI Types is aligned with IVI Foundation's 1.0
+ This version of the IVI Types is based on the IVI Foundation's 1.0
  release of IVI-Python.  For details see the `IVI-Python Specification
  <https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec>`_.
 
@@ -45,16 +47,15 @@ from abc import ABC, abstractmethod
 
 class ErrorQueryResult:
   """
-  A class representing the result of an error query from an
-  instrument.
+  A class representing the result of an error query from an instrument.
+  Instance of ErrorQueryResult are immutable.
 
     Attributes:
         code (int): The error code returned by the instrument.
 
-        message (str): The message returned by the instrument with the
-        error code.
+        message (str): The message returned by the instrument along with
+        the error code.
   """
-      
   def __init__(self, code: int, message: str) -> None:
     self._code = code
     self._message = message
@@ -71,21 +72,22 @@ class ErrorQueryResult:
 
 
 class IviUtility(ABC):
-  """Abstract base class for the required IVI operations. It contains
-  methods useful for all IVI drivers including methods to get
-  information about the driver author, the controlled instruments, error
-  handling, and instrument reset.
+  """
+  Abstract base class for the required IVI-Python operations. It
+  contains useful methods for all IVI drivers including methods to get
+  identity information about the driver andthe controlled instruments,
+  error handling, and instrument reset.
 
-  Instrument-specific drivers may provide additional methods in their
-  concrete IviUtility subclasses.
+  Implementations of this base class may provide additional related
+  methods in their concrete IviUtility subclasses.
   
-  This class is created by the driver when it is instantiated."""
-  
+  This class is created by the driver when it is instantiated.
+  """
   @property
   @abstractmethod
   def driver_version(self) -> str:
     """
-    Driver version string. This is a version string optionally
+    Driver version string. This is a driver version string optionally
     followed by a space and a descriptive string.
 
     Returns:
@@ -108,9 +110,9 @@ class IviUtility(ABC):
   @abstractmethod
   def instrument_manufacturer(self) -> str:
     """
-    Manufacturer of the instrument. The driver returns the value it 
-    queries from the instrument or a string indicating that it cannot
-    query the instrument identity.
+    Manufacturer of the instrument being controlled. The driver returns
+    the value it queries from the instrument or a string indicating that
+    it cannot query the instrument identity.
     
       Returns:
         str: Instrument manufacturer name.
@@ -121,9 +123,9 @@ class IviUtility(ABC):
   @abstractmethod
   def instrument_model(self) -> str:
     """
-    Model number or name of the instrument. The driver returns the 
-    value it queries from the instrument or a string indicating that
-    it cannot query the instrument identity.
+    Model number or name of the currently connected instrument. The
+    driver returns the value it queries from the instrument or a string
+    indicating that it cannot query the instrument identity.
     
       Returns:
         str: Instrument model name.
@@ -136,7 +138,7 @@ class IviUtility(ABC):
     """
     Serial number of the instrument. The driver returns the value it
     queries from the instrument or a string indicating that it cannot
-    query the instrument identity.
+    query the instrument serial number.
 
       Returns:
         str: Instrument serial number as a string.
@@ -149,7 +151,7 @@ class IviUtility(ABC):
     """
     Firmware version of the instrument. The driver returns the value it
     queries from the instrument or a string indicating that it cannot
-    query the instrument identity.
+    query the instrument firmware version.
 
       Returns:
         str: Instrument firmware version as a string.
@@ -167,13 +169,15 @@ class IviUtility(ABC):
     This property indicates if the driver queries the instrument status
     after each operation. If the instrument can be queried for its
     status and Query Instrument Status Enabled is True, then the driver
-    checks the instrument status at the end of every call by the user to
-    a method that accesses the instrument and reports an error if the
-    instrument has detected an error. If False, the driver does not
+    normally checks the instrument status at the end of every call by the
+    user to a method that accesses the instrument and report an error if
+    the instrument has detected an error. If False, the driver does not
     query the instrument status at the end of each user operation.
 
     If the instrument status cannot be meaningfully queried after an
     operation, then this property has no effect on driver operation.
+
+    This property is false when the driver is instantiated.
 
     Returns:
         bool: Indicates if Query Instrument Status is enabled.
@@ -183,7 +187,6 @@ class IviUtility(ABC):
   @query_instrument_status_enabled.setter
   @abstractmethod
   def query_instrument_status_enabled(self, value: bool) -> None:
-    """Sets the Query Instrument Status Enabled property."""
     pass
 
   @property
@@ -193,8 +196,8 @@ class IviUtility(ABC):
     Indicates whether the driver is in simulation mode. When in
     simulation mode, the driver performs no I/O to the instrument.
 
-    This property is normally set at driver instantiation and is
-    read-only. However, some drivers may allow changing this property at
+    This property is normally only set at driver instantiation and is
+    read-only. However, drivers may allow changing this property at
     runtime.
 
     Returns:
@@ -211,7 +214,7 @@ class IviUtility(ABC):
     a single error from the queue.
 
     For instruments that have status registers but no error queue, the
-    IVI driver returns an error consistent with instrument design.
+    IVI-Python driver returns an error consistent with instrument design.
 
     The operation of Error Query is independent of the opertion of Query
     Instrument Status Enabled.
@@ -258,20 +261,21 @@ class IviUtility(ABC):
     """
     Returns supported instrument models. The strings represent the
     instrument models as reported by a connected instrument using the
-    model() property.
+    instrument_model property.
 
       Returns:
         tuple[str, ...]: A tuple of supported instrument model strings.
     """
     pass
   
-# The IviDirectIo class is required for instruments that have a
-# supported ASCII command set such as SCPI.
+  
+# IVI-Python drivers are required to implement the IviDirectIo class if
+# the controlled instruments support an ASCII command set such as SCPI.
 class IviDirectIo(ABC):
     """
     Abstract base class for direct I/O operations. These operations
     permit directly communicating with the instrument by sending and
-    receiving raw data, and performing other low-level I/O operations.
+    receiving raw data and performing other low-level I/O operations.
     """
 
     # The session property is optional and may be implemented in subclasses to 
@@ -308,22 +312,21 @@ class IviDirectIo(ABC):
     @abstractmethod
     def read_bytes(self) -> bytes:
       """
-      The read_bytes reads a complete response from the instrument into
-      an array of bytes.
+      Reads a complete response from the instrument into an array of
+      bytes.
 
         Returns:
-          bytes: The response from the instrument as a bytes object.
+          bytes: The response from the instrument.
       """
       pass
  
     @abstractmethod
     def read_string(self) -> str:
       """
-      The read_bytes reads a complete response from the instrument into
-      a string.
+      Reads a complete response from the instrument into a string.
 
         Returns:
-          str: The response from the instrument as a string.
+          str: The response from the instrument.
       """
       pass
  
@@ -335,11 +338,11 @@ class IviDirectIo(ABC):
       termination sequence is typically a line feed character with END
       asserted.
 
-      The array of byte must include a complete instrument message since
-      the driver adds the termination sequence.
+      The array of bytes must include a complete instrument message. The
+      driver adds the termination sequence.
 
       Args:
-          data (bytes): The data to write to the instrument as a bytes
+          data (bytes): Data to write to the instrument as a bytes
           object. 
       """
       pass
@@ -351,11 +354,10 @@ class IviDirectIo(ABC):
       termination sequence. For IEEE 488.2 instruments the termination
       sequence is typically a line feed character with END asserted.
 
-      The array of byte must include a complete instrument message since
-      the driver adds the termination sequence.
+      The array of byte must include a complete instrument message. The
+      driver adds the termination sequence.
 
       Args:
-          data (bytes): The data to write to the instrument as a bytes
-          object. 
+          data (str): String to write to the instrument.
       """
       pass
