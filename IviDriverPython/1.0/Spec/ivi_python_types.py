@@ -76,8 +76,8 @@ class IviUtility(ABC):
   """
   Abstract base class for the required IVI-Python operations. IviUtility
   contains useful methods relevant for all IVI-Python drivers including
-  methods to obtain driver and instrument identity information, error
-  handling, and instrument reset.
+  methods to obtain identity information for the driver and instrument,
+  error handling, and instrument reset.
 
   Implementations of this base class may provide additional related
   methods in their concrete IviUtility subclasses.
