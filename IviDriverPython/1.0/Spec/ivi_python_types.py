@@ -20,10 +20,10 @@
 
  This module defines types that are necessary for a driver to comply
  with the IVI-Python specification. This includes abstract base classes
- (ABCs) for the DriverUtility class and the IviDirectIo class as well as
- a data class for error queries (ErrorQueryResult). These classes
- outline the required methods and behaviors that are required by the
- IVI-Python specification.
+ (ABCs) for the IVI-Python DriverUtility class and the IviDirectIo class
+ as well as a data class for ErrorQueryResult. These classes include the
+ required methods and behaviors that are required by the IVI-Python
+ specification.
 
  This version of the IVI Types is based on the IVI Foundation's 1.0
  release of IVI-Python.  For details see the `IVI-Python Specification
