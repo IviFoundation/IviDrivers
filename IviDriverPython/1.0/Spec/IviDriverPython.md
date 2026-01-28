@@ -4,6 +4,7 @@ Versions History (temporary)
 
 | Version Number | Date of Version | Version Notes                                       |
 |----------------|-----------------|-----------------------------------------------------|
+| 0.9            | January 28,2026 | Needed corrections in the interfaces                |
 | 0.9            | January 2026    | Small editorial changes, ready for approval         |
 | 0.8            | January 2026    | Completed Walk Through Review                       |
 | 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name |
@@ -381,18 +382,18 @@ This section gives a complete description of each constructor, method, and prope
 
 ### Required Driver API Mapping Table
 
-| Required Driver API (IVI Driver Core) | IVI-Python API                         |
-|---------------------------------------|----------------------------------------|
-| Initialization                        | Driver Constructor                     |
-| Driver Version                        | Property `driver_version`              |
-| Driver Vendor                         | Property `driver_vendor`               |
-| Error Query                           | Method `error_query()`                 |
-| Instrument Manufacturer               | Property `instrument_manufacturer`     |
-| Instrument Model                      | Property `instrument_model`            |
-| Query Instrument Status Enabled       | Property `query_instrument_status`     |
-| Reset                                 | Method `reset()`                       |
-| Simulate Enabled                      | Property `simulate`                    |
-| Supported Instrument Models           | Property `supported_instrument_models` |
+| Required Driver API (IVI Driver Core) | IVI-Python API                             |
+|---------------------------------------|--------------------------------------------|
+| Initialization                        | Driver Constructor                         |
+| Driver Version                        | Property (r) `driver_version`              |
+| Driver Vendor                         | Property (r) `driver_vendor`               |
+| Error Query                           | Method `error_query()`                     |
+| Instrument Manufacturer               | Property (r) `instrument_manufacturer`     |
+| Instrument Model                      | Property (r) `instrument_model`            |
+| Query Instrument Status Enabled       | Property (r/w) `query_instrument_status`   |
+| Reset                                 | Method `reset()`                           |
+| Simulate Enabled                      | Property (r) `simulate`                    |
+| Supported Instrument Models           | Property (r) `supported_instrument_models` |
 
 #### Additional Driver API
 
