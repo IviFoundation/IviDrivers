@@ -509,6 +509,11 @@ class IviUtility(ABC):
   @abstractmethod
   def query_instrument_status_enabled(self) -> bool:
     pass
+  
+  @query_instrument_status_enabled.setter
+  @abstractmethod
+  def query_instrument_status_enabled(self, enabled: bool) -> None:
+    pass
 
   @property
   @abstractmethod
@@ -517,19 +522,14 @@ class IviUtility(ABC):
   
   @abstractmethod
   def error_query(self) -> ErrorQueryResult | None:
-    """Returns the last error in the instrument's error queue.
-    Returns None if no error is present."""
     pass
 
   @abstractmethod
   def error_query_all(self) -> Collection[ErrorQueryResult]:
-    """Returns all the errors currently reported in the instrument's error queue.
-      If no error is present, the method returns an empty collection."""
     return []
 
   @abstractmethod
   def raise_on_device_error(self) -> None:
-    """Calls error_query_all() and raises an exception if any instrument errors were detected."""
     pass
 
   @abstractmethod
@@ -539,7 +539,6 @@ class IviUtility(ABC):
   @property
   @abstractmethod
   def supported_instrument_models(self) -> Tuple[str, ...]:
-    """Returns supported models, one per element."""
     pass
 ```
 
