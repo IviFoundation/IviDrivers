@@ -507,16 +507,6 @@ class IviUtility(ABC):
 
   @property
   @abstractmethod
-  def instrument_serial_number(self) -> str:
-    pass
-
-  @property
-  @abstractmethod
-  def instrument_firmware(self) -> str:
-    pass
-
-  @property
-  @abstractmethod
   def query_instrument_status_enabled(self) -> bool:
     pass
 
