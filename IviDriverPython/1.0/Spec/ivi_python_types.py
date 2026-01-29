@@ -11,7 +11,7 @@
 #   adding them.  If we keep them should we specify null string if they
 #   cannot be queried?
 # - read_bytes does not need a length (that was in C for buffer sizing)
-# - added a setter for io_timeout_ms
+
 
 """
 ===============================================================================
@@ -22,7 +22,7 @@
  with the IVI-Python specification. This includes abstract base classes
  (ABCs) for the IVI-Python DriverUtility class and the IviDirectIo class
  as well as a data class for ErrorQueryResult. These classes include the
- required methods and behaviors that are required by the IVI-Python
+ methods and behaviors that are required by the IVI-Python
  specification.
 
  This version of the IVI Types is based on the IVI Foundation's 1.0
@@ -50,12 +50,6 @@ class ErrorQueryResult:
   """
   A class representing the result of an error query from an instrument.
   Instances of ErrorQueryResult are immutable.
-
-    Attributes:
-        code (int): Error code returned by the instrument.
-
-        message (str): Message provided by the instrument with the error
-        code.
   """
   def __init__(self, code: int, message: str) -> None:
     self._code = code
@@ -82,17 +76,16 @@ class IviUtility(ABC):
   Implementations of this base class may provide additional related
   methods in their concrete IviUtility subclasses.
   
-  This class is created by the driver when it is instantiated.
+  This class is instantiated by the driver.
   """
   @property
   @abstractmethod
   def driver_version(self) -> str:
     """
-    Driver version string. This is the driver version string optionally
+    Driver version string.
+    
+    This is the driver version string optionally
     followed by a space and a descriptive string.
-
-    Returns:
-        str: Driver version string.
     """
     pass
 
@@ -101,9 +94,6 @@ class IviUtility(ABC):
   def driver_vendor(self) -> str:
     """
     The name of the vendor that supplied this driver.
-    
-    Returns:
-      str: Driver vendor name.
     """
     pass
 
@@ -111,12 +101,10 @@ class IviUtility(ABC):
   @abstractmethod
   def instrument_manufacturer(self) -> str:
     """
-    Manufacturer of the instrument being controlled. The driver returns
-    the value it queries from the instrument or a string indicating that
-    it cannot query the instrument identity.
+    Manufacturer of the instrument being controlled. 
     
-      Returns:
-        str: Instrument manufacturer name.
+    The driver returns the value it queries from the instrument or a
+    string indicating that it cannot query the instrument identity.
     """
     pass
 
@@ -124,45 +112,17 @@ class IviUtility(ABC):
   @abstractmethod
   def instrument_model(self) -> str:
     """
-    Model number or name of the currently connected instrument. The
-    driver returns the value it queries from the instrument or a string
-    indicating that it cannot query the instrument identity.
+    Model number or name of the currently connected instrument.
     
-      Returns:
-        str: Instrument model name.
-    """
-    pass
-
-  @property
-  @abstractmethod
-  def instrument_serial_number(self) -> str:
-    """
-    Serial number of the currently connected instrument. The driver
-    returns the value it queries from the instrument or a string
-    indicating that it cannot query the instrument serial number.
-
-      Returns:
-        str: Instrument serial number as a string.
-    """
-    pass
-
-  @property
-  @abstractmethod
-  def instrument_firmware(self) -> str:
-    """
-    Firmware version of the currently connected instrument. The driver
-    returns the value it queries from the instrument or a string
-    indicating that it cannot query the instrument firmware version.
-
-      Returns:
-        str: Instrument firmware version as a string.
+    The driver returns the value it queries from the instrument or a
+    string indicating that it cannot query the instrument identity.
     """
     pass
 
   # The query_instrument_status_enabled property although always
-  # present, need only be implemented if it is meaningful for the
-  # instrument being controlled. It controls whether the driver queries
-  # the instrument status after each operation.
+  # present, however the function of querying the instrument status only
+  # needs to be implemented if it is meaningful for the instrument being
+  # controlled.
   @property
   @abstractmethod
   def query_instrument_status_enabled(self) -> bool:
@@ -179,9 +139,6 @@ class IviUtility(ABC):
     operation, then this property has no effect on driver operation.
 
     This property is false when the driver is instantiated.
-
-    Returns:
-        bool: Indicates if Query Instrument Status is enabled.
     """
     pass
 
