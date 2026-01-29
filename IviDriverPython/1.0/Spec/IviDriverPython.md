@@ -576,7 +576,7 @@ class IviDirectIo(ABC):
         pass
 
     @abstractmethod
-    def read_bytes(self, count: int) -> bytes:
+    def read_bytes(self) -> bytes:
         pass
  
     @abstractmethod
