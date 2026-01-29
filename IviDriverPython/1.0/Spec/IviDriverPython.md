@@ -4,6 +4,7 @@ Versions History (temporary)
 
 | Version Number | Date of Version | Version Notes                                       |
 |----------------|-----------------|-----------------------------------------------------|
+| 0.91           | January 28,2026 | Needed corrections in the interfaces                |
 | 0.9            | January 2026    | Small editorial changes, ready for approval         |
 | 0.8            | January 2026    | Completed Walk Through Review                       |
 | 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name |
@@ -381,18 +382,18 @@ This section gives a complete description of each constructor, method, and prope
 
 ### Required Driver API Mapping Table
 
-| Required Driver API (IVI Driver Core) | IVI-Python API                         |
-|---------------------------------------|----------------------------------------|
-| Initialization                        | Driver Constructor                     |
-| Driver Version                        | Property `driver_version`              |
-| Driver Vendor                         | Property `driver_vendor`               |
-| Error Query                           | Method `error_query()`                 |
-| Instrument Manufacturer               | Property `instrument_manufacturer`     |
-| Instrument Model                      | Property `instrument_model`            |
-| Query Instrument Status Enabled       | Property `query_instrument_status`     |
-| Reset                                 | Method `reset()`                       |
-| Simulate Enabled                      | Property `simulate`                    |
-| Supported Instrument Models           | Property `supported_instrument_models` |
+| Required Driver API (IVI Driver Core) | IVI-Python API                             |
+|---------------------------------------|--------------------------------------------|
+| Initialization                        | Driver Constructor                         |
+| Driver Version                        | Property (r) `driver_version`              |
+| Driver Vendor                         | Property (r) `driver_vendor`               |
+| Error Query                           | Method `error_query()`                     |
+| Instrument Manufacturer               | Property (r) `instrument_manufacturer`     |
+| Instrument Model                      | Property (r) `instrument_model`            |
+| Query Instrument Status Enabled       | Property (r/w) `query_instrument_status`   |
+| Reset                                 | Method `reset()`                           |
+| Simulate Enabled                      | Property (r) `simulate`                    |
+| Supported Instrument Models           | Property (r) `supported_instrument_models` |
 
 #### Additional Driver API
 
@@ -506,17 +507,12 @@ class IviUtility(ABC):
 
   @property
   @abstractmethod
-  def instrument_serial_number(self) -> str:
-    pass
-
-  @property
-  @abstractmethod
-  def instrument_firmware(self) -> str:
-    pass
-
-  @property
-  @abstractmethod
   def query_instrument_status_enabled(self) -> bool:
+    pass
+  
+  @query_instrument_status_enabled.setter
+  @abstractmethod
+  def query_instrument_status_enabled(self, enabled: bool) -> None:
     pass
 
   @property
@@ -526,19 +522,14 @@ class IviUtility(ABC):
   
   @abstractmethod
   def error_query(self) -> ErrorQueryResult | None:
-    """Returns the last error in the instrument's error queue.
-    Returns None if no error is present."""
     pass
 
   @abstractmethod
   def error_query_all(self) -> Collection[ErrorQueryResult]:
-    """Returns all the errors currently reported in the instrument's error queue.
-      If no error is present, the method returns an empty collection."""
     return []
 
   @abstractmethod
   def raise_on_device_error(self) -> None:
-    """Calls error_query_all() and raises an exception if any instrument errors were detected."""
     pass
 
   @abstractmethod
@@ -548,7 +539,6 @@ class IviUtility(ABC):
   @property
   @abstractmethod
   def supported_instrument_models(self) -> Tuple[str, ...]:
-    """Returns supported models, one per element."""
     pass
 ```
 
@@ -569,12 +559,11 @@ from abc import ABC, abstractmethod
 from typing import Any, List
 
 class IviDirectIo(ABC):
-    def __init__(self, io: Resource) -> None:
-      self._io = io
 
     @property
-    def session(self) -> Resource:
-      return self._io
+    @abstractmethod
+    def session(self) -> Any:
+      pass
  
     @property
     @abstractmethod
@@ -587,7 +576,7 @@ class IviDirectIo(ABC):
         pass
 
     @abstractmethod
-    def read_bytes(self, count: int) -> bytes:
+    def read_bytes(self) -> bytes:
         pass
  
     @abstractmethod
