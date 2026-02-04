@@ -11,7 +11,7 @@
  specification.
 
  This version of the IVI Types is based on the IVI Foundation's 1.0
- release of IVI-Python.  For details see the `IVI-Python Specification
+ release of IVI-Python. For details see the `IVI-Python Specification
  <https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec>`_.
 
  Usage:
