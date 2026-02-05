@@ -34,8 +34,10 @@ from abc import ABC, abstractmethod
 class ErrorQueryResult:
   """
   A class representing the result of an error query from an instrument.
+
   Instances of ErrorQueryResult are immutable.
   """
+
   def __init__(self, code: int, message: str) -> None:
     self._code = code
     self._message = message
@@ -53,16 +55,18 @@ class ErrorQueryResult:
 
 class IviUtility(ABC):
   """
-  Abstract base class for the required IVI-Python operations. IviUtility
-  contains useful methods relevant for all IVI-Python drivers including
-  methods to obtain identity information for the driver and instrument,
-  error handling, and instrument reset.
+  Abstract base class for the required IVI-Python operations. 
+  
+  IviUtility contains useful methods relevant for all IVI-Python drivers
+  including methods to obtain identity information for the driver and
+  instrument, error handling, and instrument reset.
 
   Implementations of this base class may provide additional related
   methods in their concrete IviUtility subclasses.
   
   This class is instantiated by the driver.
   """
+
   @property
   @abstractmethod
   def driver_version(self) -> str:
@@ -99,7 +103,7 @@ class IviUtility(ABC):
     """
     Model number or name of the currently connected instrument.
     
-    The driver returns the value it queries from the instrument or a
+    The driver returns the value it queried from the instrument or a
     string indicating that it cannot query the instrument identity.
     """
     pass
@@ -112,21 +116,20 @@ class IviUtility(ABC):
   @abstractmethod
   def query_instrument_status_enabled(self) -> bool:
     """
-    Indicates if the driver queries the instrument status after each
-    instrument operation.
+    Indicates if the driver queries the instrument status after each instrument operation.
     
     If the instrument can be queried for its status and Query Instrument
     Status Enabled is True, then the driver normally checks the
-    instrument status at the end of every method or propertyhat accesses
-    the instrument and reports an error if the instrument has detected
-    an error. If False, the driver does not query the instrument status
-    at the end of each user operation.
+    instrument status at the end of every method or property that
+    accesses the instrument and reports an error if the instrument has
+    detected an error. If False, the driver does not automatically query
+    the instrument status at the end of each user operation.
 
     If the instrument status cannot be meaningfully queried after an
     operation, then this property has no effect on driver operation.
 
     This property is false when the driver is instantiated.
-    """
+    """  # noqa: W505 - doc line too long
     pass
 
   @query_instrument_status_enabled.setter
@@ -152,7 +155,7 @@ class IviUtility(ABC):
   @abstractmethod
   def error_query(self) -> ErrorQueryResult | None:
     """
-    Queries the most recent error from the instrument.
+    Query the most recent error from the instrument.
 
     For instruments that implement an error queue, Error Query extracts
     a single error from the queue and returns it.  If the queue is empty
@@ -162,7 +165,7 @@ class IviUtility(ABC):
     of an error queue, an error consistent with the instrument design is
     returned.
 
-    The operation of Error Query is independent of the opertion of Query
+    The operation of Error Query is independent of the operation of Query
     Instrument Status Enabled.
 
     Returns:
@@ -174,34 +177,31 @@ class IviUtility(ABC):
   @abstractmethod
   def error_query_all(self) -> Collection[ErrorQueryResult]:
     """
-    Queries all of the errors from the instrument's error queue and
-    clears the instrument error queue. 
+    Query all of the errors from the instrument's error queue and clear the instrument error queue. 
     
     If the error queue is empty, an empty collection is returned.
 
     Returns:
-      Collection[ErrorQueryResult]: All of the errors from the
+      Collection[ErrorQueryResult]: All of the errors from the 
         instrument error queue.
-    """
+    """  # noqa: W505 - doc line too long
     pass
 
   @abstractmethod
   def raise_on_device_error(self) -> None:
     """
-    Calls error_query_all() and raises an exception if any instrument
-    errors are detected.
-    """
+    Call error_query_all() and raise an exception if any instrument errors are detected.
+    """  # noqa: W505 - doc line too long
     pass
 
   @abstractmethod
   def reset(self) -> None:
     """
-    Resets the instrument to its default state and configures it as
-    needed for normal operation with the driver.  
+    Reset the instrument to its default state and configure it as needed for normal operation with the driver.  
     
     The driver state is also reset to reflect the instrument's
     configuration.
-    """
+    """  # noqa: W505 - doc line too long
     pass
 
   @property
@@ -233,11 +233,10 @@ class IviDirectIo(ABC):
   @abstractmethod
   def session(self) -> Any:
     """
-    Returns the active instance of the underlying class that performs
-    IO to the instrument. 
+    Returns the active instance of the underlying class that performs IO to the instrument. 
   
     session is typically a PyVISA Resource object.
-    """
+    """  # noqa: W505 - doc line too long
     raise NotImplementedError("Optional session property not implemented.")
     
   @property
@@ -259,20 +258,19 @@ class IviDirectIo(ABC):
   @abstractmethod
   def read_bytes(self) -> bytes:
     """
-    Reads a complete response from the instrument into an array of
-    bytes.
+    Read a complete response from the instrument as bytes.
     
-    The response message terminator is not included in the array.
+    The response message terminator is not included in the bytes object.
 
     Returns:
       bytes: The response from the instrument.
-    """
+    """  # noqa: W505 - doc line too long
     pass
  
   @abstractmethod
   def read_string(self) -> str:
     """
-    Reads a complete response from the instrument into a string.
+    Read a complete response from the instrument as a string.
     
     The response message terminator is not included in the string.
 
@@ -284,35 +282,33 @@ class IviDirectIo(ABC):
   @abstractmethod
   def write_bytes(self, data: bytes) -> None:
     """
-    Writes an array of bytes to the instrument followed by the normal
-    message termination sequence.
+    Write bytes to the instrument followed by the normal message termination sequence.
     
     For IEEE 488.2 instruments the termination sequence is typically a
     line feed character with END asserted.
 
-    The array of bytes must include a complete instrument message. The
-    driver adds the termination sequence.
+    The bytes must include a complete instrument message. The driver
+    adds the termination sequence.
     
     Args:
       data (bytes): Data to write to the instrument. A program message
         terminator will be appended by the driver.
-    """
+    """  # noqa: W505 - doc line too long
     pass
  
   @abstractmethod
   def write_string(self, data: str) -> None:
     """
-    Writes a string to the instrument followed by the normal message
-    termination sequence.
+    Write a string to the instrument followed by the normal message termination sequence.
     
-    For IEEE 488.2 instruments the termination
-    sequence is typically a line feed character with END asserted.
+    For IEEE 488.2 instruments the termination sequence is typically a
+    line feed character with END asserted.
 
-    The array of byte must include a complete instrument message. The
+    The string must include a complete instrument message. The
     driver adds the termination sequence.
 
     Args:
-      data (str): String to write to the instrument. A program message
+      data (str): Data to write to the instrument. A program message
         terminator will be appended by the driver.
-    """
+    """  # noqa: W505 - doc line too long
     pass
