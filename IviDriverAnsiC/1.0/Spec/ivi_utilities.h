@@ -41,90 +41,24 @@ Questions:
         - For driver Identifier use: AcmeM3456 (manufacturer + model)
         - For IO Prefix use: AcmeM3456_Utilities_IO_
 
+
+        MACRO Scheme -- gets messy -- e.g., each driver defines IVI_PREFIX or whatever, need to undef it and fiddle around.  So the custmomer code cannot use this file.
+
+        General agreement that we prefer going with the example.
+
 2. What do we do about "byte" type.  Seems to not be define in C**, should we use it or change to uint8_t?
-    - Update the spec
-    - typedef it in the example
+    - Update the spec to uint8_t  
+    - typedef it in the example  (likely to cause conflicts)
 
     DISCUSSION:
-        - Either approach should work. Using uint8_t is probably better since it avoids confusion.
+        - Update the spec to uint8_t is probably better since it avoids confusion.
+            - Treat this as editorial - Sounds fine.
 
 4. filename selection - perhaps put in a note at the top.  If the file is an example, that should be clear from the filename.
 
 */
 
-#define DUMMY   
 
-
-// Beginning of first style:
-#ifndef DUMMY // First style
-
-// ************************************************************
-// The following two macros and typedef should probably be in a separate
-// file and #included. The actual identifiers must be updated to be
-// appropriate for the driver.
-
-#ifndef IVI_DRIVER_IDENTIFIER
-#define IVI_DRIVER_IDENTIFIER VendorModel
-#endif
-
-#ifndef IVI_IO_PREFIX
-#define IVI_IO_PREFIX_STRING VendorModel_hierarchy
-#endif
-
-typedef void* IVI_DRIVER_SESSION;   // Opaque session handle type
-
-// End of the driver-specific included content
-// ************************************************************
-
-
-// JM: THESE MAY NOT WORK WITH ALL COMPILERS, NEED TO TEST IF WE KEEP THEM (ISSUE IF "x" IS ITSELF A MACRO)
-
-#define IVI_PREFIX(x) IVI_DRIVER_IDENTIFIER##_##x
-#define IVI_IO_PREFIX(x) IVI_IO_PREFIX_STRING##_##x
-
-
-/* Initialization functions */
-int32_t IVI_PREFIX(init)(const char *resource_name, bool id_query,  bool reset, IVI_DRIVER_SESSION session_out);
-
-int32_t IVI_PREFIX(init_with_options)(const char* resource_name, bool id_query, bool reset, const char* options, IVI_DRIVER_SESSION session_out);
-
-/* Functions specified in the base spec */
-int32_t IVI_PREFIX(driver_version_get)(IVI_DRIVER_SESSION session, size_t size, char* version_out, size_t* size_required);
-int32_t IVI_PREFIX(driver_vendor_get)(IVI_DRIVER_SESSION session, size_t size, char* vendor_out,  size_t* size_required);
-int32_t IVI_PREFIX(error_query)(IVI_DRIVER_SESSION session, int32_t* error_code_out, size_t size, char* error_message_out, size_t* size_required);
-int32_t IVI_PREFIX(instrument_manufacturer_get)(IVI_DRIVER_SESSION session, size_t size, char* manufacturer_out, size_t* size_required);
-int32_t IVI_PREFIX(instrument_model_get)(IVI_DRIVER_SESSION session, char* model_out);
-int32_t IVI_PREFIX(query_instrument_status_enabled_get)(IVI_DRIVER_SESSION session, bool* instrument_status_enabled_out);
-int32_t IVI_PREFIX(query_instrument_status_enabled_set)(IVI_DRIVER_SESSION session, bool instrument_status_enabled);
-int32_t IVI_PREFIX(reset)(IVI_DRIVER_SESSION session);
-int32_t IVI_PREFIX(simulate_get)(IVI_DRIVER_SESSION session, bool* simulate_out);
-int32_t IVI_PREFIX(supported_instrument_models_get)(IVI_DRIVER_SESSION session, size_t size, char* supported_instrument_models_out, size_t* size_required);
-
-/* Additional functions required for driver error management */
-int32_t IVI_PREFIX(error_message)(int32_t error, size_t size, char *error_message, size_t* size_required);
-int32_t IVI_PREFIX(last_error_message)(IVI_DRIVER_SESSION session, size_t size, char *error_message, size_t* size_required);
-int32_t IVI_PREFIX(clear_last_error)(IVI_DRIVER_SESSION session);
-
-/* Additional function for working with the instrument error queue */
-int32_t IVI_PREFIX(read_and_clear_error_queue)(IVI_DRIVER_SESSION session, size_t size, char *error_queue);
-
-
-/* IVI Direct IO functions, these are only required for certain drivers */
-/* Drivers are permitted to provide a typedef for the IO Session instead
-of using void* as shown here, in which case it should be a pointer type. */
-typedef uint8_t byte;  // implicit in specification
-
-int32_t IVI_IO_PREFIX(timeout_milliseconds_set)(const void* session, const long);
-int32_t IVI_IO_PREFIX(timeout_milliseconds_get)(const void* session, long* timeout_milliseconds_out);
-int32_t IVI_IO_PREFIX(iosession_get)(const void* session, void **iosession);    // Optional
-int32_t IVI_IO_PREFIX(read_bytes)(const void* session, const long size, byte *);
-int32_t IVI_IO_PREFIX(read_string)(const void* session,const long size, char *);
-int32_t IVI_IO_PREFIX(write_bytes)(const void* session, const long size, const byte *);
-int32_t IVI_IO_PREFIX(write_string) (const void* session, const char *);
-
-#endif // first style
-
-#ifdef DUMMY // Second style
 
 // The following is an example prototype for file an IVI-ANSI-C driver. It uses the following example identifiers:
 //    Driver Identifier: AcmeM3456 (that is manufacturer Acme, model M3456)
