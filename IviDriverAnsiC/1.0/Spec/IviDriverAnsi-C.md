@@ -538,9 +538,9 @@ In the following '\<hierarchy>' indicates whatever hierarchy path the driver des
 int32_t <DriverIdentifier>_<hierarchy>_timeout_milliseconds_set(const void* session, const long);
 int32_t <DriverIdentifier>_<hierarchy>_timeout_milliseconds_get(const void* session, &long);
 int32_t <DriverIdentifier>_<hierarchy>_iosession_get(const void* session, void **iosession);    // Optional
-int32_t <DriverIdentifier>_<hierarchy>_read_bytes(const void* session, const long size, byte *);
+int32_t <DriverIdentifier>_<hierarchy>_read_bytes(const void* session, const long size, uint8_t *);
 int32_t <DriverIdentifier>_<hierarchy>_read_string(const void* session,const long size, char *);
-int32_t <DriverIdentifier>_<hierarchy>_write_bytes(const void* session, const long size, const byte *);
+int32_t <DriverIdentifier>_<hierarchy>_write_bytes(const void* session, const long size, const uint8_t *);
 int32_t <DriverIdentifier>_<hierarchy>_write_string(const void* session, const char *);
 ```
 
