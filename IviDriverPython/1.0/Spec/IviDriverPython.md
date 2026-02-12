@@ -2,17 +2,18 @@
 
 Versions History (temporary)
 
-| Version Number | Date of Version | Version Notes                                       |
-|----------------|-----------------|-----------------------------------------------------|
-| 0.91           | January 28,2026 | Needed corrections in the interfaces                |
-| 0.9            | January 2026    | Small editorial changes, ready for approval         |
-| 0.8            | January 2026    | Completed Walk Through Review                       |
-| 0.7            | December 2025   | After PR123 - Driver Identifier + Driver Class Name |
-| 0.6            | November 2025   | After Joe's corrections                             |
-| 0.5            | October 2025    | First part of spec review                           |
-| 0.4            | July 2025       | Transferred to IVI Foundation repo                  |
-| 0.2            | June 2025       | LXI Working group changes                           |
-| 0.1            | May 2025        | Preliminary Draft for LXI Development               |
+| Version Number | Date of Version  | Version Notes                                       |
+|----------------|------------------|-----------------------------------------------------|
+| 0.92           | February 06,2026 | Unified indents for python examples to 2 spaces     |
+| 0.91           | January 28,2026  | Needed corrections in the interfaces                |
+| 0.9            | January 2026     | Small editorial changes, ready for approval         |
+| 0.8            | January 2026     | Completed Walk Through Review                       |
+| 0.7            | December 2025    | After PR123 - Driver Identifier + Driver Class Name |
+| 0.6            | November 2025    | After Joe's corrections                             |
+| 0.5            | October 2025     | First part of spec review                           |
+| 0.4            | July 2025        | Transferred to IVI Foundation repo                  |
+| 0.2            | June 2025        | LXI Working group changes                           |
+| 0.1            | May 2025         | Preliminary Draft for LXI Development               |
 
 ## Abstract
 
@@ -211,7 +212,7 @@ The name should be lowercase with all runs of the characters ., -, or _ replaced
 import re
 
 def normalize(name):
-    return re.sub(r"[-_.]+", "-", name).lower()
+  return re.sub(r"[-_.]+", "-", name).lower()
 ```
 
 The distribution package name shall be the same as the import package name except for the choice of separator. Distribution package names shall be all lower-case. Dashes and underscores are allowed.
@@ -332,35 +333,36 @@ For example, consider a trigger repeated capability. Then `<RcName>` = `Trigger`
 from typing import Any
 
 class Trigger:
-    """Trigger functions of the instrument."""
+  """Trigger functions of the instrument."""
 
-    def __init__(self, name: str, value: int) -> None:
-        self._name: str = name
-        self._value: int = value
-        self._level: float = 1.0
+  def __init__(self, name: str, value: int) -> None:
+    self._name: str = name
+    self._value: int = value
+    self._level: float = 1.0
 
-    @property
-    def name(self) -> str:
-        """Logical name representing the command value for the user."""
-        return self._name
+  @property
+  def name(self) -> str:
+    """Logical name representing the command value for the user."""
+    return self._name
 
-    @property
-    def value(self) -> int:
-        """Command value for the instrument."""
-        return self._value
+  @property
+  def value(self) -> int:
+    """Command value for the instrument."""
+    return self._value
 
-    @property
-    def level(self) -> float:
-        return self._level
+  @property
+  def level(self) -> float:
+    """Actual value of the Trigger property - trigger level."""
+    return self._level
 
 class TriggerCollection(dict[str, Trigger]):
-    """Collection of the Trigger items."""
+  """Collection of the Trigger items."""
 
-    def __init__(self) -> None:
-        super().__init__()
-        self["TriggerA"] = Trigger("TriggerA", 1)
-        self["TriggerB"] = Trigger("TriggerB", 2)
-        self["TriggerC"] = Trigger("TriggerC", 3)
+  def __init__(self) -> None:
+    super().__init__()
+    self["TriggerA"] = Trigger("TriggerA", 1)
+    self["TriggerB"] = Trigger("TriggerB", 2)
+    self["TriggerC"] = Trigger("TriggerC", 3)
 ```
 
 ### IVI-Python Error Handling
@@ -428,14 +430,17 @@ The `options` parameter shall permit the client to specify driver options (such 
 Example for DriverIdentifier `MyPowerMeter`:
 
 ```python
+from pyvisa import ResourceManager
+from pyvisa.resources import Resource
+
 class MyPowerMeter:
- 
-    def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None) -> None:
-        # Initialization of the Powermeter.
-        self.io: Resource = pyvisa.ResourceManager().open_resource(resource_name)
-        self.id_query: bool = id_query
-        self.reset: bool = reset
-        self.options: dict = self._process_options(options)
+
+  def __init__(self, resource_name: str, id_query: bool = True, reset: bool = False, options: dict | str | None = None) -> None:
+    # Initialization of the Powermeter
+    self.io: Resource = ResourceManager().open_resource(resource_name)
+    self.id_query: bool = id_query
+    self.reset: bool = reset
+    self.options: dict = self._process_options(options)
 ```
 
 For the `options` data type, Python `TypedDict` is recommended instead of a standard dictionary. At run-time, `TypedDict` is a standard `dict` type, but has the advantage of providing code-completion and type hinting in static analysis.
@@ -451,6 +456,7 @@ class Options(TypedDict, total=False):
   clear_status_on_init: str
   block_data_chunk: int
 
+# User code usage
 opt = Options()
 opt['simulate'] = True
 opt['block_data_chunk'] = 12
@@ -466,7 +472,7 @@ The reference property shall be named *ivi_utility*. The reference property shal
 
 ```python
 from abc import ABC, abstractmethod
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Collection
 
 class ErrorQueryResult:
       
@@ -560,36 +566,36 @@ from typing import Any, List
 
 class IviDirectIo(ABC):
 
-    @property
-    @abstractmethod
-    def session(self) -> Any:
-      pass
+  @property
+  @abstractmethod
+  def session(self) -> Any:
+    pass
  
-    @property
-    @abstractmethod
-    def io_timeout_ms(self) -> int:
-        pass
+  @property
+  @abstractmethod
+  def io_timeout_ms(self) -> int:
+    pass
  
-    @io_timeout_ms.setter
-    @abstractmethod
-    def io_timeout_ms(self, timeout_ms: int) -> None:
-        pass
+  @io_timeout_ms.setter
+  @abstractmethod
+  def io_timeout_ms(self, timeout_ms: int) -> None:
+    pass
 
-    @abstractmethod
-    def read_bytes(self) -> bytes:
-        pass
+  @abstractmethod
+  def read_bytes(self) -> bytes:
+    pass
  
-    @abstractmethod
-    def read_string(self) -> str:
-        pass
+  @abstractmethod
+  def read_string(self) -> str:
+    pass
  
-    @abstractmethod
-    def write_bytes(self, data: bytes) -> None:
-      pass
+  @abstractmethod
+  def write_bytes(self, data: bytes) -> None:
+    pass
  
-    @abstractmethod
-    def write_string(self, data: str) -> None:
-      pass
+  @abstractmethod
+  def write_string(self, data: str) -> None:
+    pass
 ```
 
 Notes:
