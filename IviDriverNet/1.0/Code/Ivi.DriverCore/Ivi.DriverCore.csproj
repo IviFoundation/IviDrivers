@@ -14,7 +14,7 @@
 		<PackageLicenseFile>license/license.txt</PackageLicenseFile>
 		<PackageProjectUrl>https://www.ivifoundation.org/</PackageProjectUrl>
 		<title>IVI Driver Core Shared Library</title>
-		<Copyright>Copyright (c) IVI Foundation, Inc, 2025. All Rights Reserved.</Copyright>
+		<Copyright>Copyright (c) IVI Foundation, Inc, 2025-2026. All Rights Reserved.</Copyright>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<BaseOutputPath>..\build</BaseOutputPath>

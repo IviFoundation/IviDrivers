@@ -21,6 +21,7 @@ The following IVI specifications are includes in this repository:
 | IviDriverCore | The *IVI Driver Core Specification* and related files. It describes requirements common to all IVI Core Drivers, regardless of implementation language. IVI provides additional specifications that detail the requirements of drivers for specific languages. |
 | IviEula | The IVI End User License Agreement used for all IVI provided software, including software used for both IO and Drivers |
 | IviDriverNet | The IVI Language-Specific specification for Microsoft .NET 6+ specific requirements for an IVI .NET driver. This directory also contains the IVI Driver Shared Components (IVI DSC) for use with these drivers. |
+| Generations | The IVI Specifications are organized into generations that help identify families of specifications that are to be used together. The various IVI Generations are documented in the *Generations* directory.
 
 See the [IVI Foundation Website](https://www.ivifoundation.org) for more information on the foundation and these standards.
 
