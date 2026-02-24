@@ -33,7 +33,7 @@ The key goals of the process and file organization are:
 
   - Independent development and versioning of different standards and the shared component associated with the standard. (for example, Python and .NET standards each have independent versions and their shared components also have independent versions).
 
-  - Would prefer and organization that facilitates simultaneous access to different specification *Major.Minor* versions and their most current shared components since multiple specification *Major.Minor* versions will be in deployed at the same time. (e.g., 1.0 and 2.0 versions of the .NET Spec and its components are both deployed simultaneously).
+  - Would prefer an organization that facilitates simultaneous access to different specification *Major.Minor* versions and their most current shared components since multiple specification *Major.Minor* versions will be in deployed at the same time. (e.g., 1.0 and 2.0 versions of the .NET Spec and its components are both deployed simultaneously).
 
   - Shared components need to be tightly bound to the associated specification *Major.Minor* version.  However the specification must permit editorial updates and the shared components need to permit bug-fixes.
   
@@ -54,9 +54,9 @@ This organization is based on tags and directories.  It makes no organizational 
 The organization is as follows:
 
 - There is a root directory for each specification type
-- The specification type directory has subdirectories for each RELEASED *Major.Minor* specification version (e.g., 1.0)
-- The specification version directory has subdirectories for Specifications (*Spec*) and shared components (*Code*)
-- These *Spec* and *Code* directories contain whatever is needed.
+- The specification directories have subdirectories for each RELEASED *Major.Minor* specification version (e.g., 1.0)
+- The specification version directory has subdirectories for Specifications (*Spec*) and shared components (*Code*).  However, it seems likely that a single version of the code may in some cases support newer versions of the specification. In these cases, no new code directory is created.
+- These *Spec* and *Code* directories contain whatever is deemed appropriate by the working group. So a *Spec* directory may contain specs, examples and other explanatory information and a *Code* directory contains whatever is appropriate for the language (or languages) and tool chain.
 
 The IVI Foundation assigns tags to:
 
@@ -69,6 +69,8 @@ Some basic attributes of this organization:
 - the repo contains all of the potential types of specifications with independent management of versions of the specifications and their shared components.
 - Very simple, self-documenting, the basic root trunk always has the latest released versions of the specs and shared components
 - Puts an image of everything in every instance of the repo, whereas a branch-based scheme would allow only acquiring the slice you are interested in.
+- The specifications in the repository should also contain pdf files of the associated version of the spec. Since the pdf files will likely be managed independent of their location in the directory, each is tagged with its version number. so the name of the pdf file is: *\<specification identifier>-\<major>.\<minor>.pdf*.
+- Note that users desiring editorial versions will have to delve into the git history as the editorial revisions to the markdown and pdf replace the originals.
 
 We realize that this organization may appear dated to users of git for branch-based software releases.  We have found this organization to be effective for team utilization of documents and the associated code.
 
@@ -80,6 +82,7 @@ IviDriverCore/       # this identifies and particular specification
                      # tag naming convention.
             IviDriverCore.md
             Example.md
+            IviDriverCore-1.0.pdf
             <other files>
         Code/        # part of the pattern, but none since Core has no shared components
     2.0/
