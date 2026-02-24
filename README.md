@@ -21,7 +21,9 @@ The IVI Specifications in this repository are:
 | IVI-NET | [pdf](https://github.com/IviFoundation/IviDrivers/blob/joe/updatesPrimarilyForPDFs/IviDriverNet/1.0/Spec/IviDriverNet-1.0.pdf) | This specification contains the Microsoft .NET 6+ specific requirements for an IVI.NET driver, it is an IVI Language-Specific specification. Drivers that comply with this specification are also required to comply with the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). |
 | IVI-ANSI-C | [pdf](https://github.com/IviFoundation/IviDrivers/blob/joe/updatesPrimarilyForPDFs/IviDriverAnsiC/1.0/Spec/IviDriverAnsi-C-1.0.pdf) |This specification contains the ANSI C specific requirements for an IVI-ANSI-C driver, it is an IVI Language-Specific specification. This specification is to be used in conjunction with the [IVI Driver Core specification](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md). |
 
-The following are the major directories in this repository:
+## Main Directories in this Repository
+
+The following are the main directories in this repository:
 
 | Directory | Contents |
 | --------- | -------- |
