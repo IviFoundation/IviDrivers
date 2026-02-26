@@ -1,0 +1,10 @@
+# This file specifies the Code Owners that are referenced in the branch protection rules
+
+# Joe, Gabe, and Steve have open-ended permissions (first token is a wildcard)
+* @joseph-mueller
+* @GabeNI
+* @steve-schink
+
+# 2025-06-08 Each language developer has open permissions within their branch
+#    to do so, this line should identify the owner appropriately in each branch.
+* @joseph-mueller
