@@ -34,7 +34,7 @@ The following are the main directories in this repository:
 | IviDriverCore | The *IVI Driver Core Specification* and related files. It describes requirements common to all IVI Core Drivers, regardless of implementation language. IVI provides additional specifications that detail the requirements of drivers for specific languages. |
 | IviDriverAnsiC | The IVI Language-Specific specification for ANSI-C drivers. This directory also contains an [example include file](IviDriverAnsiC/1.0/Spec/example_ivi_utilities.h) containing examples of the required driver functions. |
 | IviDriverNet | The IVI Language-Specific specification for Microsoft .NET 6+ specific requirements for an IVI .NET driver. This directory also contains the IVI Driver Shared Components (IVI DSC) for use with these drivers. |
-| IviDriverPython | The IVI Language-Specific specification for Python drivers. This directory also contains a [Python source file](IviDriverPython/1.0/Spec/IviDriverPython.md) that provides definitions of the IVI-Python specified types required by IVI Python drivers. |
+| IviDriverPython | The IVI Language-Specific specification for Python drivers. This directory also contains a [Python source file](IviDriverPython/1.0/Spec/ivi_python_types.py) that provides definitions of the IVI-Python specified types required by IVI Python drivers. |
 | IviEula | The IVI End User License Agreement used for all IVI provided software, including software used for both IO and Drivers |
 
 See the [IVI Foundation Website](https://www.ivifoundation.org) for more information on the foundation and these standards.
