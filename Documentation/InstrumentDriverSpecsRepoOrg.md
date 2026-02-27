@@ -69,7 +69,7 @@ Some basic attributes of this organization:
 - the repo contains all of the potential types of specifications with independent management of versions of the specifications and their shared components.
 - Very simple, self-documenting, the basic root trunk always has the latest released versions of the specs and shared components
 - Puts an image of everything in every instance of the repo, whereas a branch-based scheme would allow only acquiring the slice you are interested in.
-- The specifications in the repository should also contain pdf files of the associated version of the spec. Since the pdf files will likely be managed independent of their location in the directory, each is tagged with its version number. so the name of the pdf file is: *\<specification identifier>-\<major>.\<minor>.pdf*.
+- The repository directories containing specification should also contain pdf files of the associated version of the spec. Since the pdf files will be used beyond their  location in the directory, each is tagged with its version number. so the name of the pdf file is: *\<specification identifier>-\<major>.\<minor>.pdf*.  A single pdf file independent of the editorial revision should be in the repository (presumably there is not need to keep historical versions around that only have editorial differences).
 - Note that users desiring editorial versions will have to delve into the git history as the editorial revisions to the markdown and pdf replace the originals.
 
 We realize that this organization may appear dated to users of git for branch-based software releases.  We have found this organization to be effective for team utilization of documents and the associated code.

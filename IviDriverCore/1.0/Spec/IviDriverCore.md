@@ -6,7 +6,7 @@
 
 ## Abstract
 
-This is the *IVI Driver Core Specification*. It describes requirements common to all IVI Core Drivers, regardless of implementation langage. IVI provides additional specifications that detail the requirements of drivers for specific languages.
+This is the *IVI Driver Core Specification*. It describes requirements common to all IVI Core Drivers, regardless of implementation language. IVI provides additional specifications that detail the requirements of drivers for specific languages.
 
 ## Authorship
 
