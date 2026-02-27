@@ -10,6 +10,11 @@
  methods and behaviors that are required by the IVI-Python
  specification.
 
+ This file is provided for convenience and is not required to be used by
+ IVI-Python drivers. However, using these types can help ensure that a
+ driver is compliant with the IVI-Python specification. These
+ definitions also provide useful docstrings.
+
  This version of the IVI Types is based on the IVI Foundation's 1.0
  release of IVI-Python. For details see the `IVI-Python Specification
  <https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverPython/1.0/Spec>`_.
@@ -82,7 +87,7 @@ class IviUtility(ABC):
   @abstractmethod
   def driver_vendor(self) -> str:
     """
-    The name of the vendor that supplied this driver.
+    Name of the vendor that supplied this driver.
     """
     pass
 
