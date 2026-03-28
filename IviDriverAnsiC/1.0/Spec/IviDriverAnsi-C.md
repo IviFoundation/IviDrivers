@@ -515,7 +515,7 @@ int32_t <DriverIdentifier>_clear_last_error(<DriverIdentifier>Session session);
 /* Additional function for working with the instrument error queue */
 int32_t <DriverIdentifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
 
-/* Additional function to release driver resources */
+/* Additional function close to terminate the session and release driver resources */
 int32_t <DriverIdentifier>_close(<DriverIdentifier>Session session);
 ```
 
