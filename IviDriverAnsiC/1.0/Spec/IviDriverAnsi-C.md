@@ -3,6 +3,7 @@
 | Version Number | Date of Version    | Version Notes          |
 |--------------- | ---------------    | -------------          |
 | 1.0            | February 9, 2026   | First approved version |
+| 1.0            | April 2, 2026      | Added close method (oversight) |
 
 ## Abstract
 
@@ -59,6 +60,7 @@ No investigation has been made of common-law trademark rights in any work.
     - [Additional Required Functions for IVI-ANSI-C Drivers](#additional-required-functions-for-ivi-ansi-c-drivers)
       - [Error Message Functions](#error-message-functions)
       - [Read and Clear Error Queue](#read-and-clear-error-queue)
+      - [Close Function](#close-function)
     - [Prototypes of Required Driver Functions](#prototypes-of-required-driver-functions)
     - [Direct IO functions](#direct-io-functions)
       - [Prototypes for Direct IO Functions](#prototypes-for-direct-io-functions)
@@ -477,6 +479,10 @@ For instance, the following would be a valid string produced by this function fo
 > **Observation:**
 > > To implement this, the function should read successive entries from the error queue, formatting them into the buffer. Once an entry is retrieved that does not entirely fit into the buffer, that entry and any successive entries should be read from the instrument and discarded.
 
+#### Close Function
+
+The Close function terminates an instrument session and deallocates system resources associated with the session.
+
 ### Prototypes of Required Driver Functions
 
 In the prototypes below:
@@ -508,6 +514,9 @@ int32_t <DriverIdentifier>_clear_last_error(<DriverIdentifier>Session session);
 
 /* Additional function for working with the instrument error queue */
 int32_t <DriverIdentifier>_read_and_clear_error_queue(<DriverIdentifier>Session session, size_t size, char *error_queue);
+
+/* Additional function to release driver resources */
+int32_t <DriverIdentifier>_close(<DriverIdentifier>Session session);
 ```
 
 ANSI C Specific Notes (see [IVI Driver Core specification (Required Driver APIs)](https://github.com/IviFoundation/IviDrivers/blob/main/IviDriverCore/1.0/Spec/IviDriverCore.md#required-driver-apis) for general requirements):
