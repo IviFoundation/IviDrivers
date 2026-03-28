@@ -273,7 +273,7 @@ The following parameters are defined for the *initialization* operation:
 > > Drivers may implement multiple initializations that include different subsets of the parameters described here, or other parameters defined by the driver.
 
 > **Observation:**
-> > Languages that do not construct an object with a life-cycle may also need to specify a close function.
+> > Languages that do not construct an object with an intrinsic life-cycle may also need to specify a close function.
 
 ### Driver Version
 
