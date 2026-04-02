@@ -67,6 +67,7 @@ int32_t AcmeM3456_error_message(int32_t error, size_t size, char *error_message,
 int32_t AcmeM3456_last_error_message(AcmeM3456Session session, size_t size, char *error_message, size_t* size_required);
 int32_t AcmeM3456_clear_last_error(AcmeM3456Session session);
 int32_t AcmeM3456_read_and_clear_error_queue(AcmeM3456Session session, size_t size, char *error_queue);
+int32_t AcmeM3456_close(AcmeM3456Session session);
 
 
 /* IVI Direct IO functions only required for certain drivers */

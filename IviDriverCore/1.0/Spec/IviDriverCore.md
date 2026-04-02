@@ -3,6 +3,7 @@
 | Version Number | Date of Version    | Version Notes                  |
 |--------------- | ---------------    | -------------                  |
 | 1.0            |  January 21, 2025  | Initial Specification Version  |
+| 1.0            |  April 2, 2026     | Added observation regarding need for a close function for non object oriented drivers |
 
 ## Abstract
 
@@ -270,6 +271,9 @@ The following parameters are defined for the *initialization* operation:
 
 > **Observation:**
 > > Drivers may implement multiple initializations that include different subsets of the parameters described here, or other parameters defined by the driver.
+
+> **Observation:**
+> > Languages that do not construct an object with an intrinsic life-cycle may also need to specify a close function.
 
 ### Driver Version
 
