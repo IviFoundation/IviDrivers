@@ -18,6 +18,7 @@
     <OutputName Condition="'$(InstallerBaseName)' != ''">$(InstallerBaseName)_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber)</OutputName>
     <OutputName Condition="'$(OutputName)' == ''">IviDriverCoreSharedComponent_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber)</OutputName>
     <DefineSolutionProperties>false</DefineSolutionProperties>
+	<SignOutput Condition="'$(SigningCertName)' != ''">true</SignOutput>
     <OutputType>Package</OutputType>
     <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
 	<BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>

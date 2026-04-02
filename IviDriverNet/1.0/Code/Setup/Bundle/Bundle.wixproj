@@ -22,6 +22,7 @@
   <OutputType>Bundle</OutputType>
   <OutputPath>bin\$(Configuration)\</OutputPath>
   <DefineSolutionProperties>false</DefineSolutionProperties>
+  <SignOutput Condition="'$(SigningCertName)' != ''">true</SignOutput>
   <NuGetPackageImportStamp></NuGetPackageImportStamp>
 </PropertyGroup>
 
