@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <DisplayMajorNumber>1</DisplayMajorNumber>
+    <DisplayMinorNumber>0</DisplayMinorNumber>
+    <DisplayBuildNumber>1</DisplayBuildNumber>
+
+    <DisplayFullVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).$(DisplayBuildNumber)</DisplayFullVersion>
+    <ProductVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).$(DisplayBuildNumber)</ProductVersion>
+
+    <ProductName>IVI Driver Core Shared Component</ProductName>
+    <Manufacturer>IVI Foundation</Manufacturer>
+    <InstallerBaseName>IviDriverCoreSharedComponent</InstallerBaseName>
+
+    <UpgradeCode>ba9fa449-e6d7-4a68-88d2-a46e41b27f76</UpgradeCode>
+
+    <BuildOutput>..\..\build\$(Configuration)\netstandard2.0</BuildOutput>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="Bundle\Bundle.wixproj">
+      <Properties>
+        Configuration=$(Configuration);
+        DisplayMajorNumber=$(DisplayMajorNumber);
+        DisplayMinorNumber=$(DisplayMinorNumber);
+        DisplayBuildNumber=$(DisplayBuildNumber);
+        DisplayFullVersion=$(DisplayFullVersion);
+        ProductVersion=$(ProductVersion);
+        ProductName=$(ProductName);
+        Manufacturer=$(Manufacturer);
+        InstallerBaseName=$(InstallerBaseName);
+        UpgradeCode=$(UpgradeCode);
+        BuildOutput=$(BuildOutput)
+      </Properties>
+    </ProjectReference>
+  </ItemGroup>
+
+  <Target Name="Build">
+    <MSBuild Projects="@(ProjectReference)"
+             Targets="Build"
+             Properties="%(ProjectReference.Properties)" />
+  </Target>
+
+</Project>

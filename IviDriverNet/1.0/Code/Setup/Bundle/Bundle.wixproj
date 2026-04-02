@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<PropertyGroup>
+  <ProjectGuid>{16CAD497-B244-4622-A23F-E6E7DC9E0D5A}</ProjectGuid>
+
+  <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+  <Platform Condition="'$(Platform)' == ''">x86</Platform>
+
+  <ProductName Condition="'$(ProductName)' == ''">IVI Driver Core Shared Component</ProductName>
+  <Manufacturer Condition="'$(Manufacturer)' == ''">IVI Foundation</Manufacturer>
+  <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+  <DisplayMajorNumber Condition="'$(DisplayMajorNumber)' == ''">1</DisplayMajorNumber>
+  <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">0</DisplayMinorNumber>
+  <DisplayBuildNumber Condition="'$(DisplayBuildNumber)' == ''">0</DisplayBuildNumber>
+  <DisplayFullVersion Condition="'$(DisplayFullVersion)' == ''">1.0.0</DisplayFullVersion>
+  <InstallerBaseName Condition="'$(InstallerBaseName)' == ''">IviDriverCoreSharedComponent</InstallerBaseName>
+  <UpgradeCode Condition="'$(UpgradeCode)' == ''">ba9fa449-e6d7-4a68-88d2-a46e41b27f76</UpgradeCode>
+  <BuildOutput Condition="'$(BuildOutput)' == ''">..\..\build\$(Configuration)\netstandard2.0</BuildOutput>
+
+  <OutputName>$(InstallerBaseName)_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber)</OutputName>
+  <OutputType>Bundle</OutputType>
+  <OutputPath>bin\$(Configuration)\</OutputPath>
+  <DefineSolutionProperties>false</DefineSolutionProperties>
+  <NuGetPackageImportStamp></NuGetPackageImportStamp>
+</PropertyGroup>
+
+  <PropertyGroup>
+    <DefineConstants>
+      ProductName=$(ProductName);
+      Manufacturer=$(Manufacturer);
+      ProductVersion=$(ProductVersion);
+      DisplayVersion=$(DisplayFullVersion);
+      UpgradeCode=$(UpgradeCode);
+      BuildOutput=$(BuildOutput);
+      InstallerBaseName=$(InstallerBaseName);
+      MsiFileName=$(InstallerBaseName)_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber).msi
+    </DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Bundle.wxs" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <BindPath Include="MsiX86">
+		<Path>..\Msi\bin\x86\$(Configuration)</Path>
+	  </BindPath>
+	  <BindPath Include="MsiX64">
+		<Path>..\Msi\bin\x64\$(Configuration)</Path>
+	  </BindPath>
+	</ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixBalExtension">
+      <HintPath>WixBalExtension</HintPath>
+      <Name>WixBalExtension</Name>
+    </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>WixUtilExtension</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+
+  <Import Project="$(WixTargetsPath)" Condition="'$(WixTargetsPath)' != '' AND Exists('$(WixTargetsPath)')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets" Condition="'$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets')" />
+  <Import Project="..\..\Packages\FireGiant.WixExpansionPack.3.11.488\build\FireGiant.WixExpansionPack.targets" Condition="Exists('..\..\Packages\FireGiant.WixExpansionPack.3.11.488\build\FireGiant.WixExpansionPack.targets')" />
+
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them. For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\Packages\FireGiant.WixExpansionPack.3.11.488\build\FireGiant.WixExpansionPack.targets')"
+           Text="$([System.String]::Format('$(ErrorText)', '..\..\Packages\FireGiant.WixExpansionPack.3.11.488\build\FireGiant.WixExpansionPack.targets'))" />
+  </Target>
+
+  <Target Name="BuildMsiX86">
+    <MSBuild
+      Projects="..\Msi\Msi.wixproj"
+      Targets="Build"
+      Properties="
+        Configuration=$(Configuration);
+        Platform=x86;
+        DisplayMajorNumber=$(DisplayMajorNumber);
+        DisplayMinorNumber=$(DisplayMinorNumber);
+        DisplayBuildNumber=$(DisplayBuildNumber);
+        DisplayFullVersion=$(DisplayFullVersion);
+        ProductVersion=$(ProductVersion);
+        ProductName=$(ProductName);
+        Manufacturer=$(Manufacturer);
+        InstallerBaseName=$(InstallerBaseName);
+        UpgradeCode=$(UpgradeCode);
+        BuildOutput=$(BuildOutput)" />
+  </Target>
+
+  <Target Name="BuildMsiX64">
+    <MSBuild
+      Projects="..\Msi\Msi.wixproj"
+      Targets="Build"
+      Properties="
+        Configuration=$(Configuration);
+        Platform=x64;
+        DisplayMajorNumber=$(DisplayMajorNumber);
+        DisplayMinorNumber=$(DisplayMinorNumber);
+        DisplayBuildNumber=$(DisplayBuildNumber);
+        DisplayFullVersion=$(DisplayFullVersion);
+        ProductVersion=$(ProductVersion);
+        ProductName=$(ProductName);
+        Manufacturer=$(Manufacturer);
+        InstallerBaseName=$(InstallerBaseName);
+        UpgradeCode=$(UpgradeCode);
+        BuildOutput=$(BuildOutput)" />
+  </Target>
+
+  <Target Name="BeforeBuild" DependsOnTargets="BuildMsiX86;BuildMsiX64" />
+
+</Project>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <ProjectGuid>{2151DC9A-1ACA-443B-9839-292E7C1DE86E}</ProjectGuid>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Platform Condition="'$(Platform)' == ''">x86</Platform>
+	<BuildOutput Condition="'$(BuildOutput)' == ''">..\..\build\$(Configuration)\netstandard2.0</BuildOutput>
+    <ProductName Condition="'$(ProductName)' == ''">IVI Driver Core Shared Component</ProductName>
+    <Manufacturer Condition="'$(Manufacturer)' == ''">IVI Foundation</Manufacturer>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+    <DisplayMajorNumber Condition="'$(DisplayMajorNumber)' == ''">1</DisplayMajorNumber>
+    <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">0</DisplayMinorNumber>
+    <DisplayBuildNumber Condition="'$(DisplayBuildNumber)' == ''">0</DisplayBuildNumber>
+    <InstallerBaseName Condition="'$(InstallerBaseName)' == ''">IviDriverCoreSharedComponent</InstallerBaseName>
+    <UpgradeCode Condition="'$(UpgradeCode)' == ''">ba9fa449-e6d7-4a68-88d2-a46e41b27f76</UpgradeCode>
+    <OutputName Condition="'$(InstallerBaseName)' != ''">$(InstallerBaseName)_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber)</OutputName>
+    <OutputName Condition="'$(OutputName)' == ''">IviDriverCoreSharedComponent_$(DisplayMajorNumber)$(DisplayMinorNumber)$(DisplayBuildNumber)</OutputName>
+    <DefineSolutionProperties>false</DefineSolutionProperties>
+    <OutputType>Package</OutputType>
+    <OutputPath>bin\$(Platform)\$(Configuration)\</OutputPath>
+	<BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
+	<IntermediateOutputPath>obj\$(Platform)\$(Configuration)\</IntermediateOutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="Product.wxs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>WixUtilExtension</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <DefineConstants>
+      ProductName=$(ProductName);
+      Manufacturer=$(Manufacturer);
+      ProductVersion=$(ProductVersion);
+      UpgradeCode=$(UpgradeCode);
+      BuildOutput=$(BuildOutput)
+    </DefineConstants>
+  </PropertyGroup>
+
+  <Import Project="$(WixTargetsPath)" Condition="'$(WixTargetsPath)' != '' AND Exists('$(WixTargetsPath)')" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets" Condition="'$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets')" />
+</Project>
