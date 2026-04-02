@@ -4,8 +4,8 @@
   <PropertyGroup>
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <DisplayMajorNumber>1</DisplayMajorNumber>
-    <DisplayMinorNumber>0</DisplayMinorNumber>
-    <DisplayBuildNumber>1</DisplayBuildNumber>
+    <DisplayMinorNumber>1</DisplayMinorNumber>
+    <DisplayBuildNumber>0</DisplayBuildNumber>
 
     <DisplayFullVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).$(DisplayBuildNumber)</DisplayFullVersion>
     <ProductVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).$(DisplayBuildNumber)</ProductVersion>
