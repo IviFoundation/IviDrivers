@@ -124,9 +124,14 @@
 
   <Target Name="BeforeBuild" DependsOnTargets="BuildMsiX86;BuildMsiX64" />
 
-  <!-- Sign the bundle EXE -->
-  <Target Name="SignOutput" Condition="'$(SigningCertName)' != ''">
-    <Exec Command="AzureSignTool sign &quot;%(SignOutput.FullPath)&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
+  <!-- Sign the burn engine before it's attached to the bundle -->
+  <Target Name="SignBundleEngine" Condition="'$(SigningCertName)' != ''">
+    <Exec Command="AzureSignTool sign &quot;%(SignBundleEngine.FullPath)&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
+  </Target>
+
+  <!-- Sign the final bundle EXE -->
+  <Target Name="SignBundle" Condition="'$(SigningCertName)' != ''">
+    <Exec Command="AzureSignTool sign &quot;%(SignBundle.FullPath)&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
   </Target>
 
 </Project>

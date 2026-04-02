@@ -53,9 +53,9 @@
     <Exec Command="AzureSignTool sign &quot;%(SignCabs.FullPath)&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
   </Target>
 
-  <!-- Sign the MSI -->
-  <Target Name="SignOutput" Condition="'$(SigningCertName)' != ''">
-    <Exec Command="AzureSignTool sign &quot;%(SignOutput.FullPath)&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
+  <!-- Sign the MSI after build -->
+  <Target Name="SignMsi" AfterTargets="Build" Condition="'$(SigningCertName)' != ''">
+    <Exec Command="AzureSignTool sign &quot;$(OutputPath)$(OutputName).msi&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
   </Target>
 
 </Project>
