@@ -32,7 +32,12 @@
         Manufacturer=$(Manufacturer);
         InstallerBaseName=$(InstallerBaseName);
         UpgradeCode=$(UpgradeCode);
-        BuildOutput=$(BuildOutput)
+        BuildOutput=$(BuildOutput);
+        SigningKeyVaultUri=$(SigningKeyVaultUri);
+        SigningClientId=$(SigningClientId);
+        SigningTenantId=$(SigningTenantId);
+        SigningClientSecret=$(SigningClientSecret);
+        SigningCertName=$(SigningCertName)
       </Properties>
     </ProjectReference>
   </ItemGroup>
