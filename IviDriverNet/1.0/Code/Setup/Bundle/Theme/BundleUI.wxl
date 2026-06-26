@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="en-us" Language="1033" xmlns="http://wixtoolset.org/schemas/v4/wxl">
+  <String Id="Caption">[WixBundleName] Setup</String>
+  <String Id="Title">[WixBundleName]</String>
+  <String Id="InstallVersion">Version [WixBundleVersion]</String>
+
+  <String Id="RequiredFrameworkVersion">This application requires .NET Framework 4.0 or later. Please &lt;a href="https://dotnet.microsoft.com/download/dotnet-framework-runtime/net472">install the .NET Framework&lt;/a> then run this installer again.</String>
+  <String Id="RequiredIviSharedComponents">This application requires the IVI Shared Components. Please &lt;a href="http://ivifoundation.org/shared_components/Default.aspx">install the IVI Shared Components&lt;/a> then run this installer again.</String>
+  <String Id="WrongOSVersion">The installation of [WixBundleName] requires Windows 7 or greater.</String>
+  <String Id="RequiresDotNet472">.NET Framework 4.7.2 or later is required to install [WixBundleName]. Please &lt;a href="https://go.microsoft.com/fwlink/?LinkId=863265"&gt;click here to download and install .NET Framework 4.7.2&lt;/a&gt;, then run this installer again.</String>
+
+  <String Id="FgCancelConfirmationMessage">Are you sure you want to cancel your [WixBundleName] installation?</String>
+  <String Id="FgDowngradeMessage">Another version of [WixBundleName] is already installed. Uninstall that version before installing this one.</String>
+
+  <String Id="HelpHeader">[WixBundleName] Help</String>
+  <String Id="HelpText">/install | /repair | /uninstall - installs, repairs or uninstalls. Install is the default.
+
+/passive | /quiet -  displays minimal UI with no prompts or displays no UI
+   and no prompts. By default UI and all prompts are displayed.
+
+/norestart   - suppress any attempts to restart. By default UI will prompt
+   before restart.
+
+/log log.txt - logs to a specific file. By default a log file is created in
+   %TEMP%.</String>
+  <String Id="HelpCloseButton">&amp;CLOSE</String>
+
+  <String Id="InstallHeader">Welcome to the [WixBundleName] installation</String>
+  <String Id="InstallAcceptCheckbox">I &amp;accept the [WixBundleName] license terms</String>
+  <String Id="InstallEulaHyperlink">I accept the &lt;a href="EULA.rtf"&gt;[WixBundleName] license terms&lt;/a&gt;</String>
+  <String Id="InstallContinueButton">CONT&amp;INUE</String>
+  <String Id="InstallInstallButton">&amp;INSTALL</String>
+  <String Id="InstallCancelButton">&amp;CANCEL</String>
+
+  <String Id="ClassStatusHeader">IVI Class Status</String>
+  <String Id="ClassStatusText">The following classes are still being reviewed by the IVI Foundation and may be changed in subsequent releases: Counter, Downconverter, LxiSync, Upconverter.
+
+These changes may affect code written for this release. However, the classes are available in this release to enable initial driver development. If you intend to distribute a driver for one of these classes, please notify the IVI Foundation before release. The IVI Foundation will lock down the implementation of a particular class when a driver is created that implements the class.</String>
+
+  <String Id="MaintenanceHeader">Repair or uninstall [WixBundleName]</String>
+  <String Id="MaintenanceRepairButton">&amp;REPAIR</String>
+  <String Id="MaintenanceRepairButtonNote">Repair [WixBundleName]</String>
+  <String Id="MaintenanceUninstallButton">&amp;UNINSTALL</String>
+  <String Id="MaintenanceUninstallButtonNote">Uninstall [WixBundleName]</String>
+  <String Id="MaintenanceCancelButton">&amp;CANCEL</String>
+
+  <!-- Progress strings -->
+  <String Id="ProgressHeader">Installing [WixBundleName]</String>
+  <String Id="ProgressHeaderInstall">Installing [WixBundleName]</String>
+  <String Id="ProgressHeaderRepair">Repairing [WixBundleName]</String>
+  <String Id="ProgressHeaderUninstall">Uninstalling [WixBundleName]</String>
+
+<!--
+  <String Id="FgProgressHeader">Initializing...</String>
+  <String Id="FgProgressHeaderDownload">Downloading %ls</String>
+  <String Id="FgProgressHeaderInstall">Installing %ls</String>
+  <String Id="FgProgressHeaderRepair">Repairing %ls</String>
+  <String Id="FgProgressHeaderUninstall">Uninstalling %ls</String>
+ -->
+  <String Id="FgProgressTimeRemainingLessThanAMinute">Time Remaining: Less than a minute</String>
+  <String Id="FgProgressTimeRemainingAboutAMinute">Time Remaining: About a minute</String>
+  <String Id="FgProgressTimeRemainingMinutes">Time Remaining: A few minutes</String>
+  <String Id="ProgressCancelButton">&amp;CANCEL</String>
+
+  <String Id="SuccessHeader">[WixBundleName] installed successful</String>
+  <String Id="SuccessHeaderInstall">[WixBundleName] installed successfully</String>
+  <String Id="SuccessHeaderRepair">[WixBundleName] repaired successfully</String>
+  <String Id="SuccessHeaderUninstall">[WixBundleName] uninstalled successfully</String>
+  <String Id="SuccessText"></String>
+  <String Id="SuccessRestartText">You must restart your computer before you can use the software.</String>
+  <String Id="SuccessUninstallRestartText">You must restart your computer to complete the removal of the software.</String>
+  <String Id="SuccessCloseButton">&amp;CLOSE</String>
+  <String Id="SuccessRestartButton">&amp;RESTART NOW</String>
+  <String Id="SuccessRestartLaterButton">RESTART &amp;LATER</String>
+
+  <String Id="FailureHeader">[WixBundleName] failed</String>
+  <String Id="FailureHeaderInstall">[WixBundleName] install failed</String>
+  <String Id="FailureHeaderRepair">[WixBundleName] repair failed</String>
+  <String Id="FailureHeaderUninstall">[WixBundleName] uninstall failed</String>
+  <String Id="FailureHyperlinkLogText">One or more issues caused the setup to fail. Please fix the issues and then retry setup. For more information see the &lt;a href="#"&gt;log file&lt;/a&gt;.</String>
+  <String Id="FailureRestartText">You must restart your computer to complete the rollback of the software.</String>
+  <String Id="FailureCloseButton">&amp;CLOSE</String>
+  <String Id="FailureRestartButton">&amp;RESTART NOW</String>
+  <String Id="FailureRestartLaterButton">RESTART &amp;LATER</String>
+
+  <String Id="CancelHeader">[WixBundleName] canceled</String>
+  <String Id="CancelRestartText">You must restart your computer to complete the rollback of the software.</String>
+  <String Id="CancelCloseButton">&amp;CLOSE</String>
+  <String Id="CancelRestartButton">&amp;RESTART NOW</String>
+  <String Id="CancelRestartLaterButton">RESTART &amp;LATER</String>
+</WixLocalization>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?if $(var.Platform) = "x64" ?>
+  <?define x64 = "64" ?>
+  <?define x32 = "" ?>
+  <?define Win64 = "yes" ?>
+<?else?>
+  <?define x64 = "" ?>
+  <?define x32 = "32" ?>
+  <?define Win64 = "no" ?>
+<?endif?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <Product
+      Id="*"
+      Name="$(var.ProductName)"
+      Language="1033"
+      Version="$(var.ProductVersion)"
+      Manufacturer="$(var.Manufacturer)"
+      UpgradeCode="$(var.UpgradeCode)">
+
+    <Package
+        InstallerVersion="500"
+        Compressed="yes"
+        InstallScope="perMachine"
+        Platform="$(var.Platform)" />
+
+    <MediaTemplate />
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFiles$(var.x64)Folder">
+        <Directory Id="IviFoundationDir" Name="IVI Foundation">
+          <Directory Id="IVIDir" Name="IVI">
+            <Directory Id="IVINETDir" Name="Microsoft.NET">
+              <Directory Id="FrameworkDir" Name="Framework$(var.x32)$(var.x64)">
+                <Directory Id="Fx40Dir" Name="v4.6">
+                  <Directory Id="ProductDir" Name="IviDriverCoreSharedComponent $(var.ProductVersion)">
+
+                    <Component Id="cmpDriverCore"
+                               Guid="2a6700d8-7d1a-4b1d-8ec2-1fa3e16e7d75"
+                               Win64="$(var.Win64)">
+
+                      <File Id="IviDriverCoreDll"
+                            Source="$(var.BuildOutput)\Ivi.DriverCore.dll"
+                            KeyPath="yes" />
+
+                      <File Id="IviDriverCoreXml"
+                            Source="$(var.BuildOutput)\Ivi.DriverCore.xml"
+                            CompanionFile="IviDriverCoreDll" />
+
+                    </Component>
+
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="MainFeature"
+             Title="$(var.ProductName)"
+             Level="1">
+      <ComponentRef Id="cmpDriverCore"/>
+    </Feature>
+
+
+    <!-- GAC Install: runs after files are copied -->
+    <CustomAction Id="GacInstallCmd"
+                  Property="GacInstall"
+                  Value="&quot;powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command &quot;Add-Type -AssemblyName 'System.EnterpriseServices'; (New-Object System.EnterpriseServices.Internal.Publish).GacInstall('[#IviDriverCoreDll]')&quot;" />
+    <CustomAction Id="GacInstall"
+                  BinaryKey="WixCA"
+                  DllEntry="CAQuietExec$(var.x64)"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no" />
+
+    <!-- GAC Uninstall: runs before files are removed -->
+    <CustomAction Id="GacUninstallCmd"
+                  Property="GacUninstall"
+                  Value="&quot;powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command &quot;Add-Type -AssemblyName 'System.EnterpriseServices'; (New-Object System.EnterpriseServices.Internal.Publish).GacRemove('[#IviDriverCoreDll]')&quot;" />
+    <CustomAction Id="GacUninstall"
+                  BinaryKey="WixCA"
+                  DllEntry="CAQuietExec$(var.x64)"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no" />
+
+    <InstallExecuteSequence>
+      <Custom Action="GacInstallCmd" Before="GacInstall">NOT REMOVE</Custom>
+      <Custom Action="GacInstall" After="InstallFiles">NOT REMOVE</Custom>
+      <Custom Action="GacUninstallCmd" Before="GacUninstall">REMOVE="ALL"</Custom>
+      <Custom Action="GacUninstall" Before="RemoveFiles">REMOVE="ALL"</Custom>
+    </InstallExecuteSequence>
+
+  </Product>
+
+</Wix>

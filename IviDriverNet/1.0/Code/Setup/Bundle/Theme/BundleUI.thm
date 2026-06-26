@@ -1,0 +1,158 @@
+<Theme xmlns="http://wixtoolset.org/schemas/v4/thmutil">
+    <Font Id="0" Height="-18" Weight="600" Foreground="FFFFFF" Background="282828">Segoe UI</Font>
+    <Font Id="1" Height="-24" Weight="600" Foreground="FFFFFF">Segoe UI</Font>
+    <Font Id="2" Height="-14" Weight="800" Foreground="FFFFFF">Segoe UI</Font>
+    <Font Id="3" Height="-14" Weight="400" Foreground="FFFFFF">Segoe UI</Font>
+    <Font Id="4" Height="-14" Weight="600" Foreground="464646">Segoe UI</Font>
+
+    <Window Width="760" Height="420" FontId="0" Caption="#(loc.Caption)" SourceX="0" SourceY="0">
+        <ImageControl X="0" Y="0" Width="200" Height="420" ImageFile="Sidebar.png" Visible="yes"/>
+        <Button X="-20" Y="20" Width="20" Height="20" Visible="yes" ImageFile="ButtonClose.png">
+            <CloseWindowAction />
+        </Button>
+
+        <Page Name="FgHelp">
+            <Label X="240" Y="80" Width="-20" Height="60" FontId="1" DisablePrefix="yes">#(loc.HelpHeader)</Label>
+            <Label X="240" Y="140" Width="-20" Height="-80" FontId="3" DisablePrefix="yes">#(loc.HelpText)</Label>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonAction.png">
+                <Text>#(loc.HelpCloseButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgWelcome">
+            <Label X="240" Y="80" Width="-20" Height="60" FontId="1" DisablePrefix="yes">#(loc.InstallHeader)</Label>
+
+            <Checkbox Name="FgEulaAcceptCheckbox" X="240" Y="224" Width="16" Height="20" TabStop="yes" FontId="0">#(loc.InstallAcceptCheckbox)</Checkbox>
+            <Hypertext Name="FgEulaHyperlink" X="260" Y="220" Width="-20" Height="80" TabStop="yes" FontId="0">#(loc.InstallEulaHyperlink)</Hypertext>
+
+            <Button Name="FgInstallButton" X="-280" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" EnableCondition="FgEulaAcceptCheckbox" ImageFile="ButtonAction.png">#(loc.InstallInstallButton)</Button>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonPassive.png">
+                <Text>#(loc.InstallCancelButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgMaintenance">
+            <Label X="240" Y="80" Width="-20" Height="60" FontId="1" DisablePrefix="yes">#(loc.MaintenanceHeader)</Label>
+
+            <Button Name="FgRepairButton" X="260" Y="-20" Width="150" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonThirdAction.png">
+                <Text>#(loc.MaintenanceRepairButton)</Text>
+            </Button>
+
+            <Button Name="FgUninstallButton" X="425" Y="-20" Width="150" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonThirdPassive.png">
+                <Text>#(loc.MaintenanceUninstallButton)</Text>
+            </Button>
+
+            <Button X="-20" Y="-20" Width="150" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonThirdPassive.png">
+                <Text>#(loc.MaintenanceCancelButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgProgress">
+            <Label X="240" Y="80" Width="-20" Height="80" FontId="1" DisablePrefix="yes">
+                <Text>#(loc.ProgressHeader)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.ProgressHeaderUninstall)</Text>
+                <Text Condition="WixBundleAction = 7">#(loc.ProgressHeaderRepair)</Text>
+                <Text Condition="WixBundleAction = 5">#(loc.ProgressHeaderInstall)</Text>
+            </Label>
+
+            <Label Name="FgProgressTimeRemaining" X="240" Y="180" Width="-20" Height="40" FontId="0" DisablePrefix="yes">
+            #(loc.FgProgressTimeRemainingLessThanAMinute)</Label>
+            <Progressbar Name="FgProgressBar" X="240" Y="220" Width="-80" Height="7" ImageFile="ProgressBar.png" />
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonPassive.png">
+                <Text>#(loc.ProgressCancelButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgSuccess">
+            <Label X="240" Y="80" Width="-20" Height="80" FontId="1" DisablePrefix="yes">
+                <Text>#(loc.SuccessHeader)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.SuccessHeaderUninstall)</Text>
+                <Text Condition="WixBundleAction = 7">#(loc.SuccessHeaderRepair)</Text>
+                <Text Condition="WixBundleAction = 5">#(loc.SuccessHeaderInstall)</Text>
+            </Label>
+
+            <!--
+            <ImageControl X="240" Y="190" Width="18" Height="14" ImageFile="Arrow.png" />
+            <Label X="280" Y="180" Width="-20" Height="60" FontId="0" DisablePrefix="yes">
+                <Text>#(loc.SuccessText)</Text>
+            </Label>
+            -->
+
+            <Label X="260" Y="260" Width="-20" Height="60" FontId="0" DisablePrefix="yes" VisibleCondition="FgBundleRestartRequired">
+                <Text>#(loc.SuccessRestartText)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.SuccessUninstallRestartText)</Text>
+            </Label>
+
+            <Button Name="FgSuccessRestartLaterButton" X="-280" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" EnableCondition="FgBundleRestartRequired" HideWhenDisabled="yes" ImageFile="ButtonPassive.png">#(loc.SuccessRestartLaterButton)</Button>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonAction.png">
+                <Text Condition="NOT FgBundleRestartRequired">#(loc.SuccessCloseButton)</Text>
+                <Text Condition="FgBundleRestartRequired">#(loc.SuccessRestartButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgFailure">
+            <Label X="240" Y="80" Width="-20" Height="80" FontId="1" DisablePrefix="yes">
+                <Text>#(loc.FailureHeader)</Text>
+                <Text Condition="WixBundleAction = 3">#(loc.FailureHeaderUninstall)</Text>
+                <Text Condition="WixBundleAction = 7">#(loc.FailureHeaderRepair)</Text>
+                <Text Condition="WixBundleAction = 5">#(loc.FailureHeaderInstall)</Text>
+            </Label>
+
+            <ImageControl X="240" Y="170" Width="18" Height="14" ImageFile="X.png" />
+            <Hypertext Name="FgFailureOpenLog" X="280" Y="160" Width="-20" Height="160" FontId="0" TabStop="yes" HideWhenDisabled="yes">#(loc.FailureHyperlinkLogText)</Hypertext>
+
+            <Label X="260" Y="260" Width="-20" Height="60" FontId="0" DisablePrefix="yes" VisibleCondition="FgBundleRestartRequired">
+                <Text>#(loc.FailureRestartText)</Text>
+            </Label>
+
+            <Button Name="FgFailureRestartLaterButton" X="-280" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" EnableCondition="FgBundleRestartRequired" HideWhenDisabled="yes" ImageFile="ButtonPassive.png">#(loc.FailureRestartButton)</Button>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonAction.png">
+                <Text Condition="NOT FgBundleRestartRequired">#(loc.CancelCloseButton)</Text>
+                <Text Condition="FgBundleRestartRequired">#(loc.CancelRestartButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgCancel">
+            <Label X="240" Y="80" Width="-20" Height="60" FontId="1" DisablePrefix="yes">
+                <Text>#(loc.CancelHeader)</Text>
+            </Label>
+
+            <Label X="260" Y="260" Width="-20" Height="60" FontId="0" DisablePrefix="yes" VisibleCondition="FgBundleRestartRequired">
+                <Text>#(loc.CancelRestartText)</Text>
+            </Label>
+
+            <Button Name="FgCancelRestartLaterButton" X="-280" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" EnableCondition="FgBundleRestartRequired" HideWhenDisabled="yes" ImageFile="ButtonPassive.png">#(loc.CancelRestartLaterButton)</Button>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonAction.png">
+                <Text Condition="NOT FgBundleRestartRequired">#(loc.CancelCloseButton)</Text>
+                <Text Condition="FgBundleRestartRequired">#(loc.CancelRestartButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+
+        <Page Name="FgConditionFailed">
+            <Label X="240" Y="80" Width="-20" Height="60" FontId="1" DisablePrefix="yes">
+                <Text>#(loc.FailureHeader)</Text>
+            </Label>
+
+            <ImageControl X="240" Y="170" Width="18" Height="14" ImageFile="X.png" />
+            <Hypertext X="280" Y="160" Width="-20" Height="160" FontId="0" TabStop="yes">[FgFailedCondition]</Hypertext>
+
+            <Button X="-20" Y="-20" Width="239" Height="58" TabStop="yes" FontId="2" ImageFile="ButtonAction.png">
+                <Text>#(loc.FailureCloseButton)</Text>
+                <CloseWindowAction />
+            </Button>
+        </Page>
+    </Window>
+</Theme>

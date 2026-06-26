@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:bal="http://schemas.microsoft.com/wix/BalExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+
+  <Bundle Name="$(var.ProductName) $(var.DisplayVersion)"
+          Manufacturer="$(var.Manufacturer)"
+          Compressed="yes"
+          Version="$(var.ProductVersion)"
+          UpgradeCode="$(var.UpgradeCode)"
+          IconSourceFile="ivi-logo.ico"
+          HelpUrl="http://ivifoundation.org/contact_us.aspx"
+          AboutUrl="http://ivifoundation.org/shared_components/Default.aspx"
+          DisableModify="button">
+
+    <BootstrapperApplicationRef Id="FireGiantBundleUI">
+      <Payload SourceFile="Theme\BundleUI.thm" />
+      <Payload SourceFile="Theme\BundleUI.wxl" />
+      <Payload SourceFile="Theme\Arrow.png" />
+      <Payload SourceFile="Theme\ButtonClose.png" />
+      <Payload SourceFile="Theme\ButtonAction.png" />
+      <Payload SourceFile="Theme\ButtonPassive.png" />
+      <Payload SourceFile="Theme\Check.png" />
+      <Payload SourceFile="Theme\Sidebar.png" />
+      <Payload SourceFile="Theme\X.png" />
+      <Payload SourceFile="EULA.rtf" />
+    </BootstrapperApplicationRef>
+
+    <bal:Condition Message="WrongOSVersion">VersionNT &gt;= v6.1</bal:Condition>
+    <!-- <bal:Condition Message="RequiresDotNet472">NetFxRelease >= 461808</bal:Condition> -->
+
+    <util:RegistrySearch Id="NetFx472Release"
+                         Variable="NetFxRelease"
+                         Root="HKLM"
+                         Key="SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full"
+                         Value="Release"
+                         Result="value"
+                         Format="raw" />
+
+<Chain>
+
+  <MsiPackage Id="MsiX86"
+              SourceFile="..\Msi\bin\x86\$(var.Configuration)\$(var.MsiFileName)"
+              InstallCondition="NOT VersionNT64" />
+
+  <MsiPackage Id="MsiX64"
+              SourceFile="..\Msi\bin\x64\$(var.Configuration)\$(var.MsiFileName)"
+              InstallCondition="VersionNT64" />
+</Chain>
+
+  </Bundle>
+
+</Wix>
