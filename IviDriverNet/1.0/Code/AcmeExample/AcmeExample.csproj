@@ -4,6 +4,8 @@
 		<OutputType>Exe</OutputType>
 		<LangVersion>10.0</LangVersion>
 		<TargetFrameworks>net6.0;net462</TargetFrameworks>
+		<!-- The example intentionally shows the .NET 6 minimum the IVI.NET spec requires, so silence the out-of-support warning (NETSDK1138). -->
+		<CheckEolTargetFramework>false</CheckEolTargetFramework>
 		<RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
