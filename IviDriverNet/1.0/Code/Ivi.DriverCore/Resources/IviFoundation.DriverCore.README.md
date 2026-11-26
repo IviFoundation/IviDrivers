@@ -38,20 +38,17 @@ public sealed class Acme : IIviDriverCore
        // Parameterized Constructor.
         public Acme(string resourceName, bool idQuery, bool reset, bool simulate)
         {
-            Initialize(resourceName, idQuery, reset, simulate);
-        }
-		
-		// Initialization logic for the Acme
-        public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)	
-        {
-            //Implement the I/O call with Instrument.
+            // Initialization logic goes in the constructor.
+            // Implement the I/O call with Instrument.
         }
 
+        // Implement the remaining IIviDriverCore members here.
 }
 
 ```
 
 ## Release Notes
 
+- Version 1.2.0 : Aligned with the IVI Driver .NET specification (breaking changes). Removed `Initialize` from `IIviDriverCore` (initialization is done by constructors). Renamed `GetSupportInstrumentModels` to `GetSupportedInstrumentModels`. `ErrorQuery()` now returns `ErrorQueryResult?`, which is null when there is no error. Fixed `ErrorQueryResult.GetHashCode()` throwing for a null message. Added a publisher policy assembly for the 1.2.x line.
 - Version 1.0.1 : Added strong name signing to the assembly so it can be installed into the GAC.  This does not impact NuGet users of the package.
 - Version 1.0.0 : Initial Version

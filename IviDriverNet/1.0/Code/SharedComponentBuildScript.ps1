@@ -1,47 +1,41 @@
 param (
     [string]$configuration = 'Release',
-    [string]$version = '1.0.0.0'  # Default version last one is the build number
+    [string]$version = ''  # Defaults to Major.Minor.Patch.0 from Version.props. The last number is the build number
 )
 
-# Check if the version is provided
+$ErrorActionPreference = 'Stop'
+
+# Single source of truth for the version: Version.props
 if (-not $version) {
-    Write-Host "Warning: Version argument is empty, building with default version $version"
+    [xml]$versionXml = Get-Content "$PSScriptRoot/Version.props" -Raw
+    $group = @($versionXml.Project.PropertyGroup)[0]
+    if (-not ($group.IviMajorVersion -and $group.IviMinorVersion -and $group.IviPatchVersion)) {
+        Write-Error "Could not read IviMajorVersion/IviMinorVersion/IviPatchVersion from $PSScriptRoot/Version.props"
+    }
+    $version = "$($group.IviMajorVersion).$($group.IviMinorVersion).$($group.IviPatchVersion).0"
 }
 if (-not $configuration) {
-    Write-Host "Warning: configuration argument is empty, building with default configuration"
+    $configuration = 'Release'
+    Write-Host "Warning: configuration argument is empty, building with default configuration $configuration"
 }
 
-# Define the Ivi.DriverCore project directory (modify this path as needed)
-$sharedComponentProjectPath = "$PSScriptRoot/Ivi.DriverCore"  # Set to the project path
+# Projects to build, in dependency order: shared component, sample driver, sample example.
+$projects = @(
+    "$PSScriptRoot/Ivi.DriverCore",
+    "$PSScriptRoot/AcmeDriver",
+    "$PSScriptRoot/AcmeExample"
+)
 
-# Define the AcmeDriver project directory (modify this path as needed)
-$drivertProjectPath = "$PSScriptRoot/AcmeDriver"  # Set to the project path
+Write-Host "Building with version: $version and configuration: $configuration"
 
-# Define the AcmeExample project directory (modify this path as needed)
-$exampletProjectPath = "$PSScriptRoot/AcmeExample"  # Set to the project path
-
-# Navigate to the project directory
-#cd $sharedComponentProjectPath
-
-# Build the project using the provided version and configuration
-Write-Host "Building the .NET project with version: $version and configuration: $configuration"
-
-# Set the version and perform the build
-$buildCommandSharedComponent = "dotnet build $sharedComponentProjectPath --configuration $configuration /p:Version=$version"
-# Build the project using the provided version and configuration
-$buildCommandSharedComponentUnitTest = "dotnet build $sharedComponentUnitTestProjectPath --configuration $configuration /p:Version=$version"
-# Set the version and perform the build
-$buildCommandDriver = "dotnet build $drivertProjectPath --configuration $configuration /p:Version=$version"
-# Build the project using the provided version and configuration
-$buildCommandDriverExample = "dotnet build $exampletProjectPath --configuration $configuration /p:Version=$version"
-
-
-try {
-    Invoke-Expression $buildCommandSharedComponent
-	Invoke-Expression $buildCommandDriver
-	Invoke-Expression $buildCommandDriverExample
-    Write-Host "Shared Component version $version build completed successfully."
-
-}catch {
-    Write-Host "Build failed: $_"
+foreach ($project in $projects) {
+    Write-Host "Building $project"
+    dotnet build $project --configuration $configuration /p:Version=$version
+    # dotnet is a native command: failures set the exit code instead of throwing, so check it explicitly.
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "Build failed for $project (exit code $LASTEXITCODE)."
+        exit $LASTEXITCODE
+    }
 }
+
+Write-Host "Shared Component version $version build completed successfully."

@@ -9,11 +9,11 @@
 
   <ProductName Condition="'$(ProductName)' == ''">IVI Driver Core Shared Component</ProductName>
   <Manufacturer Condition="'$(Manufacturer)' == ''">IVI Foundation</Manufacturer>
-  <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+  <ProductVersion Condition="'$(ProductVersion)' == ''">1.2.0</ProductVersion>
   <DisplayMajorNumber Condition="'$(DisplayMajorNumber)' == ''">1</DisplayMajorNumber>
-  <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">0</DisplayMinorNumber>
+  <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">2</DisplayMinorNumber>
   <DisplayBuildNumber Condition="'$(DisplayBuildNumber)' == ''">0</DisplayBuildNumber>
-  <DisplayFullVersion Condition="'$(DisplayFullVersion)' == ''">1.0.0</DisplayFullVersion>
+  <DisplayFullVersion Condition="'$(DisplayFullVersion)' == ''">1.2.0</DisplayFullVersion>
   <InstallerBaseName Condition="'$(InstallerBaseName)' == ''">IviDriverCoreSharedComponent</InstallerBaseName>
   <UpgradeCode Condition="'$(UpgradeCode)' == ''">ba9fa449-e6d7-4a68-88d2-a46e41b27f76</UpgradeCode>
   <BuildOutput Condition="'$(BuildOutput)' == ''">..\..\build\$(Configuration)\netstandard2.0</BuildOutput>

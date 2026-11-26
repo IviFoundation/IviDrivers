@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\Version.props" />
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
 		<LangVersion>10.0</LangVersion>
@@ -7,12 +8,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<DriverName>AcmeExample</DriverName>
-		<DriverVersion>1.0.0.0</DriverVersion>
+		<!-- Single-place versioning: Version.props. The pipeline overrides Version to add a -preview suffix. -->
+		<VersionPrefix>$(IviMajorVersion).$(IviMinorVersion).$(IviPatchVersion)</VersionPrefix>
 		<Company>Acme Technologies</Company>
 		<Description>IVI.NET Driver Example Project</Description>
 		<BaseOutputPath>..\build</BaseOutputPath>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="Acme.AcmeDriver" Version="1.0.0-Preview*"/>
+		<!-- Always the newest Acme.AcmeDriver in the local feed (see nuget.config), preview or release. -->
+		<PackageReference Include="Acme.AcmeDriver" Version="*-*"/>
 	</ItemGroup>
 </Project>

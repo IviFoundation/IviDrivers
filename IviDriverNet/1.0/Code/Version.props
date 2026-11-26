@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Single source of truth for the Ivi.DriverCore version.
+
+  Consumed by:
+    - Ivi.DriverCore\Ivi.DriverCore.csproj  (VersionPrefix: assembly, file and package version)
+    - AcmeDriver and AcmeExample csprojs    (VersionPrefix)
+    - Setup\Setup.proj                      (installer product version, install folder, policy assembly)
+    - SharedComponentBuildScript.ps1        (default build version)
+    - .azure\azure-pipelines.yml            (reads this file to build PackageVersion)
+
+  To release a new version, change ONLY the three numbers below.
+  A new minor version also needs a review of the publisher policy (Setup\Policy), see its template for rules.
+-->
+<Project>
+  <PropertyGroup>
+    <IviMajorVersion>1</IviMajorVersion>
+    <IviMinorVersion>2</IviMinorVersion>
+    <IviPatchVersion>0</IviPatchVersion>
+  </PropertyGroup>
+</Project>

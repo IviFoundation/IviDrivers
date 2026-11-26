@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Publisher policy template for Ivi.DriverCore.
+
+  The build (Msi.wixproj, target BuildPublisherPolicy) fills in the placeholders from Code\Version.props,
+  writes policy.MAJOR.MINOR.Ivi.DriverCore.config, links it into the policy assembly of the same name,
+  strong-names and signs that assembly, and installs it in the GAC next to Ivi.DriverCore.dll.
+
+  Placeholders:
+    @OLD_VERSION_RANGE@  every version of the current minor line, for example 1.2.0.0-1.2.65535.65535
+    @NEW_VERSION@        the version being installed, for example 1.2.0.0
+
+  Rules for maintainers:
+    - Redirects stay inside one minor version. Never redirect across minor versions.
+      1.2.0 has breaking API changes compared with 1.0.x, so 1.0.x drivers keep binding to 1.0.x.
+    - Each minor version gets its own policy assembly, named after the minor version.
+    - publicKeyToken must match the IVI strong-name key that signs Ivi.DriverCore.dll.
+-->
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Ivi.DriverCore" publicKeyToken="a128c98f1d7717c1" culture="neutral" />
+        <bindingRedirect oldVersion="@OLD_VERSION_RANGE@" newVersion="@NEW_VERSION@" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+</configuration>
