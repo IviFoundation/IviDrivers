@@ -113,18 +113,18 @@ class IviUtility(ABC):
     """
     pass
 
-  # Although the query_instrument_status_enabled property is always
+  # Although the query_instrument_status property is always
   # present, the underlying function of querying the instrument status
   # only needs to be implemented if it is meaningful for the instrument
   # being controlled.
   @property
   @abstractmethod
-  def query_instrument_status_enabled(self) -> bool:
+  def query_instrument_status(self) -> bool:
     """
     Indicates if the driver queries the instrument status after each instrument operation.
     
     If the instrument can be queried for its status and Query Instrument
-    Status Enabled is True, then the driver normally checks the
+    Status is True, then the driver normally checks the
     instrument status at the end of every method or property that
     accesses the instrument and reports an error if the instrument has
     detected an error. If False, the driver does not automatically query
@@ -137,14 +137,14 @@ class IviUtility(ABC):
     """  # noqa: W505 - doc line too long
     pass
 
-  @query_instrument_status_enabled.setter
+  @query_instrument_status.setter
   @abstractmethod
-  def query_instrument_status_enabled(self, value: bool) -> None:
+  def query_instrument_status(self, value: bool) -> None:
     pass
 
   @property
   @abstractmethod
-  def simulation_enabled(self) -> bool:
+  def simulation(self) -> bool:
     """
     Indicates whether the driver is in simulation mode. 
     
@@ -171,7 +171,7 @@ class IviUtility(ABC):
     returned.
 
     The operation of Error Query is independent of the operation of Query
-    Instrument Status Enabled.
+    Instrument Status.
 
     Returns:
       ErrorQueryResult: The most recent error from the instrument error
