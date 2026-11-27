@@ -136,13 +136,13 @@ In simulation mode, the driver does not perform actual I/O with the instrument a
 Queries the instrument for any error information.
 
 ```csharp
-ErrorQueryResult ErrorQuery()
+ErrorQueryResult? ErrorQuery()
 ```
 
 #### Returns
 
-[ErrorQueryResult](./ivi.drivercore.errorqueryresult.md)<br>
-Returns an error result that provides details of the instrument's error state.
+[ErrorQueryResult?](./ivi.drivercore.errorqueryresult.md)<br>
+Returns an error result that provides details of the instrument's error state, or `null` if there is no error.
 
 **Remarks:**
 
@@ -160,12 +160,12 @@ void Reset()
 
 Typically, this sends a reset command (e.g., "*RST") to the instrument to ensure it is in a known state.
 
-### **GetSupportInstrumentModels()**
+### **GetSupportedInstrumentModels()**
 
 Retrieves the list of supported instrument models compatible with this driver.
 
 ```csharp
-String[] GetSupportInstrumentModels()
+String[] GetSupportedInstrumentModels()
 ```
 
 #### Returns

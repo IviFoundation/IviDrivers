@@ -43,7 +43,8 @@
         /// </summary>
         public override int GetHashCode()
         {
-            return Code.GetHashCode() ^ Message.GetHashCode();
+            // Message is null for default(ErrorQueryResult).
+            return Code.GetHashCode() ^ (Message?.GetHashCode() ?? 0);
         }
 
 

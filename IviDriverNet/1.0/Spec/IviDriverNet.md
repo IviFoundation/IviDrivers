@@ -291,9 +291,9 @@ public interface IIviDriverCore
     String InstrumentModel { get; }
     Boolean QueryInstrumentStatus { get; set; }
     Boolean Simulate { get; }
-    ErrorQueryResult ErrorQuery();
+    ErrorQueryResult? ErrorQuery();
     void Reset();
-    String[] GetSupportInstrumentModels();
+    String[] GetSupportedInstrumentModels();
 }
 ```
 

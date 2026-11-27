@@ -7,18 +7,6 @@
     public interface IIviDriverCore
     {
         /// <summary>
-        /// Initializes the driver and connects to the instrument.
-        /// </summary>
-        /// <param name="resourceName">The resource name identifying the instrument (e.g., VISA address).</param>
-        /// <param name="idQuery">Indicates whether to perform an ID query to verify instrument compatibility.</param>
-        /// <param name="reset">Indicates whether to reset the instrument upon initialization.</param>
-        /// <param name="simulate">Indicates whether the simulated instrument upon initialization.</param>
-        /// <remarks>
-        /// This method is responsible for opening the session and preparing the driver for use.
-        /// </remarks>
-        void Initialize(string resourceName, bool idQuery, bool reset, bool simulate);
-
-        /// <summary>
         /// Gets the Component version of the driver.
         /// </summary>
         /// <remarks>
@@ -70,12 +58,14 @@
         /// Queries the instrument for any error information.
         /// </summary>
         /// <returns>
-        /// Returns an error result that provides details of the instrument's error state.
+        /// Returns an error result that provides details of the instrument's error state,
+        /// or <c>null</c> if there is no error.
         /// </returns>
         /// <remarks>
         /// The error query result should reflect the status or errors from the instrument based on its error queue or registers.
+        /// Callers can drain the error queue by calling this method until it returns <c>null</c>.
         /// </remarks>
-        ErrorQueryResult ErrorQuery();
+        ErrorQueryResult? ErrorQuery();
 
         /// <summary>
         /// Resets the instrument to a known state.
@@ -94,6 +84,6 @@
         /// <remarks>
         /// The returned models should be consistent with the instrument models supported by the driver.
         /// </remarks>
-        string[] GetSupportInstrumentModels();
+        string[] GetSupportedInstrumentModels();
     }
 }

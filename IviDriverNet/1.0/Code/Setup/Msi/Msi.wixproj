@@ -9,9 +9,9 @@
 	<BuildOutput Condition="'$(BuildOutput)' == ''">..\..\build\$(Configuration)\netstandard2.0</BuildOutput>
     <ProductName Condition="'$(ProductName)' == ''">IVI Driver Core Shared Component</ProductName>
     <Manufacturer Condition="'$(Manufacturer)' == ''">IVI Foundation</Manufacturer>
-    <ProductVersion Condition="'$(ProductVersion)' == ''">1.0.0</ProductVersion>
+    <ProductVersion Condition="'$(ProductVersion)' == ''">1.2.0</ProductVersion>
     <DisplayMajorNumber Condition="'$(DisplayMajorNumber)' == ''">1</DisplayMajorNumber>
-    <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">0</DisplayMinorNumber>
+    <DisplayMinorNumber Condition="'$(DisplayMinorNumber)' == ''">2</DisplayMinorNumber>
     <DisplayBuildNumber Condition="'$(DisplayBuildNumber)' == ''">0</DisplayBuildNumber>
     <InstallerBaseName Condition="'$(InstallerBaseName)' == ''">IviDriverCoreSharedComponent</InstallerBaseName>
     <UpgradeCode Condition="'$(UpgradeCode)' == ''">ba9fa449-e6d7-4a68-88d2-a46e41b27f76</UpgradeCode>
@@ -46,8 +46,43 @@
     </DefineConstants>
   </PropertyGroup>
 
+  <!-- Publisher policy assembly (policy.<major>.<minor>.Ivi.DriverCore). Built only when the strong-name key
+       (IviPrivateKey) is supplied; without it the policy component is left out of the MSI. -->
+  <PropertyGroup Condition="'$(IviPrivateKey)' != ''">
+    <PolicyAssemblyName>policy.$(DisplayMajorNumber).$(DisplayMinorNumber).Ivi.DriverCore</PolicyAssemblyName>
+    <PolicyVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).0.0</PolicyVersion>
+    <PolicyConfigTemplate>$(MSBuildProjectDirectory)\..\Policy\policy.Ivi.DriverCore.config.template</PolicyConfigTemplate>
+    <PolicyOldVersionRange>$(DisplayMajorNumber).$(DisplayMinorNumber).0.0-$(DisplayMajorNumber).$(DisplayMinorNumber).65535.65535</PolicyOldVersionRange>
+    <PolicyNewVersion>$(DisplayMajorNumber).$(DisplayMinorNumber).$(DisplayBuildNumber).0</PolicyNewVersion>
+    <PolicyDir>$(MSBuildProjectDirectory)\$(IntermediateOutputPath)policy\</PolicyDir>
+    <DefineConstants>$(DefineConstants);PolicyAssemblyName=$(PolicyAssemblyName);PolicyDir=$(PolicyDir)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AlToolCandidate Include="$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v10.0A\bin\NETFX*\al.exe" />
+  </ItemGroup>
+
   <Import Project="$(WixTargetsPath)" Condition="'$(WixTargetsPath)' != '' AND Exists('$(WixTargetsPath)')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets" Condition="'$(WixTargetsPath)' == '' AND Exists('$(MSBuildExtensionsPath32)\Microsoft\WiX\v3.x\wix.targets')" />
+
+  <!-- Build the publisher policy assembly from the checked-in policy template, strong-named with the IVI key.
+       Override the tool location with /p:AlToolPath=... if al.exe is not under the Windows SDK folder. -->
+  <Target Name="BuildPublisherPolicy" BeforeTargets="Link" Condition="'$(IviPrivateKey)' != ''">
+    <PropertyGroup>
+      <AlToolPath Condition="'$(AlToolPath)' == ''">%(AlToolCandidate.FullPath)</AlToolPath>
+    </PropertyGroup>
+    <Error Condition="'$(AlToolPath)' == '' OR !Exists('$(AlToolPath)')" Text="al.exe (Assembly Linker) not found. Install the .NET Framework SDK or pass /p:AlToolPath." />
+    <Error Condition="!Exists('$(PolicyConfigTemplate)')" Text="Publisher policy template not found: $(PolicyConfigTemplate)" />
+    <MakeDir Directories="$(PolicyDir)" />
+    <!-- Generate the policy config from the template so the redirect always follows Version.props. -->
+    <PropertyGroup>
+      <PolicyConfigText>$([System.IO.File]::ReadAllText('$(PolicyConfigTemplate)').Replace('@OLD_VERSION_RANGE@', '$(PolicyOldVersionRange)').Replace('@NEW_VERSION@', '$(PolicyNewVersion)'))</PolicyConfigText>
+    </PropertyGroup>
+    <WriteLinesToFile File="$(PolicyDir)$(PolicyAssemblyName).config" Lines="$(PolicyConfigText)" Overwrite="true" Encoding="UTF-8" />
+    <Exec Command="&quot;$(AlToolPath)&quot; /nologo /link:&quot;$(PolicyDir)$(PolicyAssemblyName).config&quot; /out:&quot;$(PolicyDir)$(PolicyAssemblyName).dll&quot; /keyfile:&quot;$(IviPrivateKey)&quot; /version:$(PolicyVersion)" />
+    <!-- Authenticode-sign the policy DLL after strong-naming (signing in this order keeps the strong name valid). -->
+    <Exec Condition="'$(SigningCertName)' != ''" Command="AzureSignTool sign &quot;$(PolicyDir)$(PolicyAssemblyName).dll&quot; --file-digest sha256 --timestamp-rfc3161 http://timestamp.digicert.com --timestamp-digest sha256 --azure-key-vault-url &quot;$(SigningKeyVaultUri)&quot; --azure-key-vault-client-id &quot;$(SigningClientId)&quot; --azure-key-vault-tenant-id &quot;$(SigningTenantId)&quot; --azure-key-vault-client-secret &quot;$(SigningClientSecret)&quot; --azure-key-vault-certificate &quot;$(SigningCertName)&quot;" />
+  </Target>
 
   <!-- Sign cab files inside the MSI -->
   <Target Name="SignCabs" Condition="'$(SigningCertName)' != ''">

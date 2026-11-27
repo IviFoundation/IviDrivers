@@ -26,7 +26,15 @@ namespace Acme.AcmeDriver
         /// returns the following: "The 'InstrumentFirmwareRevision' operation is not available while in simulation
         /// mode.".
         /// </summary>
-        public string ComponentVersion => "1.0.0";
+        public string ComponentVersion
+        {
+            get
+            {
+                // Follows the build version (Version.props) as "Major.Minor.Patch", for example "1.2.0".
+                var version = typeof(AcmeDriver).Assembly.GetName().Version;
+                return version == null ? "0.0.0" : $"{version.Major}.{version.Minor}.{Math.Max(version.Build, 0)}";
+            }
+        }
         /// <summary>
         /// The name of the manufacturer reported by the physical instrument. If Simulation is enabled, this 
         /// property returns the following:
@@ -108,10 +116,10 @@ namespace Acme.AcmeDriver
         {
             Initialize(resourceName, idQuery, reset, simulate);
         }
-                /// <summary>
-        /// Initializes the driver with given parameters.
+        /// <summary>
+        /// Initializes the driver with given parameters. Called only from the constructors, per the IVI.NET spec.
         /// </summary>
-        public void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)
+        private void Initialize(string resourceName, bool idQuery, bool reset, bool simulate)
         {
             // var settingsPairs = options.Split(',');
 
@@ -176,13 +184,13 @@ namespace Acme.AcmeDriver
             }
         }
         /// <summary>
-        /// Result of an error query operation.
+        /// Result of an error query operation. Returns null if there is no error.
         /// </summary>
-        public ErrorQueryResult ErrorQuery() => new ErrorQueryResult(0, "No Error");
+        public ErrorQueryResult? ErrorQuery() => null;
 
         /// <summary>
         /// Retrieves the list of supported instrument models compatible with this driver.
         /// </summary>
-        public string[] GetSupportInstrumentModels() => new string[] { "KtDmm1", "KtDmm2" };
+        public string[] GetSupportedInstrumentModels() => new string[] { "KtDmm1", "KtDmm2" };
     }
 }

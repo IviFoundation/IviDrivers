@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
+	<Import Project="..\Version.props" />
 	<PropertyGroup>
 		<TargetFrameworks>netstandard2.0</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<LangVersion>10.0</LangVersion>
-		<DriverVersion>1.0.0.0</DriverVersion>
+		<!-- Single-place versioning: Version.props. The pipeline overrides Version to add a -preview suffix. -->
+		<VersionPrefix>$(IviMajorVersion).$(IviMinorVersion).$(IviPatchVersion)</VersionPrefix>
 		<PackageId>IviFoundation.DriverCore</PackageId>
 		<Nullable>enable</Nullable>
 		<Authors>IVI Foundation</Authors>

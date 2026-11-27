@@ -2,9 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Reflection;
 using Ivi.DriverCore;
 using Acme.AcmeDriver;
- 
+
+static string PackageVersionOf(Type type) =>
+    type.Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+    ?? type.Assembly.GetName().Version?.ToString()
+    ?? "unknown";
+
 Console.WriteLine("  AcmeExample");
 Console.WriteLine();
  
@@ -23,27 +29,36 @@ try
     using var driver = new AcmeDriver(resourceName, idquery, reset, simulate);
  
     Console.WriteLine("Driver Initialized");
+    // Shows which packages were consumed (the newest in the local feed, preview or release).
+    Console.WriteLine("AcmeDriver package version:         {0}", PackageVersionOf(typeof(AcmeDriver)));
+    Console.WriteLine("IviFoundation.DriverCore version:   {0}", PackageVersionOf(typeof(IIviDriverCore)));
     // Print a few IIvi.DriverCore properties
     Console.WriteLine("Component Vendor:  {0}", driver.ComponentVendor);
     Console.WriteLine("Revision:    {0}", driver.Generation);
     Console.WriteLine("Component Version:      {0}", driver.ComponentVersion);
-    Console.WriteLine("All Supported Models:    {0}", string.Join(", ", driver.GetSupportInstrumentModels()));
+    Console.WriteLine("All Supported Models:    {0}", string.Join(", ", driver.GetSupportedInstrumentModels()));
  
     // TODO: Exercise driver methods and properties
  
     // Check instrument for errors
     Console.WriteLine();
-    var result = new ErrorQueryResult();
-    do
+    ErrorQueryResult? result;
+    while ((result = driver.ErrorQuery()) is { } error)
     {
-        result = driver.ErrorQuery();
-        Console.WriteLine("ErrorQuery: {0}, {1}", result.Code, result.Message);
-    } while (result.Code != 0);
+        Console.WriteLine("ErrorQuery: {0}, {1}", error.Code, error.Message);
+    }
+    Console.WriteLine("ErrorQuery: no errors");
 }
 catch (Exception ex)
 {
     Console.WriteLine("Exception: " + ex.Message);
+    // A non-zero exit code lets a pipeline use this example to validate the driver packages.
+    Environment.ExitCode = 1;
 }
- 
-Console.WriteLine("\nDone - Press Enter to Exit");
-Console.ReadLine();
+
+// Only wait for Enter when a person is running the example. In a pipeline stdin is redirected or absent.
+if (!Console.IsInputRedirected)
+{
+    Console.WriteLine("\nDone - Press Enter to Exit");
+    Console.ReadLine();
+}

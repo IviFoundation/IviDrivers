@@ -52,6 +52,21 @@
 
                     </Component>
 
+                    <?ifdef PolicyAssemblyName?>
+                    <Component Id="cmpPolicy"
+                               Guid="5e0c3f6a-8b1d-4c52-9a77-3d1f2b6e4a90"
+                               Win64="$(var.Win64)">
+
+                      <File Id="PolicyDll"
+                            Source="$(var.PolicyDir)$(var.PolicyAssemblyName).dll"
+                            KeyPath="yes" />
+
+                      <File Id="PolicyConfig"
+                            Source="$(var.PolicyDir)$(var.PolicyAssemblyName).config" />
+
+                    </Component>
+                    <?endif?>
+
                   </Directory>
                 </Directory>
               </Directory>
@@ -65,6 +80,9 @@
              Title="$(var.ProductName)"
              Level="1">
       <ComponentRef Id="cmpDriverCore"/>
+      <?ifdef PolicyAssemblyName?>
+      <ComponentRef Id="cmpPolicy"/>
+      <?endif?>
     </Feature>
 
 
@@ -90,11 +108,42 @@
                   Return="ignore"
                   Impersonate="no" />
 
+    <!-- Publisher policy (policy.major.minor.Ivi.DriverCore): only present when Msi.wixproj built it (strong-name
+         key supplied). It has its own install and remove actions, because adding it to the commands above would
+         push their text over the 255 character limit of the CustomAction Target column (ICE03). -->
+    <?ifdef PolicyAssemblyName?>
+    <CustomAction Id="GacInstallPolicyCmd"
+                  Property="GacInstallPolicy"
+                  Value="&quot;powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command &quot;Add-Type -AssemblyName 'System.EnterpriseServices'; (New-Object System.EnterpriseServices.Internal.Publish).GacInstall('[#PolicyDll]')&quot;" />
+    <CustomAction Id="GacInstallPolicy"
+                  BinaryKey="WixCA"
+                  DllEntry="CAQuietExec$(var.x64)"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no" />
+
+    <CustomAction Id="GacUninstallPolicyCmd"
+                  Property="GacUninstallPolicy"
+                  Value="&quot;powershell.exe&quot; -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command &quot;Add-Type -AssemblyName 'System.EnterpriseServices'; (New-Object System.EnterpriseServices.Internal.Publish).GacRemove('[#PolicyDll]')&quot;" />
+    <CustomAction Id="GacUninstallPolicy"
+                  BinaryKey="WixCA"
+                  DllEntry="CAQuietExec$(var.x64)"
+                  Execute="deferred"
+                  Return="ignore"
+                  Impersonate="no" />
+    <?endif?>
+
     <InstallExecuteSequence>
       <Custom Action="GacInstallCmd" Before="GacInstall">NOT REMOVE</Custom>
       <Custom Action="GacInstall" After="InstallFiles">NOT REMOVE</Custom>
       <Custom Action="GacUninstallCmd" Before="GacUninstall">REMOVE="ALL"</Custom>
       <Custom Action="GacUninstall" Before="RemoveFiles">REMOVE="ALL"</Custom>
+      <?ifdef PolicyAssemblyName?>
+      <Custom Action="GacInstallPolicyCmd" Before="GacInstallPolicy">NOT REMOVE</Custom>
+      <Custom Action="GacInstallPolicy" After="GacInstall">NOT REMOVE</Custom>
+      <Custom Action="GacUninstallPolicyCmd" Before="GacUninstallPolicy">REMOVE="ALL"</Custom>
+      <Custom Action="GacUninstallPolicy" Before="GacUninstall">REMOVE="ALL"</Custom>
+      <?endif?>
     </InstallExecuteSequence>
 
   </Product>
